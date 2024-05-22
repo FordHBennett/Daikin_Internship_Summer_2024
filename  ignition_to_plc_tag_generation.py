@@ -47,7 +47,7 @@ def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
 #If the template has nested key I will need to check if the each tag in the ignition json is nested or not
 #If it is not nested then when I use the template I need to make sure that the keys in the ignition json are not nested
 
-def main() -> None:
+if __name__ == '__main__':
     # File paths
     csv_file: str = 'MA_EV1.csv'
     json_file: str = 'MA_Ev1_Ignition.json'
@@ -65,5 +65,4 @@ def main() -> None:
     #dump the keys to a file
     key_json = json.dumps(keys, indent=4)
     with open('keys.json', 'w') as f:
-        f.write(key_json)if __name__ == "__main__":
-    main()
+        f.write(key_json)
