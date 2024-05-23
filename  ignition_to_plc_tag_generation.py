@@ -4,32 +4,10 @@ from typing import Dict, Any
 
 from zmq import NULL
 
-
 def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
-    """
-    This function takes a JSON structure as input and returns a dictionary containing all the keys
-    present in the structure.
-
-    @param json_structure JSON structure from which keys need to be extracted.
-    """
     def recursive_extract_keys(obj: Any, parent_key: str = '') -> Dict[str, Any]:
-        """
-        The `recursive_extract_keys` function recursively extracts keys from a nested dictionary or list
-        structure along with their full paths.
-
-        @param obj The `obj` parameter in the `recursive_extract_keys` function is the input object for
-        which you want to extract keys. It can be a dictionary, list, or any other object that contains keys
-        or nested keys.
-        @param parent_key The `parent_key` parameter in the `recursive_extract_keys` function is used to
-        keep track of the current key in the recursive traversal of the input object. It represents the key
-        of the parent object in the hierarchy of keys. It helps in constructing the full path of keys as the
-        function traverses
-
-        @return The `recursive_extract_keys` function returns a dictionary where the keys are the nested
-        keys of the input object `obj` along with their full paths, and the values are the corresponding
-        values or nested keys.
-        """
         keys = {}
+        # Dumbass python3.9 doesn't have switch statements
         if isinstance(obj, dict):
             for key, value in obj.items():
                 full_key = f"{parent_key}.{key}" if parent_key else key
@@ -39,7 +17,7 @@ def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
                 full_key = f"{parent_key}[{i}]"
                 keys.update(recursive_extract_keys(item, full_key))
         else:
-            keys = None
+            return None
         return keys
 
     return recursive_extract_keys(json_structure)
@@ -60,9 +38,9 @@ if __name__ == '__main__':
         json_structure = json.load(f)
 
     # Get all keys from the JSON structure
-    keys = Get_All_Keys(json_structure)
+    keys: Dict[str, Any] = Get_All_Keys(json_structure)
 
     #dump the keys to a file
-    key_json = json.dumps(keys, indent=4)
+    key_json: str = json.dumps(keys, indent=4)
     with open('keys.json', 'w') as f:
         f.write(key_json)
