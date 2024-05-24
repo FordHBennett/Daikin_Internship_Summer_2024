@@ -4,6 +4,18 @@ from typing import Dict, Any
 
 from zmq import NULL
 
+'''
+TODO:
+Create a generic opcItemPath generation function that generates the path for the ignition tag based off of the kepware parameters
+Communitcate with the drivers to so I can send to and from ignition
+'''
+
+'''
+Considerations:
+-If the template has nested key I will need to check if the each tag in the ignition json is nested or not
+-If it is not nested then when I use the template I need to make sure that the keys in the ignition json are not nested
+'''
+
 def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
     def recursive_extract_keys(obj: Any, parent_key: str = '') -> Dict[str, Any]:
         keys = {}
@@ -21,9 +33,6 @@ def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
         return keys
 
     return recursive_extract_keys(json_structure)
-
-#If the template has nested key I will need to check if the each tag in the ignition json is nested or not
-#If it is not nested then when I use the template I need to make sure that the keys in the ignition json are not nested
 
 if __name__ == '__main__':
     # File paths
