@@ -16,6 +16,18 @@ Considerations:
 -If it is not nested then when I use the template I need to make sure that the keys in the ignition json are not nested
 '''
 
+"""
+The function `Get_All_Keys` recursively extracts all keys from a JSON-like structure and returns
+them in a dictionary with their full paths.
+
+@param json_structure The `json_structure` parameter in the `Get_All_Keys` function is expected to
+be a JSON-like data structure. This can be a dictionary, list, or a combination of nested
+dictionaries and lists. The function recursively extracts all keys present in the JSON structure
+along with their full paths.
+
+@return The function `Get_All_Keys` returns a dictionary containing all the keys found in the
+provided JSON structure along with their corresponding values.
+"""
 def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
     def recursive_extract_keys(obj: Any, parent_key: str = '') -> Dict[str, Any]:
         keys = {}
