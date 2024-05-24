@@ -2,18 +2,30 @@ import pandas as pd
 import json
 from typing import Dict, Any
 
-from zmq import NULL
-
 '''
 TODO:
-Create a generic opcItemPath generation function that generates the path for the ignition tag based off of the kepware parameters
-Communitcate with the drivers to so I can send to and from ignition
+    -Create a generic opcItemPath generation function that generates the path for the ignition tag based off of the kepware parameters
+    -Communitcate with the drivers to so I can send to and from ignition
 '''
 
 '''
 CONSIDERATIONS:
--If the template has nested key I will need to check if the each tag in the ignition json is nested or not
--If it is not nested then when I use the template I need to make sure that the keys in the ignition json are not nested
+    -If the template has nested key I will need to check if the each tag in the ignition json is nested or not
+    -If it is not nested then when I use the template I need to make sure that the keys in the ignition json are not nested
+    POSSIBLE SOLUTION:
+        -I check each ignition key to see if it is nested or not recursively
+            -If it is nested then pass
+            -If it is not then set the key to null
+'''
+
+'''
+MITSUBISHI DRIVER DOCUMENTATION:
+    -https://forum.inductiveautomation.com/t/mitsubishi-driver/73741
+    -https://www.docs.inductiveautomation.com/docs/8.1/ignition-modules/opc-ua/opc-ua-drivers/mitsubishi-tcp-driver
+'''
+
+'''
+DON'T MAKE SENSE: Why do the documentation use csv files for importing/exporting tags but they keep on telling me it using json files
 '''
 
 def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
