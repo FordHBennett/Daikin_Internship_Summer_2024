@@ -1,7 +1,11 @@
+import csv
+from ctypes import addressof
 import pandas as pd
 import json
 from typing import Dict, Any, List
 import os
+
+from pyparsing import empty
 
 '''
 TODO:
@@ -66,40 +70,126 @@ def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
     return Recursive_Extract_Keys(json_structure)
 
 
-def Get_ALL_MA_JSON_Paths() -> List[str]:
-    """
-    The function `Get_ALL_MA_JSON_Paths` retrieves a list of file paths for JSON files containing "MA"
-    in their names within the current working directory.
 
-    @return A list of file paths for all JSON files with 'MA' in their name within the current working
-    directory and its subdirectories.
+def Get_ALL_JSON_Paths() -> List[str]:
     """
-    ma_json_paths = []
-    for root, _, files in os.walk(os.getcwd()):
+    The function `Get_ALL_JSON_Paths` retrieves a list of file paths for all JSON files within the
+    current working directory and its subdirectories.
+
+    @return A list of file paths for all JSON files found in the current working directory and its
+    subdirectories.
+    """
+    json_paths = []
+    for root, _, files in os.walk(os.path.join(os.getcwd(), 'json')):
         for file in files:
-            if 'MA' in file and file.endswith('.json'):
-                ma_json_paths.append(os.path.join(root, file))
-    return ma_json_paths
+            json_paths.append(os.path.join(root, file))
+    return json_paths
 
 
+
+def Get_ALL_CSV_Paths() -> List[str]:
+    """
+    The function `Get_ALL_CSV_Paths` retrieves a list of file paths for all CSV files within the
+    current working directory and its subdirectories.
+
+    @return A list of file paths for all CSV files found in the current working directory and its
+    subdirectories.
+    """
+    csv_paths = []
+    for root, _, files in os.walk(os.path.join(os.getcwd(), 'csv')):
+        for file in files:
+            if file.endswith('.csv'):
+                csv_paths.append(os.path.join(root, file))
+    return csv_paths
+
+def Get_Basename_Without_Extension(file_path: str) -> str:
+    """
+    The function `Get_Basename_Without_Extension` takes a file path as input and returns the base name
+    of the file without the extension.
+
+    @param file_path The function `Get_Basename_Without_Extension` takes a file path as input and
+    returns the base name of the file without the extension.
+
+    @return The function `Get_Basename_Without_Extension` takes a file path as input, extracts the base
+    name using `os.path.basename`, removes the extension from the base name using `os.path.splitext`,
+    and then returns the base name without the extension.
+    """
+    base_name = os.path.basename(file_path)
+    name, _ = os.path.splitext(base_name)
+    return name
+
+def Find_Row_By_Tag_Name(df: pd.DataFrame, tag_name: str) -> pd.DataFrame:
+    """
+    This function finds rows in a DataFrame based on a specified tag name.
+
+    @param df A pandas DataFrame containing data with rows and columns.
+    @param tag_name Tag name is a string that represents the name of a tag.
+
+    @return The function `Find_Row_By_Tag_Name` returns a subset of the input DataFrame `df` where the
+    first column matches the `tag_name` or the last part of the string after splitting by '.' matches
+    the `tag_name`.
+    """
+    condition = (df.iloc[:, 0] == tag_name) | (df.iloc[:, 0].apply(lambda x: x.split('.')[-1]) == tag_name)
+    return df.loc[condition]
+
+def Process_Tags(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any]) -> None:
+    """
+    The function `Process_Tags` processes tags from a CSV DataFrame based on information provided in an
+    Ignition JSON dictionary.
+
+    @param csv_df `csv_df` is a dictionary where the keys are strings and the values are pandas
+    DataFrames. The function `Process_Tags` iterates over each key-value pair in `csv_df`.
+    @param ignition_json Ignition JSON is a dictionary containing information about tags in the Ignition
+    system. It likely includes details such as tag names, OPC item paths, data types, and other
+    properties related to tags used in the Ignition system.
+    """
+    for key, df in csv_df.items():
+        if key in ignition_json:
+            for tags in ignition_json[key]['tags']:
+                if 'opcItemPath' in tags:
+                    tag_name = tags['opcItemPath'].split('.')[-1]
+                    tags['tag_name'] = tag_name
+
+                    row = Find_Row_By_Tag_Name(df, tag_name)
+                    if not row.empty:
+                        address = row.iloc[0, 1]
+                        area = address[:address.find('0')]
+                        offset = address[address.find('0'):].lstrip('0') or '0'
+                        csv_data_type = row.iloc[0, 2]
+
+                        tags['opcItemPath'] = f'ns=1;s=[MitsubishiDriver]{area}<{csv_data_type}[array]>{offset}'
+                        tags['opcServer'] = 'Ignition OPC UA Server'
+
+                if 'dataType' in tags:
+                    if tags['dataType'] == 'Int2':
+                        tags['dataType'] = 'Int16'
+                    elif tags['dataType'] == 'Int4':
+                        tags['dataType'] = 'Int32'
 if __name__ == '__main__':
-    # File paths
-    csv_file: str = 'MA_EV1.csv'
-    json_files: List[str] = Get_ALL_MA_JSON_Paths()
-    # Read the CSV file into a DataFrame
-    df: pd.DataFrame = pd.read_csv(csv_file)
+    json_files: List[str] = Get_ALL_JSON_Paths()
 
     # Dictionary to hold all keys from all JSON files
-    all_keys: Dict[str, Any] = {}
+    templete_json: Dict[str, Any] = {}
+    #Dictionary to hold an unmodified version of the JSON file
+    ignition_json: Dict[str, Any] = {}
 
     # Read each JSON file and extract keys
     for json_file in json_files:
         with open(json_file, 'r') as f:
             json_structure = json.load(f)
             keys = Get_All_Keys(json_structure)
-            all_keys.update(keys)
+            templete_json.update(keys)
+            ignition_json[Get_Basename_Without_Extension(json_file)] = json_structure
 
-    # Dump the keys dictionary to a file
-    key_json: str = json.dumps(all_keys, indent=4)
-    with open('keys.json', 'w') as f:
-        f.write(key_json)
+    csv_files: List[str] = Get_ALL_CSV_Paths()
+    csv_df: Dict[str, pd.DataFrame] = {}
+    for csv_file in csv_files:
+        df: pd.DataFrame = pd.read_csv(csv_file)
+        csv_df[Get_Basename_Without_Extension(csv_file)] = df
+
+    Process_Tags(csv_df, ignition_json)
+
+    #write the ignition json files to the ignition json folder
+    for key in ignition_json:
+        with open(f'ignition_json/{key}.json', 'w') as f:
+            json.dump(ignition_json[key], f, indent=4)
