@@ -28,35 +28,42 @@ MITSUBISHI DRIVER DOCUMENTATION:
 DON'T MAKE SENSE: Why do the documentation use csv files for importing/exporting tags but they keep on telling me it using json files
 '''
 
-def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
+def get_all_keys(json_structure: Any) -> Dict[str, Any]:
     """
-    The function `Get_All_Keys` recursively extracts all keys from a JSON-like structure and returns
-    them in a dictionary with their full paths.
+    The function `get_all_keys` recursively extracts all keys from a JSON-like structure and returns
+    them in a dictionary.
 
-    @param json_structure The `json_structure` parameter in the `Get_All_Keys` function is expected to
-    be a JSON-like data structure. This can be a dictionary, list, or a combination of nested
-    dictionaries and lists. The function recursively extracts all keys present in the JSON structure
-    along with their full paths.
+    @param json_structure The `json_structure` parameter in the `get_all_keys` function is expected to
+    be a JSON-like data structure of type `Any`, which can be a dictionary, list, or a combination of
+    both. The function recursively extracts all keys present in the JSON structure along with their
+    hierarchical paths.
 
-    @return The function `Get_All_Keys` returns a dictionary containing all the keys found in the
-    provided JSON structure along with their corresponding values.
+    @return The function `get_all_keys` returns a dictionary containing all the keys found in the JSON
+    structure provided as input.
     """
-    def recursive_extract_keys(obj: Any, parent_key: str = '') -> Dict[str, Any]:
+    def recursive_extract_keys(obj: Any, parent_key: str = '', keys_set: set = None) -> Dict[str, Any]:
+        if keys_set is None:
+            keys_set = set()
+
         keys = {}
-        # Dumbass python3.9 doesn't have switch statements
         if isinstance(obj, dict):
             for key, value in obj.items():
                 full_key = f"{parent_key}.{key}" if parent_key else key
-                keys[key] = recursive_extract_keys(value, full_key)
+                if full_key not in keys_set:
+                    keys_set.add(full_key)
+                    keys[key] = recursive_extract_keys(value, full_key, keys_set)
         elif isinstance(obj, list):
             for i, item in enumerate(obj):
                 full_key = f"{parent_key}[{i}]"
-                keys.update(recursive_extract_keys(item, full_key))
+                if full_key not in keys_set:
+                    keys_set.add(full_key)
+                    keys.update(recursive_extract_keys(item, full_key, keys_set))
         else:
             return None
         return keys
 
     return recursive_extract_keys(json_structure)
+
 
 if __name__ == '__main__':
     # File paths
