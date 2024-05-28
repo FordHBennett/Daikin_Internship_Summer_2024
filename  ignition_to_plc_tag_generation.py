@@ -1,6 +1,7 @@
 import pandas as pd
 import json
-from typing import Dict, Any
+from typing import Dict, Any, List
+import os
 
 '''
 TODO:
@@ -28,7 +29,7 @@ MITSUBISHI DRIVER DOCUMENTATION:
 DON'T MAKE SENSE: Why do the documentation use csv files for importing/exporting tags but they keep on telling me it using json files
 '''
 
-def get_all_keys(json_structure: Any) -> Dict[str, Any]:
+def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
     """
     The function `get_all_keys` recursively extracts all keys from a JSON-like structure and returns
     them in a dictionary.
@@ -41,7 +42,7 @@ def get_all_keys(json_structure: Any) -> Dict[str, Any]:
     @return The function `get_all_keys` returns a dictionary containing all the keys found in the JSON
     structure provided as input.
     """
-    def recursive_extract_keys(obj: Any, parent_key: str = '', keys_set: set = None) -> Dict[str, Any]:
+    def Recursive_Extract_Keys(obj: Any, parent_key: str = '', keys_set: set = None) -> Dict[str, Any]:
         if keys_set is None:
             keys_set = set()
 
@@ -51,36 +52,54 @@ def get_all_keys(json_structure: Any) -> Dict[str, Any]:
                 full_key = f"{parent_key}.{key}" if parent_key else key
                 if full_key not in keys_set:
                     keys_set.add(full_key)
-                    keys[key] = recursive_extract_keys(value, full_key, keys_set)
+                    keys[key] = Recursive_Extract_Keys(value, full_key, keys_set)
         elif isinstance(obj, list):
             for i, item in enumerate(obj):
                 full_key = f"{parent_key}[{i}]"
                 if full_key not in keys_set:
                     keys_set.add(full_key)
-                    keys.update(recursive_extract_keys(item, full_key, keys_set))
+                    keys.update(Recursive_Extract_Keys(item, full_key, keys_set))
         else:
             return None
         return keys
 
-    return recursive_extract_keys(json_structure)
+    return Recursive_Extract_Keys(json_structure)
+
+
+def Get_ALL_MA_JSON_Paths() -> List[str]:
+    """
+    The function `Get_ALL_MA_JSON_Paths` retrieves a list of file paths for JSON files containing "MA"
+    in their names within the current working directory.
+
+    @return A list of file paths for all JSON files with 'MA' in their name within the current working
+    directory and its subdirectories.
+    """
+    ma_json_paths = []
+    for root, _, files in os.walk(os.getcwd()):
+        for file in files:
+            if 'MA' in file and file.endswith('.json'):
+                ma_json_paths.append(os.path.join(root, file))
+    return ma_json_paths
 
 
 if __name__ == '__main__':
     # File paths
     csv_file: str = 'MA_EV1.csv'
-    json_file: str = 'MA_Ev1_Ignition.json'
-
+    json_files: List[str] = Get_ALL_MA_JSON_Paths()
     # Read the CSV file into a DataFrame
     df: pd.DataFrame = pd.read_csv(csv_file)
 
-    # Read the existing JSON structure file
-    with open(json_file, 'r') as f:
-        json_structure = json.load(f)
+    # Dictionary to hold all keys from all JSON files
+    all_keys: Dict[str, Any] = {}
 
-    # Get all keys from the JSON structure
-    keys: Dict[str, Any] = Get_All_Keys(json_structure)
+    # Read each JSON file and extract keys
+    for json_file in json_files:
+        with open(json_file, 'r') as f:
+            json_structure = json.load(f)
+            keys = Get_All_Keys(json_structure)
+            all_keys.update(keys)
 
-    #dump the keys to a file
-    key_json: str = json.dumps(keys, indent=4)
+    # Dump the keys dictionary to a file
+    key_json: str = json.dumps(all_keys, indent=4)
     with open('keys.json', 'w') as f:
         f.write(key_json)
