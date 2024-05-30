@@ -1,26 +1,13 @@
-import csv
-from ctypes import addressof
+# import csv
+# from ctypes import addressof
 import pandas as pd
 import json
 from typing import Dict, Any, List
 import os
 
-from pyparsing import empty
-
 '''
 TODO:
-    -Create a generic opcItemPath generation function that generates the path for the ignition tag based off of the kepware parameters
     -Communitcate with the drivers to so I can send to and from ignition
-'''
-
-'''
-CONSIDERATIONS:
-    -If the template has nested key I will need to check if the each tag in the ignition json is nested or not
-    -If it is not nested then when I use the template I need to make sure that the keys in the ignition json are not nested
-    POSSIBLE SOLUTION:
-        -I check each ignition key to see if it is nested or not recursively
-            -If it is nested then pass
-            -If it is not then set the key to null
 '''
 
 '''
@@ -31,6 +18,17 @@ MITSUBISHI DRIVER DOCUMENTATION:
 
 '''
 DON'T MAKE SENSE: Why do the documentation use csv files for importing/exporting tags but they keep on telling me it using json files
+'''
+
+'''
+ADDRESSING:
+    -R=ZR
+    -SH=String
+    -M=Boolean
+'''
+
+'''
+opcItemPath: ns=1;s=[Device]Area{<DataType{[array]}>}Offset{.Bit}
 '''
 
 def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
@@ -79,7 +77,7 @@ def Get_ALL_JSON_Paths() -> List[str]:
     @return A list of file paths for all JSON files found in the current working directory and its
     subdirectories.
     """
-    json_paths = []
+    json_paths:List[str] = []
     for root, _, files in os.walk(os.path.join(os.getcwd(), 'json')):
         for file in files:
             json_paths.append(os.path.join(root, file))
@@ -95,7 +93,7 @@ def Get_ALL_CSV_Paths() -> List[str]:
     @return A list of file paths for all CSV files found in the current working directory and its
     subdirectories.
     """
-    csv_paths = []
+    csv_paths:List[str] = []
     for root, _, files in os.walk(os.path.join(os.getcwd(), 'csv')):
         for file in files:
             if file.endswith('.csv'):
@@ -114,7 +112,7 @@ def Get_Basename_Without_Extension(file_path: str) -> str:
     name using `os.path.basename`, removes the extension from the base name using `os.path.splitext`,
     and then returns the base name without the extension.
     """
-    base_name = os.path.basename(file_path)
+    base_name:os.path = os.path.basename(file_path)
     name, _ = os.path.splitext(base_name)
     return name
 
@@ -134,14 +132,15 @@ def Find_Row_By_Tag_Name(df: pd.DataFrame, tag_name: str) -> pd.DataFrame:
 
 def Process_Tags(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any]) -> None:
     """
-    The function `Process_Tags` processes tags from a CSV DataFrame based on information provided in an
-    Ignition JSON dictionary.
-
-    @param csv_df `csv_df` is a dictionary where the keys are strings and the values are pandas
-    DataFrames. The function `Process_Tags` iterates over each key-value pair in `csv_df`.
-    @param ignition_json Ignition JSON is a dictionary containing information about tags in the Ignition
-    system. It likely includes details such as tag names, OPC item paths, data types, and other
-    properties related to tags used in the Ignition system.
+    The function `Process_Tags` processes tag information from a CSV DataFrame and updates data types
+    and OPC item paths based on a provided JSON configuration.
+    
+    @param csv_df The `csv_df` parameter is a dictionary where the keys are strings and the values are
+    pandas DataFrames. This dictionary contains data loaded from CSV files.
+    @param ignition_json The `ignition_json` parameter in the `Process_Tags` function is expected to be
+    a dictionary containing information related to tags in an Ignition system. This dictionary should
+    have keys corresponding to the keys in the `csv_df` dictionary. Each key in `ignition_json` should
+    have a
     """
     for key, df in csv_df.items():
         if key in ignition_json:
@@ -161,9 +160,24 @@ def Process_Tags(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any])
                         address = row.iloc[0, 1]
                         area = address[:address.find('0')]
                         offset = address[address.find('0'):].lstrip('0') or '0'
-                        # csv_data_type = row.iloc[0, 2]
 
-                        tags['opcItemPath'] = f"ns=1;s=[MitsubishiDriver]{area}<{tags.get('dataType', '')}[array]>{offset}"
+                        array_size = ''
+                        if 'SH' in area:
+                            tags['dataType'] = 'String'
+                            area = area.replace('SH', '')
+                        elif 'M' in area:
+                            tags['dataType'] = 'Boolean'
+
+                        if "." in offset:
+                            array_size = offset.split('.')[1]
+                            array_size = array_size.lstrip('0')
+                            offset = offset.split('.')[0]
+                            if 'ZR' in area:
+                                array_size = f"[{array_size}]"
+ 
+
+
+                        tags['opcItemPath'] = f"ns=1;s=[MitsubishiDriver]{area}<{tags.get('dataType', '')}{array_size}>{offset}"
                         tags['opcServer'] = 'Ignition OPC UA Server'
 
 
@@ -193,5 +207,5 @@ if __name__ == '__main__':
 
     #write the ignition json files to the ignition json folder
     for key in ignition_json:
-        with open(f'ignition_json/{key}.json', 'w') as f:
+        with open(f'modified_json/{key}.json', 'w') as f:
             json.dump(ignition_json[key], f, indent=4)

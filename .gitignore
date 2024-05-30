@@ -3,5 +3,5 @@
 *.csv
 json/
 csv/
-ignition_json/
+modified_json/
 .DS_Store
