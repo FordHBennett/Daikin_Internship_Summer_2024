@@ -144,15 +144,16 @@ def Process_Tags(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any])
     for key, df in csv_df.items():
         if key in ignition_json:
             for tags in ignition_json[key]['tags']:
+                path_data_type = ''
                 if 'dataType' in tags:
                     if tags['dataType'] == 'Int2':
-                        tags['dataType'] = 'Int16'
+                        path_data_type = 'Int16'
                     elif tags['dataType'] == 'Int4':
-                        tags['dataType'] = 'Int32'
+                        path_data_type = 'Int32'
 
                 if 'opcItemPath' in tags:
                     tag_name = tags['opcItemPath'].split('.')[-1]
-                    tags['tag_name'] = tag_name
+                    # tags['tag_name'] = tag_name
 
                     row = Find_Row_By_Tag_Name(df, tag_name)
                     if not row.empty:
@@ -176,7 +177,7 @@ def Process_Tags(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any])
  
 
 
-                        tags['opcItemPath'] = f"ns=1;s=[MitsubishiDriver]{area}<{tags.get('dataType', '')}{array_size}>{offset}"
+                        tags['opcItemPath'] = f"ns=1;s=[MitsubishiDriver]{area}<{path_data_type}{array_size}>{offset}"
                         tags['opcServer'] = 'Ignition OPC UA Server'
 
 def Read_Json_Files(json_files: List[str]) -> Dict[str, Dict[str, Any]]:
