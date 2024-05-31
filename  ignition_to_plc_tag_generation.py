@@ -1,5 +1,6 @@
 # import csv
 # from ctypes import addressof
+import csv
 from numpy import add
 import pandas as pd
 import json
@@ -128,7 +129,9 @@ def Find_Row_By_Tag_Name(df: pd.DataFrame, tag_name: str) -> pd.DataFrame:
     Returns:
         pd.DataFrame: A DataFrame containing the rows that match the given tag name.
     """
+    
     condition = (df.iloc[:, 0] == tag_name) | (df.iloc[:, 0].apply(lambda x: x.split('.')[-1]) == tag_name)
+    
     return df.loc[condition]
 
 def Process_Tags(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any]) -> None:
@@ -154,7 +157,7 @@ def Process_Tags(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any])
 
                 if 'opcItemPath' in tags:
                     tag_name = tags['opcItemPath'].split('.')[-1]
-                    # tags['tag_name'] = tag_name
+                    tags["name"] = tag_name
 
                     row = Find_Row_By_Tag_Name(df, tag_name)
                     if not row.empty:
@@ -277,6 +280,7 @@ def Generate_Address_CSV(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[st
         dfs = []
         for tags in ignition_json[key]['tags']:
             tag_name = tags['name']
+            # print(csv_df[key])
             row = Find_Row_By_Tag_Name(csv_df[key], tag_name)
             if not row.empty:
                 address = row.iloc[0, 1]
@@ -284,6 +288,10 @@ def Generate_Address_CSV(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[st
                 dfs.append(df)
         if dfs:
             address_csv[key] = pd.concat(dfs, ignore_index=True)
+    
+    # delete the first row of the address_df
+    for key, df in address_csv.items():
+        df.drop(df.index[0], inplace=True)
 
     return address_csv
 
