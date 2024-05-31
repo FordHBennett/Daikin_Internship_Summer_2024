@@ -1,5 +1,6 @@
 # import csv
 # from ctypes import addressof
+from numpy import add
 import pandas as pd
 import json
 from typing import Dict, Any, List
@@ -252,12 +253,48 @@ def Write_Json_Files(ignition_json: Dict[str, Any]) -> None:
     """
     if not os.path.exists('updated_tags'):
         os.mkdir('updated_tags')
-    os.chdir('updated_tags')
     for key in ignition_json:
+        if not os.path.exists(os.path.join('updated_tags','mitsubishi_devices')):
+            os.mkdir(os.path.join('updated_tags','mitsubishi_devices'))
+        with open(os.path.join('updated_tags','mitsubishi_devices', f"{ignition_json[key]['name']}.json"), 'w') as f:
+            json.dump(ignition_json[key], f, indent=4)
+
+def Write_CSV_Files(address_csv: Dict[str, Any]) -> None:
+    if not os.path.exists('address_csv'):
+        os.mkdir('address_csv')
+    for key, df in address_csv.items():
+        if not os.path.exists(os.path.join('address_csv','mitsubishi_devices')):
+            os.mkdir(os.path.join('address_csv','mitsubishi_devices'))
+        df.to_csv(os.path.join('address_csv','mitsubishi_devices', f'{key}.csv'), index=False)
+
+def Generate_Address_CSV(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any]) -> Dict[str, pd.DataFrame]:
+    # write the ignition[key]['tags']['name'] to the first column of address_df
+    # find the row in csv_df where the first column is equal to the ignition[key]['tags']['name']
+    # write the second column of csv_df to the second column of address_df
+    address_csv: Dict[str, pd.DataFrame] = {}
+
+    for key in ignition_json:
+        dfs = []
+        for tags in ignition_json[key]['tags']:
+            tag_name = tags['name']
+            row = Find_Row_By_Tag_Name(csv_df[key], tag_name)
+            if not row.empty:
+                address = row.iloc[0, 1]
+                df = pd.DataFrame({'tag_name': [tag_name], 'address': [address]})
+                dfs.append(df)
+        if dfs:
+            address_csv[key] = pd.concat(dfs, ignore_index=True)
+
+    return address_csv
+
+def Write_Address_CSV(address_csv: Dict[str, pd.DataFrame]) -> None:
+    if not os.path.exists('address_csv'):
+        os.mkdir('address_csv')
+    os.chdir('address_csv')
+    for key, df in address_csv.items():
         if not os.path.exists('mitsubishi_devices'):
             os.mkdir('mitsubishi_devices')
-        with open(os.path.join('mitsubishi_devices', f'{ignition_json[key]['name']}.json'), 'w') as f:
-            json.dump(ignition_json[key], f, indent=4)
+        df.to_csv(os.path.join('mitsubishi_devices', f'{key}.csv'), index=False)
 
 def main():
     dir_list: List[str] = os.listdir('tags_json')
@@ -270,6 +307,9 @@ def main():
 
         Process_Tags(csv_df, ignition_json)
         Write_Json_Files(ignition_json)
+
+        address_csv = Generate_Address_CSV(csv_df, ignition_json)
+        Write_Address_CSV(address_csv)
 
 if __name__ == '__main__':
     main()
