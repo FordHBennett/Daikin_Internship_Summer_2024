@@ -163,22 +163,36 @@ def Process_Tags(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any])
 
                         array_size = ''
                         if 'SH' in area:
-                            tags['dataType'] = 'String'
+                            path_data_type = 'String'
                             area = area.replace('SH', '')
-                        elif 'M' in area:
-                            tags['dataType'] = 'Boolean'
+                            if "." in offset:
+                                array_size = offset.split('.')[1]
+                                array_size = array_size.lstrip('0')
+                                offset = offset.split('.')[0]
+                                if 'ZR' in area:
+                                    array_size = f"[{array_size}]"
+                            tags['opcItemPath'] = f"ns=1;s=[{ignition_json[key]['name']}]{area}<{path_data_type}{array_size}>{offset}"
+                        else:
+                            tags['opcItemPath'] = f"ns=1;s=[{ignition_json[key]['name']}]{address}"
 
-                        if "." in offset:
-                            array_size = offset.split('.')[1]
-                            array_size = array_size.lstrip('0')
-                            offset = offset.split('.')[0]
-                            if 'ZR' in area:
-                                array_size = f"[{array_size}]"
+
+                        # elif 'M' in area:
+                        #     path_data_type = 'Boolean'
+
+                        # if "." in offset:
+                        #     array_size = offset.split('.')[1]
+                        #     array_size = array_size.lstrip('0')
+                        #     offset = offset.split('.')[0]
+                        #     if 'ZR' in area:
+                        #         array_size = f"[{array_size}]"
  
 
 
-                        tags['opcItemPath'] = f"ns=1;s=[MitsubishiDriver]{area}<{path_data_type}{array_size}>{offset}"
+                        # tags['opcItemPath'] = f"ns=1;s=[{ignition_json[key]['name']}]{area}<{path_data_type}{array_size}>{offset}"
+                        # tags['opcItemPath'] = f"ns=1;s=[{ignition_json[key]['name']}]{address}"
                         tags['opcServer'] = 'Ignition OPC UA Server'
+
+                        tags['tagGroup'] = 'default'
 
 def Read_Json_Files(json_files: List[str]) -> Dict[str, Dict[str, Any]]:
     """
@@ -236,11 +250,13 @@ def Write_Json_Files(ignition_json: Dict[str, Any]) -> None:
     Returns:
         None
     """
+    if not os.path.exists('updated_tags'):
+        os.mkdir('updated_tags')
     os.chdir('updated_tags')
-    if not os.path.exists('MA'):
-        os.makedirs('MA')
     for key in ignition_json:
-        with open(f'MA/{key}.json', 'w') as f:
+        if not os.path.exists('mitsubishi_devices'):
+            os.mkdir('mitsubishi_devices')
+        with open(os.path.join('mitsubishi_devices', f'{ignition_json[key]['name']}.json'), 'w') as f:
             json.dump(ignition_json[key], f, indent=4)
 
 def main():
