@@ -46,9 +46,9 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
                             if 'SH' in area:
                                 array_size = f"[{array_size}]"
                                 if tags['dataType'] == 'Int2':
-                                    tags['dataType'] = 'Short Array'
+                                    tags['dataType'] = 'Int2Array'
                                 elif tags['dataType'] == 'Int4':
-                                    tags['dataType'] = 'Integer Array'
+                                    tags['dataType'] = 'Int4Array'
                             
                         tags['opcItemPath'] = f"ns=1;s=[{ignition_json[key]['name']}]{area}<{path_data_type}{array_size}>{offset}"
 
