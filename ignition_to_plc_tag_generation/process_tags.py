@@ -32,7 +32,7 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
                         tags["name"] = tag_name
                         address = row.iloc[0, 1]
                         area = address[:address.find('0')]
-                        offset = address[address.find('0'):].lstrip('0') or '0'
+                        offset = address[address.find('0'):]
 
                         array_size = ''
                         if 'SH' in area:
@@ -41,7 +41,7 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
                         if "." in offset:
                             array_size = offset.split('.')[1]
                             array_size = array_size.lstrip('0')
-                            offset = offset.split('.')[0]
+                            # offset = offset.split('.')[0]
                             if 'ZR' in area:
                                 array_size = f"[{array_size}]"
                         
@@ -81,9 +81,6 @@ def Generate_Address_CSV(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[st
                 if '.' in address:
                     address = address.split('.')[0]
                 
-                area, num = address.split('0')[0], address.split('0')[-1]
-                num = num.lstrip('0') or '0'
-                address = f"{area}{num}"
 
                 df = pd.DataFrame({'tag_name': [tag_name], 'address': [address]})
                 dfs.append(df)
