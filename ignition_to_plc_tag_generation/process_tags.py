@@ -1,4 +1,5 @@
 from os import path
+from numpy import add
 import pandas as pd
 from typing import Dict, Any
 from .helpers import Find_Row_By_Tag_Name
@@ -32,7 +33,7 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
                         tags["name"] = tag_name
                         address = row.iloc[0, 1]
                         area = address[:address.find('0')]
-                        offset = address[address.find('0'):]
+                        offset = address[address.find('0'):].lstrip('0') or '0'
 
                         array_size = ''
                         if 'SH' in area:
@@ -41,12 +42,13 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
                         if "." in offset:
                             array_size = offset.split('.')[1]
                             array_size = array_size.lstrip('0')
-                            # offset = offset.split('.')[0]
+                            offset = offset.split('.')[0]
                             if 'ZR' in area:
                                 array_size = f"[{array_size}]"
-                        
-                        # #strip the leading zeros from the offset
-                        # offset = offset.lstrip('0') or '0'
+                                if tags['dataType'] == 'Int2':
+                                    tags['dataType'] = 'Short Array'
+                                elif tags['dataType'] == 'Int4':
+                                    tags['dataType'] = 'Integer Array'
                             
                         tags['opcItemPath'] = f"ns=1;s=[{ignition_json[key]['name']}]{area}<{path_data_type}{array_size}>{offset}"
 
@@ -80,6 +82,7 @@ def Generate_Address_CSV(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[st
                     address = address.replace('Z', '')
                 if '.' in address:
                     address = address.split('.')[0]
+                address = address[:address.find('0')] + address[address.find('0'):].lstrip('0') or '0'
                 
 
                 df = pd.DataFrame({'tag_name': [tag_name], 'address': [address]})
