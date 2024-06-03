@@ -1,8 +1,4 @@
 
 *.json
 *.csv
-tags_json/*
-tags_csv/*
-updated_tags/*
 .DS_Store
-address_csv/*
