@@ -93,7 +93,7 @@ def Generate_Address_CSV(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[st
                         array_size = offset.split('.')[1]
                         array_size = array_size.lstrip('0')
                         offset = offset.split('.')[0]
-                        if 'SH' not in area:
+                        if 'String'not in path_data_type:
                             array_size = f"[{array_size}]"
 
                     address = f"{area}<{path_data_type}{array_size}>{offset}"
