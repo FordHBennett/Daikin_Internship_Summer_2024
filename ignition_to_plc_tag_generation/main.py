@@ -1,6 +1,6 @@
-from .paths import *
-from .read_write import *
-from .process_tags import *
+from ignition_to_plc_tag_generation.paths import *
+from ignition_to_plc_tag_generation.read_write import *
+from ignition_to_plc_tag_generation.process_tags import *
 import os
 from typing import List
 

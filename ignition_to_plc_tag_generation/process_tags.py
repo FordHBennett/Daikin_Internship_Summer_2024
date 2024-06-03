@@ -1,8 +1,19 @@
+from os import path
 import pandas as pd
 from typing import Dict, Any
 from .helpers import Find_Row_By_Tag_Name
 
 def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any]) -> None:
+    """
+    Modifies tags for direct driver communication based on the provided CSV data and Ignition JSON.
+
+    Args:
+        csv_df (Dict[str, pd.DataFrame]): A dictionary containing CSV data as pandas DataFrames.
+        ignition_json (Dict[str, Any]): A dictionary containing Ignition JSON data.
+
+    Returns:
+        None
+    """
     for key, df in csv_df.items():
         if key in ignition_json:
             for tags in ignition_json[key]['tags']:
@@ -15,10 +26,10 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
 
                 if 'opcItemPath' in tags:
                     tag_name = tags['opcItemPath'].split('.')[-1]
-                    tags["name"] = tag_name
 
                     row = Find_Row_By_Tag_Name(df, tag_name)
                     if not row.empty:
+                        tags["name"] = tag_name
                         address = row.iloc[0, 1]
                         area = address[:address.find('0')]
                         offset = address[address.find('0'):].lstrip('0') or '0'
@@ -27,20 +38,34 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
                         if 'SH' in area:
                             path_data_type = 'String'
                             area = area.replace('SH', '')
-                            if "." in offset:
-                                array_size = offset.split('.')[1]
-                                array_size = array_size.lstrip('0')
-                                offset = offset.split('.')[0]
-                                if 'ZR' in area:
-                                    array_size = f"[{array_size}]"
-                            tags['opcItemPath'] = f"ns=1;s=[{ignition_json[key]['name']}]{area}<{path_data_type}{array_size}>{offset}"
-                        else:
-                            tags['opcItemPath'] = f"ns=1;s=[{ignition_json[key]['name']}]{address}"
+                        if "." in offset:
+                            array_size = offset.split('.')[1]
+                            array_size = array_size.lstrip('0')
+                            offset = offset.split('.')[0]
+                            if 'ZR' in area:
+                                array_size = f"[{array_size}]"
+                        
+                        # #strip the leading zeros from the offset
+                        # offset = offset.lstrip('0') or '0'
+                            
+                        tags['opcItemPath'] = f"ns=1;s=[{ignition_json[key]['name']}]{area}<{path_data_type}{array_size}>{offset}"
 
                         tags['opcServer'] = 'Ignition OPC UA Server'
                         tags['tagGroup'] = 'default'
+                    else:
+                        print(f"Tag {tag_name} not found in {key}.csv")
 
 def Generate_Address_CSV(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any]) -> Dict[str, pd.DataFrame]:
+    """
+    Generate the address CSV file based on the provided CSV DataFrame and Ignition JSON data.
+
+    Args:
+        csv_df (Dict[str, pd.DataFrame]): A dictionary containing CSV DataFrames for each key.
+        ignition_json (Dict[str, Any]): A dictionary containing Ignition JSON data.
+
+    Returns:
+        Dict[str, pd.DataFrame]: A dictionary containing the generated address CSV DataFrames for each key.
+    """
     address_csv: Dict[str, pd.DataFrame] = {}
     for key in ignition_json:
         dfs = []
@@ -55,8 +80,7 @@ def Generate_Address_CSV(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[st
                     address = address.replace('Z', '')
                 if '.' in address:
                     address = address.split('.')[0]
-
-                # remove all zeros after the last non-zero digit
+                
                 area, num = address.split('0')[0], address.split('0')[-1]
                 num = num.lstrip('0') or '0'
                 address = f"{area}{num}"
