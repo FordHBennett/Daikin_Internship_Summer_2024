@@ -60,4 +60,9 @@ def Generate_Address_CSV(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[st
                 dfs.append(df)
         if dfs:
             address_csv[key] = pd.concat(dfs, ignore_index=True)
+
+    # sort the rows by tag_name
+    for key in address_csv:
+        address_csv[key] = address_csv[key].sort_values(by='tag_name', ignore_index=True)
+        
     return address_csv
