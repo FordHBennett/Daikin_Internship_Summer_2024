@@ -56,6 +56,11 @@ def Generate_Address_CSV(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[st
                 if '.' in address:
                     address = address.split('.')[0]
 
+                # remove all zeros after the last non-zero digit
+                area, num = address.split('0')[0], address.split('0')[-1]
+                num = num.lstrip('0') or '0'
+                address = f"{area}{num}"
+
                 df = pd.DataFrame({'tag_name': [tag_name], 'address': [address]})
                 dfs.append(df)
         if dfs:
@@ -64,5 +69,5 @@ def Generate_Address_CSV(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[st
     # sort the rows by tag_name
     for key in address_csv:
         address_csv[key] = address_csv[key].sort_values(by='tag_name', ignore_index=True)
-        
+
     return address_csv
