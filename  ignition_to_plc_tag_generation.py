@@ -68,11 +68,20 @@ def Find_Row_By_Tag_Name(df: pd.DataFrame, tag_name: str) -> pd.DataFrame:
 ### Path Functions ###
 
 def Get_ALL_JSON_Paths(dir: str) -> List[str]:
+    """
+    Retrieves all the JSON file paths within a given directory and its subdirectories.
+
+    Args:
+        dir (str): The directory path to search for JSON files.
+
+    Returns:
+        List[str]: A list of JSON file paths found within the directory and its subdirectories.
+    """
     json_paths: List[str] = []
     for root, dirs, files in os.walk(os.path.join(os.getcwd(), dir)):
-            for file in files:
-                if file.endswith('.json'):
-                    json_paths.append(os.path.join(root, file))
+        for file in files:
+            if file.endswith('.json'):
+                json_paths.append(os.path.join(root, file))
     return json_paths
 
 
@@ -142,6 +151,16 @@ def Read_CSV_Files(csv_files: List[str]) -> Dict[str, pd.DataFrame]:
     return csv_df
 
 def Write_Json_Files(ignition_json: Dict[str, Any], dir: str) -> None:
+    """
+    Write the given Ignition JSON data to individual JSON files.
+
+    Args:
+        ignition_json (Dict[str, Any]): The Ignition JSON data to be written.
+        dir (str): The directory where the output files will be saved.
+
+    Returns:
+        None
+    """
     out_dir = os.path.join('output_files', dir, 'ignition_client_tags_json')
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
@@ -150,6 +169,16 @@ def Write_Json_Files(ignition_json: Dict[str, Any], dir: str) -> None:
             json.dump(ignition_json[key], f, indent=4)
 
 def Write_Address_CSV(address_csv: Dict[str, Any], dir: str) -> None:
+    """
+    Write the address CSV files to the output directory.
+
+    Args:
+        address_csv (Dict[str, Any]): A dictionary containing the address CSV data.
+        dir (str): The directory path.
+
+    Returns:
+        None
+    """
     dir = dir.split(os.path.sep)[1]
     out_dir = os.path.join('output_files', dir, 'ignition_gateway_device_address_csv')
     if not os.path.exists(out_dir):
@@ -193,7 +222,18 @@ def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
 
     return Recursive_Extract_Keys(json_structure)
 
+
 def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any]) -> None:
+    """
+    Modifies tags for direct driver communication based on the provided CSV data and Ignition JSON.
+
+    Args:
+        csv_df (Dict[str, pd.DataFrame]): A dictionary containing CSV data as pandas DataFrames.
+        ignition_json (Dict[str, Any]): A dictionary containing Ignition JSON data.
+
+    Returns:
+        None
+    """
     for key, df in csv_df.items():
         if key in ignition_json:
             for tags in ignition_json[key]['tags']:
@@ -228,34 +268,27 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
                         else:
                             tags['opcItemPath'] = f"ns=1;s=[{ignition_json[key]['name']}]{address}"
 
-
-                        # elif 'M' in area:
-                        #     path_data_type = 'Boolean'
-
-                        # if "." in offset:
-                        #     array_size = offset.split('.')[1]
-                        #     array_size = array_size.lstrip('0')
-                        #     offset = offset.split('.')[0]
-                        #     if 'ZR' in area:
-                        #         array_size = f"[{array_size}]"
- 
-
-
-                        # tags['opcItemPath'] = f"ns=1;s=[{ignition_json[key]['name']}]{area}<{path_data_type}{array_size}>{offset}"
-                        # tags['opcItemPath'] = f"ns=1;s=[{ignition_json[key]['name']}]{address}"
                         tags['opcServer'] = 'Ignition OPC UA Server'
-
                         tags['tagGroup'] = 'default'
 
 
 def Generate_Address_CSV(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any]) -> Dict[str, pd.DataFrame]:
+    """
+    Generate a CSV file containing the tag names and their corresponding addresses based on the given Ignition JSON data.
+
+    Args:
+        csv_df (Dict[str, pd.DataFrame]): A dictionary of DataFrames containing CSV data, where the keys represent different categories.
+        ignition_json (Dict[str, Any]): A dictionary containing Ignition JSON data.
+
+    Returns:
+        Dict[str, pd.DataFrame]: A dictionary of DataFrames containing the generated CSV data, where the keys represent different categories.
+    """
     address_csv: Dict[str, pd.DataFrame] = {}
 
     for key in ignition_json:
         dfs = []
         for tags in ignition_json[key]['tags']:
             tag_name = tags['name']
-            # print(csv_df[key])
             row = Find_Row_By_Tag_Name(csv_df[key], tag_name)
             if not row.empty:
                 address = row.iloc[0, 1]
@@ -271,11 +304,13 @@ def Generate_Address_CSV(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[st
         if dfs:
             address_csv[key] = pd.concat(dfs, ignore_index=True)
     return address_csv
+
 def main():
-    dir_list: List[str] = os.listdir('input_files')
+    input_dir: str = 'input_files'
+    dir_list: List[str] = os.listdir(input_dir)
     for dir in dir_list:
         if not dir.startswith('.'):      
-            current_dir = os.path.join('input_files', dir)
+            current_dir = os.path.join(input_dir, dir)
             json_files = Get_ALL_JSON_Paths(current_dir)
             csv_files = Get_ALL_CSV_Paths(current_dir)
 
