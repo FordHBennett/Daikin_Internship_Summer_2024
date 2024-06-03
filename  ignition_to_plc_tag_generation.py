@@ -271,9 +271,9 @@ def Write_CSV_Files(address_csv: Dict[str, Any]) -> None:
         df.to_csv(os.path.join('address_csv','mitsubishi_devices', f'{key}.csv'), index=False)
 
 def Generate_Address_CSV(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any]) -> Dict[str, pd.DataFrame]:
-    # write the ignition[key]['tags']['name'] to the first column of address_df
-    # find the row in csv_df where the first column is equal to the ignition[key]['tags']['name']
-    # write the second column of csv_df to the second column of address_df
+    '''
+    TODO: Some of the address are wrong specifly strings 
+    '''
     address_csv: Dict[str, pd.DataFrame] = {}
 
     for key in ignition_json:
