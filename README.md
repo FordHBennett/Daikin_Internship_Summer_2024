@@ -12,24 +12,46 @@
     ```
 
 MacOS/Linux:
-python3 -m venv ignition_to_plc_tag_generation/     
-ignition_to_plc_tag_generation/bin/python -m pip install --upgrade pip
-ignition_to_plc_tag_generation/bin/python -m pip install -r requirements.txt
-ignition_to_plc_tag_generation/bin/python -m pip install . 
+python3 -m venv .venv/ 
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install . 
 run-tag-generation
 
-Windows:
-python.exe -m venv ignition_to_plc_tag_generation/
-ignition_to_plc_tag_generation\Scripts\python.exe -m pip install --upgrade pip
-ignition_to_plc_tag_generation\Scripts\python.exe -m pip install -r requirements.txt
-ignition_to_plc_tag_generation\Scripts\python.exe -m pip install .
+Windows(PowerShell):
+python.exe -m venv .venv\
+.venv\Scripts\activate
+python.exe -m pip install --upgrade pip
+python.exe -m pip install .
 run-tag-generation.exe
 
-
-# Usage
-
-## Running the Script
-After installing the package, you can run the tag generation script from the command line:
-```
+## Development
+1. Clone the Repository:
+    ```
+    git clone
+    cd Daikin_Internship_Summer_2024
+    ```
+MacOS/Linux:
+python3 -m venv .venv/
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -e . 
+python -c "import run-tag-generation"
 run-tag-generation
+
+Windows(PowerShell):
+python.exe -m venv .venv\
+.venv\Scripts\activate
+python.exe -m pip install --upgrade pip
+python.exe -m pip install -e .
+python.exe -c "import run-tag-generation"
+run-tag-generation.exe
+
+## Uninstall the Package
+Windows(PowerShell):
+python.exe -m pip uninstall run-tag-generation
+
+MacOS/Linux:
+python -m pip uninstall run-tag-generation
 ```
+

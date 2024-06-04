@@ -15,4 +15,4 @@ output_files/*
 /*.egg
 Build/*
 
-*/venv/*
+.*/*

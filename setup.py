@@ -6,7 +6,8 @@ setup(
     description='Ignition to PLC Tag Generation',
     url='https://github.com/FordHBennett/Daikin_Internship_Summer_2024',
     author='Ford Hideo Bennett',
-    packages=find_packages(),
+    packages=['ignition_to_plc_tag_generation'],
+    install_requires=['pandas', 'numpy'],
     zip_safe=False,
     entry_points={
         'console_scripts': [
