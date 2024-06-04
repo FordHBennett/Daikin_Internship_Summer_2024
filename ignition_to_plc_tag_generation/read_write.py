@@ -1,3 +1,5 @@
+#!bin/python3
+
 import os
 import json
 import pandas as pd

@@ -1,3 +1,5 @@
+#!bin/python3
+
 from ignition_to_plc_tag_generation.paths import *
 from ignition_to_plc_tag_generation.read_write import *
 from ignition_to_plc_tag_generation.process_tags import *

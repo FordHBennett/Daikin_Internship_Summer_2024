@@ -11,10 +11,12 @@
     cd Daikin_Internship_Summer_2024
     ```
 
-2. Install Required Packages:
-    ```
-    pip install .
-    ```
+python3 -m venv ignition_to_plc_tag_generation/     
+ignition_to_plc_tag_generation/bin/python -m pip install --upgrade pip
+ignition_to_plc_tag_generation/bin/python -m pip install -r requirements.txt
+ignition_to_plc_tag_generation/bin/python -m pip install . 
+run-tag-generation
+
 
 # Usage
 

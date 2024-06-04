@@ -1,3 +1,5 @@
+#!bin/python3
+
 from os import path
 from numpy import add
 import pandas as pd
@@ -43,7 +45,7 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
                             array_size = offset.split('.')[1]
                             array_size = array_size.lstrip('0')
                             offset = offset.split('.')[0]
-                            if 'SH' in area:
+                            if 'String' not in path_data_type and 'dataType' in tags:
                                 array_size = f"[{array_size}]"
                                 if tags['dataType'] == 'Int2':
                                     tags['dataType'] = 'Int2Array'

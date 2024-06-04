@@ -8,13 +8,10 @@ setup(
     author='Ford Hideo Bennett',
     packages=find_packages(),
     zip_safe=False,
-    install_requires=[
-        'pandas',
-        'numpy'
-    ],
     entry_points={
         'console_scripts': [
             'run-tag-generation=ignition_to_plc_tag_generation.main:main',
         ],
     },
 )
+
