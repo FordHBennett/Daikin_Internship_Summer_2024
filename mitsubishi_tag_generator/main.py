@@ -1,8 +1,7 @@
 #!bin/python3
 
-from ignition_to_plc_tag_generation.paths import *
-from ignition_to_plc_tag_generation.read_write import *
-from ignition_to_plc_tag_generation.process_tags import *
+from mitsubishi_tag_generator.base import *
+from mitsubishi_tag_generator.process_tags import *
 import os
 from typing import List
 
@@ -18,7 +17,7 @@ def main():
             ignition_json = Read_Json_Files(json_files)
             csv_df = Read_CSV_Files(csv_files)
 
-            Modify_Tags_For_Direct_Driver_Communication(csv_df, ignition_json)
+            ignition_json = Modify_Tags_For_Direct_Driver_Communication(csv_df, ignition_json)
             Write_Json_Files(ignition_json, dir)
 
             address_csv = Generate_Address_CSV(csv_df, ignition_json)

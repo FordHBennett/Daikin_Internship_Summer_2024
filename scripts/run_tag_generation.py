@@ -1,4 +1,4 @@
-from ignition_to_plc_tag_generation.main import main
+from mitsubishi_tag_generator.main import main
 
 if __name__ == '__main__':
     main()

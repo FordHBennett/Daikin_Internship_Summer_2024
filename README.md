@@ -14,11 +14,11 @@
 2. Install the Package:
     MacOS/Linux:
     ```sh
-    python3 -m venv .venv/
+    python -m venv .venv/
     source .venv/bin/activate
     python -m pip install --upgrade pip
     python -m pip install .
-    run-tag-generation
+    run-mitsubishi-tag-generator
     ```
 
     Windows(PowerShell):
@@ -27,7 +27,7 @@
     .venv\Scripts\activate
     python.exe -m pip install --upgrade pip
     python.exe -m pip install .
-    run-tag-generation.exe
+    run-mitsubishi-tag-generator.exe
     ```
 
 ## Development
@@ -40,12 +40,12 @@
 2. Install the Package in Editable Mode:
     MacOS/Linux:
     ```sh
-    python3 -m venv .venv/
+    python -m venv .venv/
     source .venv/bin/activate
     python -m pip install --upgrade pip
     python -m pip install -e .
-    python -c "import run-tag-generation"
-    run-tag-generation
+    python -c "import mitsubishi_tag_generator"
+    run-mitsubishi-tag-generator
     ```
 
     Windows(PowerShell):
@@ -54,21 +54,22 @@
     .venv\Scripts\activate
     python.exe -m pip install --upgrade pip
     python.exe -m pip install -e .
-    python.exe -c "import run-tag-generation"
-    run-tag-generation.exe
+    python.exe -c "import mitsubishi_tag_generator"
+    run-mitsubishi-tag-generator.exe
     ```
 
 ## Uninstall the Package
 1. Uninstall the Package:
     MacOS/Linux:
     ```sh
-    python -m pip uninstall run-tag-generation
-    deactivate 
+    rm -rf .venv/
+    python -m pip uninstall run-mitsubishi-tag-generator
+    deactivate
     ```
 
     Windows(PowerShell):
     ```pwsh
-    python.exe -m pip uninstall run-tag-generation
+    python.exe -m pip uninstall run-mitsubishi-tag-generator
     deactivate
     ```
 
