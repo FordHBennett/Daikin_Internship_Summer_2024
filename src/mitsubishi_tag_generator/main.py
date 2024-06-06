@@ -1,6 +1,6 @@
-#!bin/python3
+#!/usr/bin/env python
 
-from mitsubishi_tag_generator.base import *
+from base.base_functions import *
 from mitsubishi_tag_generator.process_tags import *
 import os
 from typing import List

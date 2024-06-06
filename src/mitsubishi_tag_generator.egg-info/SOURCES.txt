@@ -1,0 +1,14 @@
+README.md
+setup.py
+src/base/__init__.py
+src/base/base_functions.py
+src/mitsubishi_tag_generator/__init__.py
+src/mitsubishi_tag_generator/main.py
+src/mitsubishi_tag_generator/process_tags.py
+src/mitsubishi_tag_generator.egg-info/PKG-INFO
+src/mitsubishi_tag_generator.egg-info/SOURCES.txt
+src/mitsubishi_tag_generator.egg-info/dependency_links.txt
+src/mitsubishi_tag_generator.egg-info/entry_points.txt
+src/mitsubishi_tag_generator.egg-info/not-zip-safe
+src/mitsubishi_tag_generator.egg-info/requires.txt
+src/mitsubishi_tag_generator.egg-info/top_level.txt

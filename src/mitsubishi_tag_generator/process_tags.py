@@ -1,14 +1,8 @@
-#!bin/python3
+#!/usr/bin/env python
 
-from ast import Tuple
-import json
-from math import e
-from os import path
-from numpy import add
 import pandas as pd
-from typing import Dict, Any
+from typing import Dict, Any, List
 import re
-# from .base import Find_Row_By_Tag_Name
 
 def Find_Row_By_Tag_Name(df: pd.DataFrame, tag_name: str) -> pd.DataFrame:
     return df[df['Tag Name'] == tag_name]
@@ -53,6 +47,69 @@ def Convert_Array_Size_To_Mitsubishi_Format(offset:str, path_data_type: str):
             data_type = "String"
     return array_size, data_type, offset
 
+def Create_New_Tag(tag_name: str, parent_tag_name: str, ignition_name: str, area: str, path_data_type: str, array_size: str, offset: str, data_type: str, tags: Dict[str, Any]) -> Dict[str, Any]:
+    new_tag = {
+        "name": tag_name[tag_name.find('.')+1:],
+        "opcItemPath": f"ns=1;s=[{ignition_name}/{parent_tag_name}]{area}<{path_data_type}{array_size}>{offset}",
+        "opcServer": 'Ignition OPC UA Server',
+        "tagGroup": 'default'  # Remove once this in production
+    }
+    if 'dataType' in tags:
+        new_tag['dataType'] = data_type
+    if 'tagType' in tags:
+        new_tag['tagType'] = tags['tagType']
+    if 'historyProvider' in tags:
+        new_tag['historyProvider'] = tags['historyProvider']
+    if 'historicalDeadband' in tags:
+        new_tag['historicalDeadband'] = tags['historicalDeadband']
+    if 'historicalDeadbandStyle' in tags:
+        new_tag['historicalDeadbandStyle'] = tags['historicalDeadbandStyle']
+    return new_tag
+
+def Add_To_Existing_Tag(tag_list: List[Dict[str, Any]], parent_tag_name: str, new_tag: Dict[str, Any]) -> None:
+    for tag in tag_list:
+        if tag['name'] == parent_tag_name:
+            if 'tags' not in tag:
+                tag['tags'] = []
+            tag['tags'].append(new_tag)
+            return
+    # If the parent tag does not exist, create it
+    parent_tag = {
+        "name": parent_tag_name,
+        "tag_type": "Folder",
+        "tags": [new_tag]
+    }
+    tag_list.append(parent_tag)
+
+def Process_Tag_Name(ignition_json: Dict[str, Any], key: str, tag_name: str, area: str, path_data_type: str, data_type: str, tags: Dict[str, Any], array_size: str, offset: str) -> None:
+    name_parts = tag_name.split('.')
+    current_tags = ignition_json[key]['tags']
+    
+    for i in range(len(name_parts) - 1):
+        part = name_parts[i]
+        found = False
+        for tag in current_tags:
+            if tag['name'] == part:
+                if 'tags' not in tag:
+                    tag['tags'] = []
+                current_tags = tag['tags']
+                found = True
+                break
+        if not found:
+            new_folder_tag = {
+                "name": part,
+                "tag_type": "Folder",
+                "tags": []
+            }
+            current_tags.append(new_folder_tag)
+            current_tags = new_folder_tag['tags']
+    
+    final_tag_name = name_parts[-1]
+    parent_tag_name = name_parts[-2]
+    new_tag = Create_New_Tag(final_tag_name,parent_tag_name, ignition_json[key]['name'], area, path_data_type, array_size, offset, data_type, tags)
+    current_tags.append(new_tag)
+
+
 def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any]) -> Dict[str, Any]:
     """
     Modifies tags for direct driver communication based on the provided CSV data and Ignition JSON.
@@ -69,7 +126,6 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
             existing_tag_names = set()
             tags_to_remove = []
             for tags in ignition_json[key]['tags']:
-                # print(f"Started with {json.dumps(tags, indent=4)}")
                 if 'opcItemPath' in tags:
                     path_data_type = ''
                     if 'dataType' in tags:
@@ -88,61 +144,7 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
                             if data_type == "":
                                 data_type = tags['dataType']
                             if '.' in tag_name:
-                                parent_tag_name = tag_name[:tag_name.find('.')]
-                                parent_tag_exists = False
-
-                                for i, existing_tag in enumerate(ignition_json[key]['tags']):
-                                    if existing_tag['name'] == parent_tag_name:
-                                        parent_tag_exists = True
-                                        new_tag = {
-                                            "name": tag_name[tag_name.find('.')+1:],
-                                            "opcItemPath": f"ns=1;s=[{ignition_json[key]['name']}/{parent_tag_name}]{area}<{path_data_type}{array_size}>{offset}",
-                                            "opcServer": 'Ignition OPC UA Server',
-                                            "tagGroup": 'default' # Remove once this in production
-                                        }
-                                        if 'dataType' in tags:
-                                            new_tag['dataType'] = data_type
-                                        if 'tagType' in tags:
-                                            new_tag['tagType'] = tags['tagType']
-                                        if 'historyProvider' in tags:
-                                            new_tag['historyProvider'] = tags['historyProvider']
-                                        if 'historicalDeadband' in tags:
-                                            new_tag['historicalDeadband'] = tags['historicalDeadband']
-                                        if 'historicalDeadbandStyle' in tags:
-                                            new_tag['historicalDeadbandStyle'] = tags['historicalDeadbandStyle']
-
-                                        ignition_json[key]['tags'][i]['tags'].append(new_tag)
-                                        break
-                                    #     parent_tag_exists = True
-                                    # elif(tags == ignition_json[key]['tags'][i]):
-                                    #     ignition_json[key]['tags'].pop(i)
-                                    #     i-=1
-
-                                if not parent_tag_exists:
-                                    new_tag = {
-                                        "name": parent_tag_name,
-                                        "tag_type": "Folder",
-                                        "tags": [
-                                            {
-                                                "name": tag_name[tag_name.find('.')+1:],
-                                                "opcItemPath": f"ns=1;s=[{ignition_json[key]['name']}/{parent_tag_name}]{area}<{path_data_type}{array_size}>{offset}",
-                                                "opcServer": 'Ignition OPC UA Server',
-                                                "tagGroup": 'default' # Remove once this in production
-                                            }
-                                        ]
-                                    }
-                                    if 'dataType' in tags:
-                                        new_tag['tags'][0]['dataType'] = data_type
-                                    if 'tagType' in tags:
-                                        new_tag['tags'][0]['tagType'] = tags['tagType']
-                                    if 'historyProvider' in tags:
-                                        new_tag['tags'][0]['historyProvider'] = tags['historyProvider']
-                                    if 'historicalDeadband' in tags:
-                                        new_tag['tags'][0]['historicalDeadband'] = tags['historicalDeadband']
-                                    if 'historicalDeadbandStyle' in tags:
-                                        new_tag['tags'][0]['historicalDeadbandStyle'] = tags['historicalDeadbandStyle']
-                                    ignition_json[key]['tags'].append(new_tag)
-
+                                Process_Tag_Name(ignition_json, key, tag_name, area, path_data_type, data_type, tags, array_size, offset)
                                 tags_to_remove.append(tags)
                             else:
                                 tags["name"] = tag_name

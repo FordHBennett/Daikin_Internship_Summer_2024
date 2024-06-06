@@ -45,6 +45,7 @@
     python -m pip install --upgrade pip
     python -m pip install -e .
     python -c "import mitsubishi_tag_generator"
+    python -c "import base_functions"
     run-mitsubishi-tag-generator
     ```
 
@@ -55,6 +56,7 @@
     python.exe -m pip install --upgrade pip
     python.exe -m pip install -e .
     python.exe -c "import mitsubishi_tag_generator"
+    python.exe -c "import base_functions"
     run-mitsubishi-tag-generator.exe
     ```
 
@@ -64,7 +66,7 @@
     ```sh
     rm -rf .venv/
     python -m pip uninstall run-mitsubishi-tag-generator
-    deactivate
+    source deactivate or deactivate
     ```
 
     Windows(PowerShell):
