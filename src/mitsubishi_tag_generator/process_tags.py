@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from curses.ascii import isalpha
 from numpy import add
 import pandas as pd
 from typing import Dict, Any, List, Union
@@ -47,7 +48,7 @@ def Convert_Array_Size_To_Mitsubishi_Format(offset:str, path_data_type: str):
             data_type = "String"
     return array_size, data_type, offset
 
-def Set_New_Tag_Properties(tags: Union[Dict[str, Any], List[Dict[str, Any]]], new_tag: Dict[str, Any], data_type: str) -> None:
+def Set_New_Tag_Properties(tags: Union[Dict[str, Any], List[Dict[str, Any]]], new_tag: Dict[str, Any], data_type: str, is_tag_from_csv_flag: bool) -> None:
     # Initialize new_tag with properties if present in tags
     if isinstance(tags, dict):
         new_tag['tagGroup'] = tags.get('tagGroup', '')
@@ -87,43 +88,55 @@ def Set_New_Tag_Properties(tags: Union[Dict[str, Any], List[Dict[str, Any]]], ne
     if 'HistoryProvider' not in new_tag:
         new_tag.pop('historyProvider', None)
 
+    if is_tag_from_csv_flag:
+        new_tag['enabled'] = False
+    else:
+        new_tag['enabled'] = True
     
     new_tag['valueSource'] = 'opc'
-    new_tag['enabled'] = False
     new_tag['tagGroup']= 'default' # Remove once this in production
 
 
-def Create_New_Tag(tag_name: str, parent_tag_name: str, ignition_name: str, area: str, path_data_type: str, array_size: str, offset: str, data_type: str, tags: Dict[str, Any]) -> Dict[str, Any]:
-    ignition_name = Remove_Non_Alphanumeric_Characters(ignition_name)
-    parent_tag_name = Remove_Non_Alphanumeric_Characters(parent_tag_name)
+def Create_New_Tag(name_parts: List[str], device_name:str, orignal_tag_name:str, area: str, path_data_type: str, array_size: str, offset: str, data_type: str, tags: Dict[str, Any], is_tag_from_csv_flag: bool) -> Dict[str, Any]:
+    full_path = ''
+    for part in name_parts:
+        part = Remove_Non_Alphanumeric_Characters(part)
+        full_path += f"{part}/"
+    full_path = full_path[:-1]
+    full_path = full_path[:full_path.rfind('/')]
     new_tag = {
-        "name": tag_name[tag_name.find('.')+1:],
-        "opcItemPath": f"ns=1;s=[{ignition_name}/{parent_tag_name}]{area}<{path_data_type}{array_size}>{offset}",
+        "name": orignal_tag_name,
+        "opcItemPath": f"ns=1;s=[{device_name}/{full_path}]{area}<{path_data_type}{array_size}>{offset}",
         "opcServer": 'Ignition OPC UA Server',
     }
 
-    Set_New_Tag_Properties(tags, new_tag, data_type)
+    Set_New_Tag_Properties(tags, new_tag, data_type, is_tag_from_csv_flag)
     return new_tag
 
-# def Add_To_Existing_Tag(tag_list: List[Dict[str, Any]], parent_tag_name: str, new_tag: Dict[str, Any]) -> None:
-#     for tag in tag_list:
-#         if tag['name'] == parent_tag_name:
-#             if 'tags' not in tag:
-#                 tag['tags'] = []
-#             tag['tags'].append(new_tag)
-#             return
-#     # If the parent tag does not exist, create it
-#     parent_tag = {
-#         "name": parent_tag_name,
-#         "tagType": "Folder",
-#         "tags": [new_tag]
-#     }
-#     tag_list.append(parent_tag)
-
-def Process_Tag_Name(ignition_json: Dict[str, Any], key: str, tag_name: str, area: str, path_data_type: str, data_type: str, tags: Dict[str, Any], array_size: str, offset: str) -> None:
-    name_parts = tag_name.split('.')
+def Process_Tag_Name(ignition_json: Dict[str, Any], key: str, tag_name: str, area: str, path_data_type: str, data_type: str, tags: Dict[str, Any], array_size: str, offset: str, is_tag_from_csv_flag=False) -> None:
+    orignal_tag_name = tag_name.split('.')[-1]
+    name_parts = [tag_name.split('.')[0]]
+    for part in tag_name.split('.')[1:]:
+        max_len = max(len(part) - 3, 4)
+        pattern = re.compile(rf"^(?P<part1>(?=.*[0-9])(?=.*[A-Z])[A-Z0-9]{{2,{max_len}}})_(?P<part2>.*)$")
+        match = pattern.match(part)
+        if match:
+            part = match.group('part1') + '-' + match.group('part2')
+        #if a lowercase letter is followed by an uppercase letter, add '-' between them
+        elif re.search(r'[a-z][A-C]', part) and not re.search(r'[A-Z][A-Z]', part):
+            part = re.sub(r'([a-z])([A-C][A-Z])', r'\1\2-', part, count=1)
+        elif re.search(r'[a-z][A-Z]', part):
+            part = re.sub(r'([a-z])([A-Z])', r'\1-\2', part, count=1)
+            
+        if '-' in part:
+            orignal_tag_name = part
+            name_parts.extend(part.split('-'))
+        else:
+            name_parts.append(part)
+        
     current_tags = ignition_json[key]['tags']
-    
+
+
     for i in range(len(name_parts) - 1):
         part = name_parts[i]
         part = Remove_Non_Alphanumeric_Characters(part)
@@ -144,9 +157,8 @@ def Process_Tag_Name(ignition_json: Dict[str, Any], key: str, tag_name: str, are
             current_tags.append(new_folder_tag)
             current_tags = new_folder_tag['tags']
     
-    final_tag_name = name_parts[-1]
-    parent_tag_name = name_parts[-2]
-    new_tag = Create_New_Tag(final_tag_name,parent_tag_name, ignition_json[key]['name'], area, path_data_type, array_size, offset, data_type, tags)
+    
+    new_tag = Create_New_Tag(name_parts, ignition_json[key]['name'], orignal_tag_name, area, path_data_type, array_size, offset, data_type, tags, is_tag_from_csv_flag)
     current_tags.append(new_tag)
 
 
@@ -205,6 +217,8 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
                                 tags['opcServer'] = 'Ignition OPC UA Server'
                                 tags['dataType'] = data_type
                                 tags['tagGroup'] = 'default' # Remove once this in production
+                                if 'enabled' not in tags:
+                                    tags['enabled'] = True
                         else: 
                             print(f"Could not find tag {tag_name} in CSV file {key}.csv")
             for tag_to_remove in tags_to_remove:
@@ -220,7 +234,7 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
                     area, path_data_type = Convert_Area_To_Mitsubishi_Format(area, path_data_type)
                     array_size, row['Data Type'], offset = Convert_Array_Size_To_Mitsubishi_Format(offset, path_data_type)
                     if '.' in tag_name:
-                        Process_Tag_Name(ignition_json, key, tag_name, area, path_data_type, row['Data Type'], ignition_json[key]["tags"], array_size, offset)
+                        Process_Tag_Name(ignition_json, key, tag_name, area, path_data_type, row['Data Type'], ignition_json[key]["tags"], array_size, offset, is_tag_from_csv_flag=True)
     
     return ignition_json
             
