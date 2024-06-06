@@ -113,7 +113,7 @@ def Add_To_Existing_Tag(tag_list: List[Dict[str, Any]], parent_tag_name: str, ne
     # If the parent tag does not exist, create it
     parent_tag = {
         "name": parent_tag_name,
-        "tag_type": "Folder",
+        "tagType": "Folder",
         "tags": [new_tag]
     }
     tag_list.append(parent_tag)
@@ -135,7 +135,7 @@ def Process_Tag_Name(ignition_json: Dict[str, Any], key: str, tag_name: str, are
         if not found:
             new_folder_tag = {
                 "name": part,
-                "tag_type": "Folder",
+                "tagType": "Folder",
                 "tags": []
             }
             current_tags.append(new_folder_tag)
