@@ -45,7 +45,7 @@
     python -m pip install --upgrade pip
     python -m pip install -e .
     python -c "import mitsubishi_tag_generator"
-    python -c "import base_functions"
+    python -c "import base"
     run-mitsubishi-tag-generator
     ```
 
@@ -56,7 +56,7 @@
     python.exe -m pip install --upgrade pip
     python.exe -m pip install -e .
     python.exe -c "import mitsubishi_tag_generator"
-    python.exe -c "import base_functions"
+    python.exe -c "import base"
     run-mitsubishi-tag-generator.exe
     ```
 
