@@ -11,8 +11,10 @@ output_files/*
 /dist/
 
 # Python egg metadata, regenerated from source files by setuptools.
-/*.egg-info
-/*.egg
+src/*/*.egg-info*
 Build/*
 
 .*/*
+
+src/mitsubishi_tag_generator.egg-info/*
+*.txt
