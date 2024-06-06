@@ -4,6 +4,7 @@ import os
 import json
 import pandas as pd
 from typing import Dict, Any, List
+import re
 
 def Get_Basename_Without_Extension(file_path: str) -> str:
     """
@@ -32,6 +33,9 @@ def Find_Row_By_Tag_Name(df: pd.DataFrame, tag_name: str) -> pd.DataFrame:
     """
     condition = (df.iloc[:, 0] == tag_name) | (df.iloc[:, 0].apply(lambda x: x.split('.')[-1]) == tag_name)
     return df.loc[condition]
+
+def Remove_Non_Alphanumeric_Characters(tag_name: str) -> str:
+    return re.sub(r'\W+', '', tag_name)
 
 def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
     """

@@ -4,6 +4,7 @@ from numpy import add
 import pandas as pd
 from typing import Dict, Any, List, Union
 import re
+from base.base_functions import Remove_Non_Alphanumeric_Characters
 
 def Find_Row_By_Tag_Name(df: pd.DataFrame, tag_name: str) -> pd.DataFrame:
     return df[df['Tag Name'] == tag_name]
@@ -93,30 +94,31 @@ def Set_New_Tag_Properties(tags: Union[Dict[str, Any], List[Dict[str, Any]]], ne
 
 
 def Create_New_Tag(tag_name: str, parent_tag_name: str, ignition_name: str, area: str, path_data_type: str, array_size: str, offset: str, data_type: str, tags: Dict[str, Any]) -> Dict[str, Any]:
+    ignition_name = Remove_Non_Alphanumeric_Characters(ignition_name)
+    parent_tag_name = Remove_Non_Alphanumeric_Characters(parent_tag_name)
     new_tag = {
         "name": tag_name[tag_name.find('.')+1:],
         "opcItemPath": f"ns=1;s=[{ignition_name}/{parent_tag_name}]{area}<{path_data_type}{array_size}>{offset}",
         "opcServer": 'Ignition OPC UA Server',
-        
     }
 
     Set_New_Tag_Properties(tags, new_tag, data_type)
     return new_tag
 
-def Add_To_Existing_Tag(tag_list: List[Dict[str, Any]], parent_tag_name: str, new_tag: Dict[str, Any]) -> None:
-    for tag in tag_list:
-        if tag['name'] == parent_tag_name:
-            if 'tags' not in tag:
-                tag['tags'] = []
-            tag['tags'].append(new_tag)
-            return
-    # If the parent tag does not exist, create it
-    parent_tag = {
-        "name": parent_tag_name,
-        "tagType": "Folder",
-        "tags": [new_tag]
-    }
-    tag_list.append(parent_tag)
+# def Add_To_Existing_Tag(tag_list: List[Dict[str, Any]], parent_tag_name: str, new_tag: Dict[str, Any]) -> None:
+#     for tag in tag_list:
+#         if tag['name'] == parent_tag_name:
+#             if 'tags' not in tag:
+#                 tag['tags'] = []
+#             tag['tags'].append(new_tag)
+#             return
+#     # If the parent tag does not exist, create it
+#     parent_tag = {
+#         "name": parent_tag_name,
+#         "tagType": "Folder",
+#         "tags": [new_tag]
+#     }
+#     tag_list.append(parent_tag)
 
 def Process_Tag_Name(ignition_json: Dict[str, Any], key: str, tag_name: str, area: str, path_data_type: str, data_type: str, tags: Dict[str, Any], array_size: str, offset: str) -> None:
     name_parts = tag_name.split('.')
@@ -124,6 +126,7 @@ def Process_Tag_Name(ignition_json: Dict[str, Any], key: str, tag_name: str, are
     
     for i in range(len(name_parts) - 1):
         part = name_parts[i]
+        part = Remove_Non_Alphanumeric_Characters(part)
         found = False
         for tag in current_tags:
             if tag['name'] == part:
@@ -145,6 +148,7 @@ def Process_Tag_Name(ignition_json: Dict[str, Any], key: str, tag_name: str, are
     parent_tag_name = name_parts[-2]
     new_tag = Create_New_Tag(final_tag_name,parent_tag_name, ignition_json[key]['name'], area, path_data_type, array_size, offset, data_type, tags)
     current_tags.append(new_tag)
+
 
 
 def Get_Tag_Name_Address(tags_list: List[Dict[str, Any]], collected_tags: List[Dict[str, str]], parent_tag='') -> None:
@@ -175,8 +179,6 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
             existing_tag_names = set()
             tags_to_remove = []
             for tags in ignition_json[key]['tags']:
-                # if key == 'KAISHI_CONV':
-                #     print('')
                 if 'opcItemPath' in tags:
                     path_data_type = ''
                     if 'dataType' in tags:
