@@ -79,11 +79,25 @@ def Set_New_Tag_Properties(tags: Union[Dict[str, Any], List[Dict[str, Any]]], ne
         except KeyError:
             pass
 
+    if 'HistoricalDeadband' not in new_tag:
+        new_tag.pop('historicalDeadband', None)
+    if 'HistoricalDeadbandStyle' not in new_tag:
+        new_tag.pop('historicalDeadbandStyle', None)
+    if 'HistoryProvider' not in new_tag:
+        new_tag.pop('historyProvider', None)
+
+    
+    new_tag['valueSource'] = 'opc'
+    new_tag['enabled'] = False
+    new_tag['tagGroup']= 'default' # Remove once this in production
+
+
 def Create_New_Tag(tag_name: str, parent_tag_name: str, ignition_name: str, area: str, path_data_type: str, array_size: str, offset: str, data_type: str, tags: Dict[str, Any]) -> Dict[str, Any]:
     new_tag = {
         "name": tag_name[tag_name.find('.')+1:],
         "opcItemPath": f"ns=1;s=[{ignition_name}/{parent_tag_name}]{area}<{path_data_type}{array_size}>{offset}",
-        "opcServer": 'Ignition OPC UA Server'
+        "opcServer": 'Ignition OPC UA Server',
+        
     }
 
     Set_New_Tag_Properties(tags, new_tag, data_type)
