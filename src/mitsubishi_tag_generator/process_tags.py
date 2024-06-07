@@ -117,34 +117,7 @@ def Process_Tag_Name(ignition_json: Dict[str, Any], key: str, tag_name: str, are
     orignal_tag_name = tag_name.split('.')[-1]
     name_parts = [tag_name.split('.')[0]]
     for part in tag_name.split('.')[1:]:
-        # max_len = max(len(part) - 3, 4)
-        # pattern = re.compile(rf"^(?P<part1>(?=.*[0-9])(?=.*[A-Z])[A-Z0-9]{{2,{max_len}}})_(?P<part2>.*)$")
-        # match = pattern.match(part)
-        # if match:
-        #     part = match.group('part1') + '-' + match.group('part2')
-        # #if a lowercase letter is followed by an uppercase letter, add '-' between them
-        # elif 'Convayor' in part:
-        #     part = re.sub(r'([a-z])([A-C][A-Z])', r'\1\2-', part, count=1)
-        # elif re.search(r'[a-z][A-Z]', part):
-        #     part = re.sub(r'([a-z])([A-Z])', r'\1-\2', part, count=1)
-
-        # part = part.replace('-', '')
-        # part = part.replace('_', '')
-        part = re.sub(r'([a-z])([A-Z])', r'\1_\2', part)
-        # part = re.sub(r'([a-z])([0-9]+)', r'\1\2_', part)
-        part = re.sub(r'([A-Za-z0-9]+)(To)', r'\1_\2_', part)
-        part = re.sub(r'(_)([a-z])([A-Za-z]+)', (r'\1\2').upper() + (r'\3').lower(), part)
-        part = re.sub(r'([0-9]+)(_)(st)', r'\1\3', part)
-        part = re.sub(r'(6)(_)(PM)(_)', r'\1\3.', part)
-        part = re.sub(r'(Conveyor)(_)([A-Z])', r'\1\3.', part)
-        part = re.sub(r'(__)', r'_', part)
-        # part = re.sub(r'([A-Z])([A-Z])', r'\1_\2', part)
-        # part = re.sub(r'(_)([A-Z]|[0-9]+)([A-Z])', r'\2-\3', part)
-        # part = re.sub(r'(_)([A-Z]|[0-9]+)([_])', r'\2-', part)
-        # part = re.sub(r'(-)([0-9]+)([A-Z])', r'-\2_\3', part)
         orignal_tag_name = part
-
-            
         if '.' in part:
             name_parts.extend(part.split('.'))
         else:
