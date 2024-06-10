@@ -81,8 +81,9 @@ def Get_ALL_JSON_Paths(dir: str) -> List[str]:
     Returns:
         List[str]: A list of JSON file paths found within the directory and its subdirectories.
     """
+    dir = os.path.join(dir, 'ignition_json')
     json_paths: List[str] = []
-    for root, dirs, files in os.walk(os.path.join(os.getcwd(), dir)):
+    for root, dirs, files in os.walk(dir):
         for file in files:
             if file.endswith('.json'):
                 json_paths.append(os.path.join(root, file))
@@ -98,8 +99,9 @@ def Get_ALL_CSV_Paths(dir: str) -> List[str]:
     Returns:
         List[str]: A list of paths to CSV files found within the directory and its subdirectories.
     """
+    dir = os.path.join(dir, 'kepware_csv')
     csv_paths: List[str] = []
-    for root, dirs, files in os.walk(os.path.join(os.getcwd(), dir)):
+    for root, dirs, files in os.walk(dir):
         for file in files:
             if file.endswith('.csv'):
                 csv_paths.append(os.path.join(root, file))
@@ -156,7 +158,7 @@ def Write_Json_Files(ignition_json: Dict[str, Any], dir: str) -> None:
     Returns:
         None
     """
-    out_dir = os.path.join('output_files', dir, 'ignition_client_tags_json')
+    out_dir = f'{dir}/ignition_json'
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
     for key in ignition_json:
@@ -174,8 +176,7 @@ def Write_Address_CSV(address_csv: Dict[str, Any], dir: str) -> None:
     Returns:
         None
     """
-    dir = dir.split(os.path.sep)[1]
-    out_dir = os.path.join('output_files', dir, 'ignition_gateway_device_address_csv')
+    out_dir = f'{dir}/ignition_gateway_device_address_csv'
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
     for key, df in address_csv.items():
