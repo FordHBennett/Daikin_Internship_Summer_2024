@@ -60,6 +60,26 @@
     run-mitsubishi-tag-generator.exe
     ```
 
+## Testing
+    MacOS/Linux:
+        To run all base tests:
+        ```sh
+        python -m unittest discover src/tests/base_tests "*_test.py" -v 
+        ```
+        To run all mitsubishi_tag_generator tests:
+        ```sh
+        python -m unittest discover src/tests/mitsubishi_tag_generator_tests "*_test.py" -v 
+        ```
+    Windows(PowerShell):
+        To run all base tests:
+        ```pwsh
+        python.exe -m unittest discover src\tests\base_tests "*_test.py" -v 
+        ```
+        To run all mitsubishi_tag_generator tests:
+        ```pwsh
+        python.exe -m unittest discover src\tests\mitsubishi_tag_generator_tests "*_test.py" -v 
+        ```
+
 ## Uninstall the Package
 1. Uninstall the Package:
     MacOS/Linux:

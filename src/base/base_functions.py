@@ -20,20 +20,6 @@ def Get_Basename_Without_Extension(file_path: str) -> str:
     name, _ = os.path.splitext(base_name)
     return name
 
-def Find_Row_By_Tag_Name(df: pd.DataFrame, tag_name: str) -> pd.DataFrame:
-    """
-    Finds rows in a DataFrame based on a given tag name.
-
-    Parameters:
-    - df (pd.DataFrame): The DataFrame to search in.
-    - tag_name (str): The tag name to search for.
-
-    Returns:
-    - pd.DataFrame: A DataFrame containing the rows that match the tag name.
-    """
-    condition = (df.iloc[:, 0] == tag_name) | (df.iloc[:, 0].apply(lambda x: x.split('.')[-1]) == tag_name)
-    return df.loc[condition]
-
 def Remove_Non_Alphanumeric_Characters(tag_name: str) -> str:
     return re.sub(r'\W+', '', tag_name)
 
@@ -47,7 +33,7 @@ def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
     Returns:
         Dict[str, Any]: A dictionary containing all the extracted keys.
     """
-    def Recursive_Extract_Keys(obj: Any, parent_key: str = '', keys_set: set = None) -> Dict[str, Any]:
+    def Recursive_Extract_Keys(obj: Any, parent_key: str = '', keys_set: set[str] = None) -> Dict[str, Any]:
         if keys_set is None:
             keys_set = set()
 
@@ -59,16 +45,19 @@ def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
                     keys_set.add(full_key)
                     keys[key] = Recursive_Extract_Keys(value, full_key, keys_set)
         elif isinstance(obj, list):
+            list_keys = []
             for i, item in enumerate(obj):
                 full_key = f"{parent_key}[{i}]"
                 if full_key not in keys_set:
                     keys_set.add(full_key)
-                    keys.update(Recursive_Extract_Keys(item, full_key, keys_set))
+                    list_keys.append(Recursive_Extract_Keys(item, full_key, keys_set))
+            return list_keys
         else:
             return None
         return keys
 
     return Recursive_Extract_Keys(json_structure)
+
 
 
 def Get_ALL_JSON_Paths(dir: str) -> List[str]:
@@ -158,7 +147,7 @@ def Write_Json_Files(ignition_json: Dict[str, Any], dir: str) -> None:
     Returns:
         None
     """
-    out_dir = f'{dir}/ignition_json'
+    out_dir = f'{dir}/generated_ignition_json'
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
     for key in ignition_json:
