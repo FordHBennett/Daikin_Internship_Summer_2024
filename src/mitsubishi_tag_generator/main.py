@@ -6,11 +6,9 @@ import os
 from typing import List
 
 def main():
-    input_dir: str = 'input_files/mitsubishi_devices'
-    output_dir: str = 'output_files/mitsubishi_devices'
-    # dir_list: List[str] = os.listdir(input_dir)
-    # for dir in dir_list:
-        # if not dir.startswith('.'):      
+    input_dir: str = os.path.join('input_files', 'mitsubishi_devices')
+    output_dir: str = os.path.join('output_files', 'mitsubishi_devices')
+   
     json_files = Get_ALL_JSON_Paths(input_dir)
     csv_files = Get_ALL_CSV_Paths(input_dir)
 

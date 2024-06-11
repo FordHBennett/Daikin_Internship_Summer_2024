@@ -64,20 +64,20 @@
     MacOS/Linux:
         To run all base tests:
         ```sh
-        python -m unittest discover src/tests/base_tests "*_test.py" -v 
+        python -m unittest discover src/tests/base_tests "*_tests.py" -v 
         ```
         To run all mitsubishi_tag_generator tests:
         ```sh
-        python -m unittest discover src/tests/mitsubishi_tag_generator_tests "*_test.py" -v 
+        python -m unittest discover src/tests/mitsubishi_tag_generator_tests "*_tests.py" -v 
         ```
     Windows(PowerShell):
         To run all base tests:
         ```pwsh
-        python.exe -m unittest discover src\tests\base_tests "*_test.py" -v 
+        python.exe -m unittest discover src\tests\base_tests "*_tests.py" -v 
         ```
         To run all mitsubishi_tag_generator tests:
         ```pwsh
-        python.exe -m unittest discover src\tests\mitsubishi_tag_generator_tests "*_test.py" -v 
+        python.exe -m unittest discover src\tests\mitsubishi_tag_generator_tests "*_tests.py" -v 
         ```
 
 ## Uninstall the Package
