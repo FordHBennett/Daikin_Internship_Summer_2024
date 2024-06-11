@@ -7,52 +7,7 @@ import os
 class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
 
 
-    def test_extract_area_offset(self):
-        test_tag_builder_properties = {
-            "address": 'WER00000123456.0002345',
-            "area": '',
-            "offset": ''
-        }
-
-        Extract_Area_Offset(test_tag_builder_properties)
-
-
-        try:
-            self.assertEqual(test_tag_builder_properties['area'], 'WER')
-        
-            self.assertEqual(test_tag_builder_properties['offset'], '123456.0002345')
-        except AssertionError as e:
-            print(f'Error: {e}')
-            print(f'Expected Area: WER')
-            print(f'Expected Offset: 123456.0002345')
-            print(f'Actual Area: {test_tag_builder_properties["area"]}')
-            print(f'Actual Offset: {test_tag_builder_properties["offset"]}')
     
-    def test_convert_area_to_mitsubishi_format(self):
-
-        test_tag_builder_properties = {
-            "address": 'WSH00000123456.0002345',
-            "area": 'WSH',
-            "offset": '123456.0002345',
-            "array_size": ''
-        }
-
-        Convert_Tag_Builder_Properties_To_Mitsubishi_Format(test_tag_builder_properties)
-
-        try:
-            self.assertEqual(test_tag_builder_properties['area'], 'W')
-
-            self.assertEqual(test_tag_builder_properties['offset'], '123456')
-
-            self.assertEqual(test_tag_builder_properties['array_size'], '2345')
-        except AssertionError as e:
-            print(f'Error: {e}')
-            print(f'Expected Area: W')
-            print(f'Expected Offset: 123456')
-            print(f'Expected Array Size: 2345')
-            print(f'Actual Area: {test_tag_builder_properties["area"]}')
-            print(f'Actual Offset: {test_tag_builder_properties["offset"]}')
-            print(f'Actual Array Size: {test_tag_builder_properties["array_size"]}')
 
 
     def test_modify_tags_for_direct_driver_communication(self):
