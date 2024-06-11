@@ -54,7 +54,9 @@ def Update_Area_And_Path_Data_Type(area: str, path_data_type: str='') -> Tuple[s
         path_data_type = 'String'
         area = area.replace('SH', '')
         return area, path_data_type
-    elif 'M' in area:
+    if 'Z' in area:
+        area = area.replace('Z', '')
+    if 'M' in area:
         path_data_type = 'Bool'
         area = area.replace('M', '')
         return area, path_data_type
@@ -136,7 +138,7 @@ def Create_New_Tag(name_parts: List[str], tags: Dict[str, Any], current_tag, tag
     }
 
     if tag_builder_properties['is_tag_from_csv_flag']:
-        Set_New_Tag_Properties(tags, new_tag,)
+        Set_New_Tag_Properties(tags, new_tag)
     else:
         Set_Existing_Tag_Properties(current_tag, new_tag)
     return new_tag
@@ -151,35 +153,32 @@ def Process_Tag_Name(device_name, tags, current_tag, tag_builder_properties) -> 
                 name_parts.append(part)
         
         current_tags = tags
+        dummy_tags = tags
 
-        for i in range(len(name_parts) - 1):
-            part = name_parts[i]
-            part = Remove_Non_Alphanumeric_Characters(part)
+        for part in name_parts[:-1]:
             found = False
-            for tag in current_tags:
+            for tag in dummy_tags:
                 if tag['name'] == part:
                     if 'tags' not in tag:
                         tag['tags'] = []
-                    current_tags = tag['tags']
+                    dummy_tags = tag['tags']
                     found = True
                     break
             if not found:
                 new_folder_tag = {
-                    "name": part,
+                    "name": Remove_Non_Alphanumeric_Characters(part),
                     "tagType": "Folder",
                     "tags": []
                 }
-                current_tags.append(new_folder_tag)
-                current_tags = new_folder_tag['tags']
+                dummy_tags.append(new_folder_tag)
+                dummy_tags = new_folder_tag['tags']
     else:
         name_parts = [tag_builder_properties['tag_name']]
-        current_tags = tags
+        dummy_tags = tags
 
     name_parts.insert(0, device_name)
-    
-
     new_tag = Create_New_Tag(name_parts, tags, current_tag, tag_builder_properties)
-    current_tags.append(new_tag)
+    dummy_tags.append(new_tag)
 
 
 def Get_Tag_Name_And_Address(tags_list: List[Dict[str, Any]], collected_tags: List[Dict[str, str]]) -> List[Dict[str, str]]:
@@ -289,10 +288,8 @@ def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, existi
             else: 
                 print(f"Could not find tag {tag_builder_properties['tag_name']} in CSV file {key}.csv")
         else:
-            print(f"Could not find opcItemPath or dataType in tag {tag['name']}")
-            json.dump(tag, sys.stdout, indent=4)
-
-
+            print(f'Could not find opcItemPath or dataType in tag {tag['name']} so just leaving it as is')
+            
 
 
 def Generate_Address_CSV(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any]) -> Dict[str, pd.DataFrame]:
@@ -307,5 +304,6 @@ def Generate_Address_CSV(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[st
             csv_df[key] = pd.concat([csv_df[key], df], ignore_index=True)
         else:
             csv_df[key] = df
+
     return csv_df
 
