@@ -143,6 +143,7 @@ def Create_New_Tag(name_parts: List[str], tags: Dict[str, Any], current_tag, tag
         Set_Existing_Tag_Properties(current_tag, new_tag)
     return new_tag
 
+# this shit is broken 
 def Process_Tag_Name(device_name, tags, current_tag, tag_builder_properties) -> None:
     if '.' in tag_builder_properties['tag_name']:
         name_parts = [tag_builder_properties['tag_name'].split('.')[0]]
@@ -152,8 +153,7 @@ def Process_Tag_Name(device_name, tags, current_tag, tag_builder_properties) -> 
             else:
                 name_parts.append(part)
         
-        current_tags = tags
-        dummy_tags = tags
+        dummy_tags = copy.deepcopy(tags)
 
         for part in name_parts[:-1]:
             found = False
@@ -170,8 +170,7 @@ def Process_Tag_Name(device_name, tags, current_tag, tag_builder_properties) -> 
                     "tagType": "Folder",
                     "tags": []
                 }
-                dummy_tags.append(new_folder_tag)
-                dummy_tags = new_folder_tag['tags']
+                tags.append(new_folder_tag)
     else:
         name_parts = [tag_builder_properties['tag_name']]
         dummy_tags = tags
