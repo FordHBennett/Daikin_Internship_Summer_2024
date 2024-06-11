@@ -46,7 +46,7 @@
     python -m pip install -e .
     python -c "import mitsubishi_tag_generator"
     python -c "import base"
-    run-mitsubishi-tag-generator
+    run mitsubishi-tag-generator
     ```
 
     Windows(PowerShell):
@@ -57,7 +57,7 @@
     python.exe -m pip install -e .
     python.exe -c "import mitsubishi_tag_generator"
     python.exe -c "import base"
-    run-mitsubishi-tag-generator.exe
+    run mitsubishi-tag-generator.exe
     ```
 
 ## Testing

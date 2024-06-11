@@ -171,3 +171,16 @@ def Write_Address_CSV(address_csv: Dict[str, Any], dir: str) -> None:
     for key, df in address_csv.items():
         df.to_csv(os.path.join(out_dir, f'{key}.csv'), index=False)
 
+def Reset_Tag_Builder_Properties(tag_builder_properties: Dict[str, Any]):
+    for property in tag_builder_properties:
+        if isinstance(tag_builder_properties[property], dict):
+            Reset_Tag_Builder_Properties(tag_builder_properties[property])
+        elif isinstance(tag_builder_properties[property], list):
+            for item in tag_builder_properties[property]:
+                Reset_Tag_Builder_Properties(item)
+        elif property == 'is_tag_from_csv_flag':
+            tag_builder_properties[property] = False
+        else:
+            tag_builder_properties[property] = ''
+    
+
