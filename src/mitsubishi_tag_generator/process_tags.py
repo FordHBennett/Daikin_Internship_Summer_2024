@@ -4,7 +4,7 @@ from ast import Tuple
 import json
 import sys
 import pandas as pd
-from typing import Dict, Any, List, Union, Tuple
+from typing import Dict, Any, List, Union, Tuple, Final
 import re
 import copy
 from base.base_functions import Remove_Non_Alphanumeric_Characters, Reset_Tag_Builder_Properties
@@ -121,8 +121,6 @@ def Generate_Full_Path_From_Name_Parts(name_parts):
     
     return full_path.rstrip('/')
     
-    
-
 
 def Create_New_Tag(name_parts: List[str], tags: Dict[str, Any], current_tag, tag_builder_properties) -> Dict[str, Any]:
     if tag_builder_properties['array_size'] != '':
@@ -138,46 +136,43 @@ def Create_New_Tag(name_parts: List[str], tags: Dict[str, Any], current_tag, tag
     }
 
     if tag_builder_properties['is_tag_from_csv_flag']:
-        Set_New_Tag_Properties(tags, new_tag)
+        Set_New_Tag_Properties(copy.deepcopy(tags), new_tag)
     else:
-        Set_Existing_Tag_Properties(current_tag, new_tag)
+        Set_Existing_Tag_Properties(copy.deepcopy(current_tag), new_tag)
     return new_tag
 
 # this shit is broken 
 def Process_Tag_Name(device_name, tags, current_tag, tag_builder_properties) -> None:
     if '.' in tag_builder_properties['tag_name']:
-        name_parts = [tag_builder_properties['tag_name'].split('.')[0]]
-        for part in tag_builder_properties['tag_name'].split('.')[1:]:
-            if '.' in part:
-                name_parts.extend(part.split('.'))
-            else:
-                name_parts.append(part)
+        name_parts = [Remove_Non_Alphanumeric_Characters(part) for part in tag_builder_properties['tag_name'].split('.')]
+        dummy_tags = tags
         
-        dummy_tags = copy.deepcopy(tags)
-
         for part in name_parts[:-1]:
             found = False
             for tag in dummy_tags:
                 if tag['name'] == part:
-                    if 'tags' not in tag:
-                        tag['tags'] = []
                     dummy_tags = tag['tags']
                     found = True
                     break
             if not found:
                 new_folder_tag = {
-                    "name": Remove_Non_Alphanumeric_Characters(part),
+                    "name": part,
                     "tagType": "Folder",
                     "tags": []
                 }
-                tags.append(new_folder_tag)
+                dummy_tags.append(new_folder_tag)
+                dummy_tags = new_folder_tag['tags']
+
+        name_parts.insert(0, device_name)
+        new_tag = Create_New_Tag(name_parts, tags, current_tag, tag_builder_properties)
+        dummy_tags.append(new_tag)
+
+                
     else:
         name_parts = [tag_builder_properties['tag_name']]
-        dummy_tags = tags
-
-    name_parts.insert(0, device_name)
-    new_tag = Create_New_Tag(name_parts, tags, current_tag, tag_builder_properties)
-    dummy_tags.append(new_tag)
+        name_parts.insert(0, device_name)
+        new_tag = Create_New_Tag(name_parts, tags, current_tag, tag_builder_properties)
+        tags.append(new_tag)
 
 
 def Get_Tag_Name_And_Address(tags_list: List[Dict[str, Any]], collected_tags: List[Dict[str, str]]) -> List[Dict[str, str]]:
@@ -197,14 +192,22 @@ def Get_Tag_Name_And_Address(tags_list: List[Dict[str, Any]], collected_tags: Li
 
 def Set_Unnested_Tag_Properties(tag_builder_properties, tag):
 
-    tag.update({
-        'name': tag_builder_properties['tag_name'],
-        'opcItemPath': f"ns=1;s=[{tag_builder_properties['device_name']}]{tag_builder_properties['area']}<{tag_builder_properties['path_data_type']}{tag_builder_properties['array_size']}>{tag_builder_properties['offset']}",
-        'opcServer': 'Ignition OPC UA Server',
-        'dataType': tag_builder_properties['data_type'],
-        'tagGroup': 'default',
-        'enabled': True
-    })
+    tag['name'] = tag_builder_properties['tag_name']
+    tag['opcItemPath'] = f"ns=1;s=[{tag_builder_properties['device_name']}]{tag_builder_properties['area']}<{tag_builder_properties['path_data_type']}{tag_builder_properties['array_size']}>{tag_builder_properties['offset']}"
+    tag['opcServer'] = 'Ignition OPC UA Server'
+    tag['dataType'] = tag_builder_properties['data_type']
+    tag['tagGroup'] = 'default'
+    tag['enabled'] = True
+
+    
+    # .update({
+    #     'name': tag_builder_properties['tag_name'],
+    #     'opcItemPath': f"ns=1;s=[{tag_builder_properties['device_name']}]{tag_builder_properties['area']}<{tag_builder_properties['path_data_type']}{tag_builder_properties['array_size']}>{tag_builder_properties['offset']}",
+    #     'opcServer': 'Ignition OPC UA Server',
+    #     'dataType': tag_builder_properties['data_type'],
+    #     'tagGroup': 'default',
+    #     'enabled': True
+    # })
 
 def Populate_Tag_Builder_Properties(tag_builder_properties, device_name, row=None, is_tag_from_csv_flag=True, data_type=None) -> None:
     if is_tag_from_csv_flag:
@@ -236,18 +239,13 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
         "device_name": '',
         "is_tag_from_csv_flag": False
     }
-
     generated_ingition_json = copy.deepcopy(ignition_json)
     for key, df in csv_df.items():
         if key in ignition_json:
             existing_tag_names = set()
-            tags_to_remove = []
             for tag in ignition_json[key]['tags']:
-                Process_Tag(generated_ingition_json, tag_builder_properties, key, df, existing_tag_names, tags_to_remove, tag)
-                Reset_Tag_Builder_Properties(tag_builder_properties)       
-
-            for tag_to_remove in tags_to_remove:
-                generated_ingition_json[key]['tags'].remove(tag_to_remove)
+                Process_Tag(generated_ingition_json, tag_builder_properties, key, df, existing_tag_names, tag)
+                Reset_Tag_Builder_Properties(tag_builder_properties) 
 
             for _, row in df.iterrows():
                 tag_builder_properties['tag_name'] = row['Tag Name']
@@ -256,6 +254,7 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
                     Populate_Tag_Builder_Properties(tag_builder_properties, generated_ingition_json[key]['name'], row)
                     existing_tag_names.add(tag_builder_properties['tag_name'])
                     Convert_Tag_Builder_Properties_To_Mitsubishi_Format(tag_builder_properties)
+
                     Process_Tag_Name(tag_builder_properties['device_name'], generated_ingition_json[key]['tags'], {}, tag_builder_properties)
                 
                 Reset_Tag_Builder_Properties(tag_builder_properties)
@@ -265,10 +264,10 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
     return generated_ingition_json
 
 # Add way so that if there are folder tags it'll work
-def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, existing_tag_names, tags_to_remove, tag):
+def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, existing_tag_names, tag):
     if 'tags' in tag:
         for sub_tag in tag['tags']:
-            Process_Tag(generated_ingition_json, tag_builder_properties, key, df, existing_tag_names, tags_to_remove, sub_tag)
+            Process_Tag(generated_ingition_json, tag_builder_properties, key, df, existing_tag_names, sub_tag)
     else:
         if 'opcItemPath' in tag and 'dataType' in tag:
             tag_builder_properties['tag_name'] = Extract_Tag_Name(tag['opcItemPath'])
@@ -280,10 +279,16 @@ def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, existi
                 Convert_Tag_Builder_Properties_To_Mitsubishi_Format(tag_builder_properties)
 
                 if '.' in tag_builder_properties['tag_name']:
+                    tag_to_remove = copy.deepcopy(tag)
                     Process_Tag_Name(tag_builder_properties['device_name'], generated_ingition_json[key]['tags'], tag, tag_builder_properties)
-                    tags_to_remove.append(tag)
+
                 else:
+                    tag_to_remove = copy.deepcopy(tag)
                     Set_Unnested_Tag_Properties(tag_builder_properties, tag)
+                    generated_ingition_json[key]['tags'].append(tag)
+
+                generated_ingition_json[key]['tags'].remove(tag_to_remove)
+                    
             else: 
                 print(f"Could not find tag {tag_builder_properties['tag_name']} in CSV file {key}.csv")
         else:

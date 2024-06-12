@@ -3,7 +3,7 @@
 from base.base_functions import *
 from mitsubishi_tag_generator.process_tags import *
 import os
-from typing import List
+
 
 def main():
     input_dir: str = os.path.join('input_files', 'mitsubishi_devices')
@@ -20,6 +20,9 @@ def main():
 
     address_csv = Generate_Address_CSV(csv_df, ignition_json)
     Write_Address_CSV(address_csv, output_dir)
+
+    ignition_json = Read_Json_Files(json_files)
+    csv_df = Read_CSV_Files(csv_files)
 
 if __name__ == '__main__':
     main()
