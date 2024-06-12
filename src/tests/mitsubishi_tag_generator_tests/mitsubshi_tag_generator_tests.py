@@ -77,19 +77,20 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
         ignition_json = Read_Json_Files(json_files)
         csv_df = Read_CSV_Files(csv_files)
 
-        ignition_json = Modify_Tags_For_Direct_Driver_Communication(csv_df, ignition_json)
+        ignition_json, address_csv = Modify_Tags_For_Direct_Driver_Communication(csv_df, ignition_json)
         Write_Json_Files(ignition_json, output_dir)
-
-        address_csv = Generate_Address_CSV(csv_df, ignition_json)
         Write_Address_CSV(address_csv, output_dir)
 
         expected_output_json_files = Get_ALL_JSON_Paths(expected_output_dir)
         expected_ignition_json = Read_Json_Files(expected_output_json_files)
 
+        expected_output_csv_files = Get_ALL_CSV_Paths(expected_output_dir)
+        expected_address_csv = Read_CSV_Files(expected_output_csv_files)
+
         if self.assertEqual(ignition_json, expected_ignition_json) == None:
-            output_dir = os.path.dirname(output_dir)
             shutil.rmtree(output_dir)
 
+        # Find a way to assert dataframes
 
 
         

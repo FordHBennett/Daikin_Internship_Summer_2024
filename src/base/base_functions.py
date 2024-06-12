@@ -195,7 +195,8 @@ def Extract_Area_And_Offset(address: str) -> Tuple[str, str]:
     match = re.search(r'\d+', address)
     if match:
         if 'X' in address:
-            area, hex_address = address.split('X')[0], address.split('X')[1]
+            area = 'X'
+            hex_address = address.split('X')[1]
             # Convert hex to decimal
             offset = str(int(hex_address.lstrip('0') or '0', 16))
             return area, offset
