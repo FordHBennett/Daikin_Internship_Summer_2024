@@ -106,9 +106,34 @@ class Test_Base_Functions(unittest.TestCase):
         Reset_Tag_Builder_Properties(dict)
         self.assertEqual(dict, expected_dict)
 
+    def test_extract_tag_name(self):
+        tag_name = 'A_KanseiConveyor.MA_KanseiConveyor.PLC_PHS_Heartbeat'
+        expected_tag_name = 'PLC_PHS_Heartbeat'
+        self.assertEqual(Extract_Tag_Name(tag_name), expected_tag_name)
+
+    def test_extract_tag_name_with_no_tag_name(self):
+        tag_name = 'A_KanseiConveyor.MA_KanseiConveyor.'
+        expected_tag_name = ''
+        self.assertEqual(Extract_Tag_Name(tag_name), expected_tag_name)
+
+    def test_extract_tag_name_with_no_tag_name_and_no_period(self):
+        tag_name = 'A_KanseiConveyorMA_KanseiConveyor'
+        expected_tag_name = 'A_KanseiConveyorMA_KanseiConveyor'
+        self.assertEqual(Extract_Tag_Name(tag_name), expected_tag_name)
         
+    def test_extract_area_and_offset(self):
+        address = 'RTY000023456.000000987456789'
+        expected_area = 'RTY'
+        expected_offset = '23456.000000987456789'
+
+        self.assertEqual(Extract_Area_And_Offset(address), (expected_area, expected_offset))
     
-    
+    def test_extract_offset_and_array_size(self):
+        offset = '23456.000000987456789'
+        expected_offset = '23456'
+        expected_array_size = '987456789'
+
+        self.assertEqual(Extract_Offset_And_Array_Size(offset), (expected_offset, expected_array_size))
 
 if __name__ == '__main__':
     unittest.main()

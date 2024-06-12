@@ -3,7 +3,7 @@
 import os
 import json
 import pandas as pd
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Tuple
 import re
 
 def Get_Basename_Without_Extension(file_path: str) -> str:
@@ -183,4 +183,35 @@ def Reset_Tag_Builder_Properties(tag_builder_properties: Dict[str, Any]):
         else:
             tag_builder_properties[property] = ''
     
+def Find_Row_By_Tag_Name(df: pd.DataFrame, tag_name: str) -> pd.DataFrame:
+    return df[df['Tag Name'] == tag_name]
 
+def Extract_Tag_Name(opc_item_path: str) -> str:
+    if '.' not in opc_item_path:
+        return opc_item_path
+    return opc_item_path.split('.', 2)[-1]
+
+def Extract_Area_And_Offset(address: str) -> Tuple[str, str]:
+    match = re.search(r'\d+', address)
+    if match:
+        if 'X' in address:
+            area, hex_address = address.split('X')[0], address.split('X')[1]
+            # Convert hex to decimal
+            offset = str(int(hex_address.lstrip('0') or '0', 16))
+            return area, offset
+        else:
+            first_number_index = match.start()
+            area = address[:first_number_index]
+            offset = address[first_number_index:].lstrip('0') or '0'
+            return area, offset
+    else:
+        exit(f"Invalid address format: {address}")
+
+
+def Extract_Offset_And_Array_Size(offset: str) -> Tuple[str, str]:
+    if '.' in offset:
+        array_size = offset.split('.')[1]
+        array_size = array_size.lstrip('0')
+        offset = offset.split('.')[0]
+        return offset, array_size
+    return offset, ''

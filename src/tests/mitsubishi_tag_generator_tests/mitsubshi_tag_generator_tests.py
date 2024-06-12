@@ -1,29 +1,11 @@
 from math import e
+import shutil
 import unittest 
 from mitsubishi_tag_generator.process_tags import *
 from base.base_functions import *
 import os
 
 class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
-
-
-    def test_extract_tag_name(self):
-
-        tag_name = 'A_KanseiConveyor.MA_KanseiConveyor.PLC_PHS_Heartbeat'
-        expected_tag_name = 'PLC_PHS_Heartbeat'
-        self.assertEqual(Extract_Tag_Name(tag_name), expected_tag_name)
-
-    def test_extract_tag_name_with_no_tag_name(self):
-
-        tag_name = 'A_KanseiConveyor.MA_KanseiConveyor.'
-        expected_tag_name = ''
-        self.assertEqual(Extract_Tag_Name(tag_name), expected_tag_name)
-
-    def test_extract_tag_name_with_no_tag_name_and_no_period(self):
-            
-            tag_name = 'A_KanseiConveyorMA_KanseiConveyor'
-            expected_tag_name = 'A_KanseiConveyorMA_KanseiConveyor'
-            self.assertEqual(Extract_Tag_Name(tag_name), expected_tag_name)
 
     def test_convert_data_type_short_int2_word(self):
 
@@ -59,14 +41,6 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
         expected_data_type = ('Boolean', 'Bool')
         self.assertEqual(Convert_Data_Type(data_type), expected_data_type)
 
-    
-    def test_extract_area_and_offset(self):
-        address = 'RTY000023456.000000987456789'
-        expected_area = 'RTY'
-        expected_offset = '23456.000000987456789'
-
-        self.assertEqual(Extract_Area_And_Offset(address), (expected_area, expected_offset))
-
     def test_update_area_and_path_data_type_without_sh_in_area(self):
         area = 'RTY'
         data_type = 'Short'
@@ -91,13 +65,6 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
 
         self.assertEqual(Update_Area_And_Path_Data_Type(area, data_type), (expected_area, expected_data_type))
 
-    def test_extract_offset_and_array_size(self):
-        offset = '23456.000000987456789'
-        expected_offset = '23456'
-        expected_array_size = '987456789'
-
-        self.assertEqual(Extract_Offset_And_Array_Size(offset), (expected_offset, expected_array_size))
-
 
     def test_modify_tags_for_direct_driver_communication(self):
         input_dir: str = os.path.join('src','tests','test_files','input_files', 'mitsubishi_devices')
@@ -118,7 +85,10 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
 
         expected_output_json_files = Get_ALL_JSON_Paths(expected_output_dir)
         expected_ignition_json = Read_Json_Files(expected_output_json_files)
-        self.assertEqual(ignition_json, expected_ignition_json)
+
+        if self.assertEqual(ignition_json, expected_ignition_json) == None:
+            output_dir = os.path.dirname(output_dir)
+            shutil.rmtree(output_dir)
 
 
 
