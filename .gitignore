@@ -16,3 +16,4 @@ Build/*
 src/mitsubishi_tag_generator.egg-info/*
 *.txt
 *.log
+*.txt

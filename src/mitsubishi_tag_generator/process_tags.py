@@ -76,9 +76,10 @@ def Create_New_Tag(name_parts: List[str], tags: Dict[str, Any], current_tag, tag
 
     new_tag = {
         "name": tag_builder_properties['tag_name'],
-        "opcItemPath": f"ns=1;s=[{tag_builder_properties['tag_name_path']}]{tag_builder_properties['area']}<{tag_builder_properties['path_data_type']}{tag_builder_properties['array_size']}>{tag_builder_properties['offset']}",
+        "opcItemPath": f"ns=1;s=[{name_parts[0]}]{tag_builder_properties['area']}<{tag_builder_properties['path_data_type']}{tag_builder_properties['array_size']}>{tag_builder_properties['offset']}",
         "opcServer": 'Ignition OPC UA Server',
         "dataType": tag_builder_properties['data_type'],
+        'valueSource': 'opc'
     }
 
     if tag_builder_properties['is_tag_from_csv_flag']:
@@ -94,7 +95,8 @@ def Set_Unnested_Tag_Properties(tag_builder_properties, tag):
         'opcServer': 'Ignition OPC UA Server',
         'dataType': tag_builder_properties['data_type'],
         'tagGroup': 'default',
-        'enabled': True
+        'enabled': True,
+        'valueSource': 'opc'
     })
 
 def Build_Tag_Hierarchy(tags, name_parts):
