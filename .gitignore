@@ -1,6 +1,3 @@
-
-*.json
-*.csv
 input_files/*
 output_files/*
 .DS_Store
