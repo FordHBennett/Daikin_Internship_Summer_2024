@@ -13,8 +13,8 @@ TestResult/TestResult_NGCode,R<String4>201
 TestResult/TestResult_AmbientMoisture,R<Int32>205
 TestResult/TestResult_AmbientTemp,R<Int32>204
 UnitInfo/UnitInfo_PalletNo,R<String8>83
-MA_RE1/PLC_PHS_Heartbeat,R<Int16>0
-MA_RE1/PostResult_Message,R<String30>42
+PLC_PHS_Heartbeat,R<Int16>0
+PostResult_Message,R<String30>42
 6PointsManagement/6PM_MachineFinishTime,R<Int32[6]>119
 6PointsManagement/6PM_MachineStartTime,R<Int32[6]>101
 6PointsManagement/6PM_OpeartionFinishTime,R<Int32[6]>113

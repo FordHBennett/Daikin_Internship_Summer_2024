@@ -1,5 +1,5 @@
 tag_name,address
-MA_KanseiConveyor/Equipment_Status_Bit,R<Int16>50
+Equipment_Status_Bit,R<Int16>50
 AlarmCall/ConveyorDError1,R<Int16>52
 AlarmCall/ConveyorDError2,R<Int16>53
 AlarmCall/ConveyorDError3,R<Int16>54

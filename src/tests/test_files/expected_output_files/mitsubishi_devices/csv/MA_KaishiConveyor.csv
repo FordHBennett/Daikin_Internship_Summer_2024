@@ -1,5 +1,5 @@
 tag_name,address
-MA_KaishiConveyor/Equipment_Status_Bit,R<Int16>50
+Equipment_Status_Bit,R<Int16>50
 AlarmCall/1PS1_Voltage_Lowering_Error,R<Int16[15]>58
 AlarmCall/1PS1_Voltage_Lowering_ErrorB,R<Bool[7]>71
 AlarmCall/1PS1_Voltage_Lowering_ErrorC,R<Bool[13]>80

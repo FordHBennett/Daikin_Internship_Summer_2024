@@ -388,247 +388,247 @@
             "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32[6]>119",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "String",
+            "valueSource": "opc",
             "tagType": "AtomicTag",
             "tagGroup": "default",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "6PM_MachineStartTime",
             "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32[6]>101",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "String",
+            "valueSource": "opc",
             "tagType": "AtomicTag",
             "tagGroup": "default",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "6PM_OpeartionFinishTime",
             "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32[6]>113",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "String",
+            "valueSource": "opc",
             "tagType": "AtomicTag",
             "tagGroup": "default",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "6PM_OpeartionStartTime",
             "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32[6]>107",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "String",
+            "valueSource": "opc",
             "tagType": "AtomicTag",
             "tagGroup": "default",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "6PM_WorkPieceArrivalTime",
             "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32[6]>95",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "String",
+            "valueSource": "opc",
             "tagType": "AtomicTag",
             "tagGroup": "default",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "6PM_WorkPieceReleaseTime",
             "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32[6]>125",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "String",
+            "valueSource": "opc",
             "tagType": "AtomicTag",
             "tagGroup": "default",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "Equipment_Status_Bit",
             "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>500",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "Int2",
+            "valueSource": "opc",
             "tagType": "AtomicTag",
             "tagGroup": "default",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "Monitoring_CurrentCollector_BWDProcTime",
             "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32>609",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "Int4",
+            "valueSource": "opc",
             "tagType": "AtomicTag",
             "tagGroup": "default",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "Monitoring_CurrentCollector_FWDProcTime",
             "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32>608",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "Int4",
+            "valueSource": "opc",
             "tagType": "AtomicTag",
             "tagGroup": "default",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "Monitoring_CurrentCollector_LiftDownProcTime",
             "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32>611",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "Int4",
+            "valueSource": "opc",
             "tagType": "AtomicTag",
             "tagGroup": "default",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "Monitoring_CurrentCollector_LiftUpProcTime",
             "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32>610",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "Int4",
+            "valueSource": "opc",
             "tagType": "AtomicTag",
             "tagGroup": "default",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "PHS_PLC_Heartbeat",
             "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>1",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "Int2",
+            "valueSource": "opc",
             "tagType": "AtomicTag",
             "tagGroup": "default",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "PLC_PHS_Heartbeat",
             "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>0",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "Int2",
+            "valueSource": "opc",
             "tagType": "AtomicTag",
             "tagGroup": "default",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "PostResult_Message",
             "opcItemPath": "ns=1;s=[MA_HiPot]R<String30>42",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "String",
+            "valueSource": "opc",
             "tagType": "AtomicTag",
             "tagGroup": "default",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "temp",
             "opcItemPath": "ns=1;s=[MA_HiPot]D<String12>30",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "String",
+            "valueSource": "opc",
             "tagType": "AtomicTag",
             "tagGroup": "default",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "UnitInfo_CallSign",
             "opcItemPath": "ns=1;s=[MA_HiPot]R<String4>57",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "String",
+            "valueSource": "opc",
             "tagType": "AtomicTag",
             "tagGroup": "default",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "UnitInfo_EQPTID",
             "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32>90",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "Int4",
+            "valueSource": "opc",
             "tagType": "AtomicTag",
             "tagGroup": "default",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "UnitInfo_OperatorCode",
             "opcItemPath": "ns=1;s=[MA_HiPot]R<String8>91",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "String",
+            "valueSource": "opc",
             "tagType": "AtomicTag",
             "tagGroup": "default",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "UnitInfo_WO",
             "opcItemPath": "ns=1;s=[MA_HiPot]R<String16>70",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "String",
+            "valueSource": "opc",
             "tagType": "AtomicTag",
             "tagGroup": "default",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "AlarmCall",
@@ -636,120 +636,120 @@
             "tags": [
                 {
                     "name": "ExportSideLightCurtain",
-                    "opcItemPath": "ns=1;s=[MA_HiPot/AlarmCall]R<Int16[13]>501",
+                    "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16[13]>501",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagType": "AtomicTag",
                     "tagGroup": "default",
                     "historyProvider": "IGN_DB_FIT",
                     "historicalDeadband": 0.5,
                     "historicalDeadbandStyle": "Discrete",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "HipotError1",
-                    "opcItemPath": "ns=1;s=[MA_HiPot/AlarmCall]R<Int16>502",
+                    "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>502",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagType": "AtomicTag",
                     "tagGroup": "default",
                     "historyProvider": "IGN_DB_FIT",
                     "historicalDeadband": 0.5,
                     "historicalDeadbandStyle": "Discrete",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "HipotError2",
-                    "opcItemPath": "ns=1;s=[MA_HiPot/AlarmCall]R<Int16>503",
+                    "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>503",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagType": "AtomicTag",
                     "tagGroup": "default",
                     "historyProvider": "IGN_DB_FIT",
                     "historicalDeadband": 0.5,
                     "historicalDeadbandStyle": "Discrete",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "HipotEstopBox",
-                    "opcItemPath": "ns=1;s=[MA_HiPot/AlarmCall]R<Int16[1]>501",
+                    "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16[1]>501",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagType": "AtomicTag",
                     "tagGroup": "default",
                     "historyProvider": "IGN_DB_FIT",
                     "historicalDeadband": 0.5,
                     "historicalDeadbandStyle": "Discrete",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "HipotEstopOp",
-                    "opcItemPath": "ns=1;s=[MA_HiPot/AlarmCall]R<Int16>501",
+                    "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>501",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagType": "AtomicTag",
                     "tagGroup": "default",
                     "historyProvider": "IGN_DB_FIT",
                     "historicalDeadband": 0.5,
                     "historicalDeadbandStyle": "Discrete",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ImportSideLightCurtain",
-                    "opcItemPath": "ns=1;s=[MA_HiPot/AlarmCall]R<Int16[12]>501",
+                    "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16[12]>501",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagType": "AtomicTag",
                     "tagGroup": "default",
                     "historyProvider": "IGN_DB_FIT",
                     "historicalDeadband": 0.5,
                     "historicalDeadbandStyle": "Discrete",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "LeftSideSafetyDoorOpen",
-                    "opcItemPath": "ns=1;s=[MA_HiPot/AlarmCall]R<Int16[9]>501",
+                    "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16[9]>501",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagType": "AtomicTag",
                     "tagGroup": "default",
                     "historyProvider": "IGN_DB_FIT",
                     "historicalDeadband": 0.5,
                     "historicalDeadbandStyle": "Discrete",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "RightSideSafetyDoorOpen",
-                    "opcItemPath": "ns=1;s=[MA_HiPot/AlarmCall]R<Int16[8]>501",
+                    "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16[8]>501",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagType": "AtomicTag",
                     "tagGroup": "default",
                     "historyProvider": "IGN_DB_FIT",
                     "historicalDeadband": 0.5,
                     "historicalDeadbandStyle": "Discrete",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitFailed_NG",
-                    "opcItemPath": "ns=1;s=[MA_HiPot/AlarmCall]M<Bool>7070",
+                    "opcItemPath": "ns=1;s=[MA_HiPot]M<Bool>7070",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Boolean",
+                    "valueSource": "opc",
                     "tagType": "AtomicTag",
                     "tagGroup": "default",
                     "historyProvider": "IGN_DB_FIT",
                     "historicalDeadband": 0.5,
                     "historicalDeadbandStyle": "Discrete",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 }
             ]
         }

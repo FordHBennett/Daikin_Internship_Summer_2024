@@ -57,10 +57,10 @@
             "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>50",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "Int2",
+            "valueSource": "opc",
             "tagGroup": "default",
             "tagType": "AtomicTag",
-            "enabled": false,
-            "valueSource": "opc"
+            "enabled": false
         },
         {
             "name": "AlarmCall",
@@ -68,443 +68,443 @@
             "tags": [
                 {
                     "name": "ConveyorDError1",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>52",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>52",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorDError2",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>53",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>53",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorDError3",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>54",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>54",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorDError4",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>55",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>55",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorDError5",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>56",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>56",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorDError6",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>57",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>57",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorDError7",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>58",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>58",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorDError8",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>59",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>59",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorDEstop",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>51",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>51",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorEError1",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>62",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>62",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorEError10",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>71",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>71",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorEError2",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>63",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>63",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorEError3",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>64",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>64",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorEError4",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>65",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>65",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorEError5",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>66",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>66",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorEError6",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>67",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>67",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorEError7",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>68",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>68",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorEError8",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>69",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>69",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorEError9",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>70",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>70",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorEEstop",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>61",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>61",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorFError1",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>73",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>73",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorFError2",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>74",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>74",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorFError3",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>75",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>75",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorFError4",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>76",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>76",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorFError5",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>77",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>77",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ConveyorFEstop",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>72",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>72",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "Kaishi_Full_Unit",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16[2]>85",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16[2]>85",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "KanseiCall1",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>81",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>81",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "KanseiCall2",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16[1]>81",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16[1]>81",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "KanseiCall3",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16[2]>81",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16[2]>81",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "KanseiCall4",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16[3]>81",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16[3]>81",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "KanseiCall5",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16[4]>81",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16[4]>81",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "KanseiCall6",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16[5]>81",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16[5]>81",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "KanseiCall7",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16[6]>81",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16[6]>81",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "KanseiCall8",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16[7]>81",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16[7]>81",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "KensoFullUnit",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16[7]>85",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16[7]>85",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "KitBoxMatching_NG",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16[6]>85",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16[6]>85",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "LineIn2Error",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16[3]>85",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16[3]>85",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "LineOut2Backup",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16[4]>85",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16[4]>85",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "LineOut3Backup",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16[5]>85",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16[5]>85",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "NG_Unit_Kaishi_Lineout",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16[9]>85",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16[9]>85",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "Waiting_MiniPallet_AGV",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16[1]>85",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16[1]>85",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "Waiting_Pallet",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16>85",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>85",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "Waiting_Parts_Kitbox_Return",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/AlarmCall]R<Int16[8]>85",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16[8]>85",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 }
             ]
         },
@@ -514,243 +514,243 @@
             "tags": [
                 {
                     "name": "6PM_MachineFinishTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<Int16>517",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>517",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_MachineStartTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<Int16>499",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>499",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_OpeartionFinishTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<Int16>511",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>511",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_OpeartionStartTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<Int16>505",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>505",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_WorkPieceArrivalTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<Int16>493",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>493",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_WorkPieceReleaseTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<Int16>523",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>523",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "message",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<String30>406",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String30>406",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "MPLC_WRITE_OK",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<Int16>402",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>402",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "PHS_OK",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<Int16>404",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>404",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "RequestToPHS",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<Int16>401",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>401",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "returnCode",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<Int16>405",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>405",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ScannedData",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<String30>529",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String30>529",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "TestResult_CycleTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<Int16>562",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>562",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "TestResult_NGCode",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<String4>560",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String4>560",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "TestResult_ProcessingResult",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<String2>559",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String2>559",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_CallSign",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<String4>455",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String4>455",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_EQPTID",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<Int16>488",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>488",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_LineCode",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<String6>485",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String6>485",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_ModelName",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<String10>457",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String10>457",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_OperatorCode",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<String8>489",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String8>489",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_PalletNo",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<String8>481",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String8>481",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_Revision",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<String2>467",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String2>467",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_SerialNo",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<String10>476",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String10>476",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_WO",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV07_Judge3]R<String8>468",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String8>468",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 }
             ]
         },
@@ -760,233 +760,233 @@
             "tags": [
                 {
                     "name": "6PM_MachineFinishTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<Int16>1317",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1317",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_MachineStartTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<Int16>1299",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1299",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_OpeartionFinishTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<Int16>1311",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1311",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_OpeartionStartTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<Int16>1305",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1305",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_WorkPieceArrivalTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<Int16>1293",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1293",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_WorkPieceReleaseTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<Int16>1323",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1323",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "message",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<String30>1206",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String30>1206",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "PHS_ACK",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<Int16>1205",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1205",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "PHS_OK",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<Int16>1204",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1204",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "RequestToPHS",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<Int16>1201",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1201",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ScannedData",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<String30>1329",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String30>1329",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "TestResult_CycleTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<Int16>1362",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1362",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "TestResult_NGCode",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<String4>1360",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String4>1360",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "TestResult_ProcessingResult",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<String2>1359",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String2>1359",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_CallSign",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<String4>1255",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String4>1255",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_EQPTID",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<Int16>1288",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1288",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_LineCode",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<String6>1285",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String6>1285",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_ModelName",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<String10>1257",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String10>1257",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_OperatorCode",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<String8>1289",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String8>1289",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_PalletNo",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<String8>1281",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String8>1281",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_Revision",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<String2>1267",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String2>1267",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_SerialNo",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<String10>1276",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String10>1276",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_WO",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV08_LineIn]R<String8>1268",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String8>1268",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 }
             ]
         },
@@ -996,243 +996,243 @@
             "tags": [
                 {
                     "name": "6PM_MachineFinishTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<Int16>1617",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1617",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_MachineStartTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<Int16>1599",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1599",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_OpeartionFinishTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<Int16>1611",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1611",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_OpeartionStartTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<Int16>1605",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1605",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_WorkPieceArrivalTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<Int16>1593",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1593",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_WorkPieceReleaseTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<Int16>1623",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1623",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "message",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<String30>1506",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String30>1506",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "MPLC_WRITE_OK",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<Int16>1502",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1502",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "PHS_OK",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<Int16>1504",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1504",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "RequestToPHS",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<Int16>1501",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1501",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "returnCode",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<Int16>1505",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1505",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ScannedData",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<String30>1629",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String30>1629",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "TestResult_CycleTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<Int16>1662",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1662",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "TestResult_NGCode",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<String4>1660",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String4>1660",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "TestResult_ProcessingResult",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<String2>1659",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String2>1659",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_CallSign",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<String4>1555",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String4>1555",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_EQPTID",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<Int16>1588",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1588",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_LineCode",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<String6>1585",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String6>1585",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_ModelName",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<String10>1557",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String10>1557",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_OperatorCode",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<String8>1589",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String8>1589",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_PalletNo",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<String8>1581",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String8>1581",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_Revision",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<String2>1567",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String2>1567",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_SerialNo",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<String10>1576",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String10>1576",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_WO",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV09_Judge4]R<String8>1568",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String8>1568",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 }
             ]
         },
@@ -1242,73 +1242,73 @@
             "tags": [
                 {
                     "name": "PHS_ACK",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV10_LineOut2]R<Int16>1805",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1805",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "PHS_OK",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV10_LineOut2]R<Int16>1804",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1804",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "RequestToPHS",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV10_LineOut2]R<Int16>1801",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1801",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_ModelNo",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV10_LineOut2]R<String10>1857",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String10>1857",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_Revision",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV10_LineOut2]R<String2>1867",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String2>1867",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_SerialNo",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV10_LineOut2]R<String10>1876",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String10>1876",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_WIP",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV10_LineOut2]R<Int16>6002",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>6002",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 }
             ]
         },
@@ -1318,233 +1318,233 @@
             "tags": [
                 {
                     "name": "6PM_MachineFinishTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<Int16>3117",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3117",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_MachineStartTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<Int16>3099",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3099",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_OpeartionFinishTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<Int16>3111",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3111",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_OpeartionStartTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<Int16>3105",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3105",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_WorkPieceArrivalTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<Int16>3093",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3093",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_WorkPieceReleaseTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<Int16>3123",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3123",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "PostResultmessage",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<String30>3040",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String30>3040",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "PostResultPHS_OK",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<Int16>3038",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3038",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "PostResultRequestToPHS",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<Int16>3003",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3003",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "PostResultreturnCode",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<Int16>3039",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3039",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ScannedData",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<String30>3129",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String30>3129",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "TestResult_CycleTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<Int16>3162",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3162",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "TestResult_NGCode",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<String4>3160",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String4>3160",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "TestResult_ProcessingResult",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<String2>3159",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String2>3159",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_CallSign",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<String2>3055",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String2>3055",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_EQPTID",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<Int16>3088",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3088",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_LineCode",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<String6>3085",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String6>3085",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_ModelName",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<String10>3057",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String10>3057",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_OperatorCode",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<String8>3089",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String8>3089",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_PalletNo",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<String8>3081",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String8>3081",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_Revision",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<String2>3067",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String2>3067",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_SerialNo",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<String10>3076",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String10>3076",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_WO",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV14_FinalInspection]R<String8>3068",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String8>3068",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 }
             ]
         },
@@ -1554,263 +1554,263 @@
             "tags": [
                 {
                     "name": "6PM_MachineFinishTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<Int16>3417",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3417",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_MachineStartTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<Int16>3399",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3399",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_OpeartionFinishTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<Int16>3411",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3411",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_OpeartionStartTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<Int16>3405",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3405",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_WorkPieceArrivalTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<Int16>3393",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3393",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "6PM_WorkPieceReleaseTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<Int16>3423",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3423",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "message",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<String30>3306",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String30>3306",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "MPLC_WRITE_OK",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<Int16>3302",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3302",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "PHS_OK",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<Int16>3304",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3304",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "RequestToPHS",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<Int16>3301",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3301",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "returnCode",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<Int16>3305",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3305",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "RFID_Tag_Data_01",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<String128>3900",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String128>3900",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "RFID_Tag_Data_02",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<String128>3964",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String128>3964",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "ScannedData",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<String30>3429",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String30>3429",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "TestResult_CycleTime",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<Int16>3462",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3462",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "TestResult_NGCode",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<String4>3460",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String4>3460",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "TestResult_ProcessingResult",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<String2>3459",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String2>3459",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_CallSign",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<String4>3355",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String4>3355",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_EQPTID",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<Int16>3388",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3388",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_LineCode",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<String6>3385",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String6>3385",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_ModelName",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<String10>3357",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String10>3357",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_OperatorCode",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<String8>3389",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String8>3389",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_PalletNo",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<String8>3381",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String8>3381",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_Revision",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<String2>3367",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String2>3367",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_SerialNo",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<String10>3376",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String10>3376",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_WO",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV15_Judge5]R<String8>3368",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String8>3368",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 }
             ]
         },
@@ -1820,93 +1820,93 @@
             "tags": [
                 {
                     "name": "PHS_ACK",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV16_LineOut3]R<Int16>3605",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3605",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "PHS_OK",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV16_LineOut3]R<Int16>3604",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3604",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "RequestToPHS",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV16_LineOut3]R<Int16>3601",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>3601",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "RFID_Tag_Data_01",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV16_LineOut3]R<String128>6000",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String128>6000",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "RFID_Tag_Data_02",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV16_LineOut3]R<String128>6064",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String128>6064",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_ModelNo",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV16_LineOut3]R<String10>3657",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String10>3657",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_Revision",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV16_LineOut3]R<String2>3667",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String2>3667",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_SerialNo",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV16_LineOut3]R<String10>3676",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<String10>3676",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "UnitInfo_WIP",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/CV16_LineOut3]R<Int16>6003",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>6003",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 }
             ]
         },
@@ -1916,93 +1916,93 @@
             "tags": [
                 {
                     "name": "CVD_Running",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/Equipment_Status]R<Int16[13]>50",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16[13]>50",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "CVE_Running",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/Equipment_Status]R<Int16[14]>50",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16[14]>50",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "CVF_Running",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/Equipment_Status]R<Int16[15]>50",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16[15]>50",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "String",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "F1_CycleTime_Minutes",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/Equipment_Status]D<Int16>15102",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]D<Int16>15102",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "F1_CycleTime_Seconds",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/Equipment_Status]D<Int16>15101",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]D<Int16>15101",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "F2_CycleTime_Minutes",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/Equipment_Status]D<Int16>15104",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]D<Int16>15104",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "F2_CycleTime_Seconds",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/Equipment_Status]D<Int16>15103",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]D<Int16>15103",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "F3_CycleTime_Minutes",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/Equipment_Status]D<Int16>15106",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]D<Int16>15106",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 },
                 {
                     "name": "F3_CycleTime_Seconds",
-                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor/Equipment_Status]D<Int16>15105",
+                    "opcItemPath": "ns=1;s=[MA_KanseiConveyor]D<Int16>15105",
                     "opcServer": "Ignition OPC UA Server",
                     "dataType": "Int2",
+                    "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "enabled": false,
-                    "valueSource": "opc"
+                    "enabled": false
                 }
             ]
         }

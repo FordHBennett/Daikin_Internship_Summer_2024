@@ -30,8 +30,8 @@ TestResult/TestResult_HighPresTestChargingPres,R<Int32>214
 TestResult/TestResult_BalancedVacuumPres,R<Int32>208
 TestResult/TestResult_ExhaustProcCompPres,R<Int32>217
 TestResult/TestResult_PresDir,R<Int32>220
-MA_PD1/PLC_PHS_Heartbeat,R<Int16>0
-MA_PD1/PostResult_Message,R<String30>42
+PLC_PHS_Heartbeat,R<Int16>0
+PostResult_Message,R<String30>42
 6PointsManagement/6PM_MachineFinishTime,R<Int16>119
 6PointsManagement/6PM_MachineStartTime,R<Int16>101
 6PointsManagement/6PM_OpeartionFinishTime,R<Int16>113

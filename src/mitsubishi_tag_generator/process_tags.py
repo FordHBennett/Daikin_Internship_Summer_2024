@@ -199,10 +199,15 @@ def Create_Tag_Builder_Properties():
 
 
 def Update_Device_CSV(device_csv, key, tag_builder_properties):
+    tag_name = ''
     if tag_builder_properties['tag_name_path']:
-        tag_name_path_part = tag_builder_properties['tag_name_path'].split('/', 1)[-1]
+        if '/' not in tag_builder_properties['tag_name_path']:
+            tag_name = tag_builder_properties['tag_name']
+        else:
+            tag_name = f'{tag_builder_properties['tag_name_path'][tag_builder_properties['tag_name_path'].find('/') + 1:]}/{tag_builder_properties['tag_name']}'
+            
         dummy_list = [{
-            'tag_name': f"{tag_name_path_part}/{tag_builder_properties['tag_name']}",
+            'tag_name': f"{tag_name}",
             'address': f"{tag_builder_properties['area']}<{tag_builder_properties['path_data_type']}{tag_builder_properties['array_size']}>{tag_builder_properties['offset']}"
         }]
         device_csv[key] = pd.concat([device_csv[key], pd.DataFrame(dummy_list)], ignore_index=True)
@@ -226,12 +231,12 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
 
             for tag in ignition_json[key]['tags']:
                 Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, existing_tag_names)
-
                 Update_Device_CSV(device_csv, key, tag_builder_properties)
                 Reset_Tag_Builder_Properties(tag_builder_properties) 
 
             for _, row in df.iterrows():
                 Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, device_csv)
+                
         else:
             log_message(f"Could not find CSV file {key}.csv in ignition JSON", 'error')
 
