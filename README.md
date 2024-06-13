@@ -12,8 +12,7 @@
     cd Daikin_Internship_Summer_2024
     ```
 
-2. Set up:
-    Input folder structure:
+2. Input folder structure:
     ```
     input/
         plc_brand/
@@ -21,7 +20,7 @@
             json/
     ```
 
-    Place your Ignition tags into the corresponding `json` folder.
+    Place your Ignition tags into the corresponding `json` folder.\
     Place your CSV file into the corresponding `csv` folder.
 
 3. Install the Package:
@@ -60,9 +59,8 @@
             csv/
             json/
     ```
-    Your new Ignition tags will be in the corresponding `json` folder.
-    Your new device addressing CSV will be in the corresponding `csv` folder.
-
+    Your new Ignition tags will be in the corresponding `json` folder.\
+    Your new device addressing CSV will be in the corresponding `csv` folder.\
     View the `tag_generation.log` file to see the changes made to the names of the tags.
 
 ## Development
