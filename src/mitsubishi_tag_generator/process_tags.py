@@ -185,11 +185,11 @@ def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, e
                     
 
                 else:
-                    log_message(f"Could not find tag {tag_builder_properties['tag_name']} in CSV file {key}.csv so just leaving it as is")
+                    log_message(f"Could not find tag {tag_builder_properties['tag_name']} in CSV file {key}.csv so just leaving it as is", 'warning')
             else:
                 Handle_Duplicate_Tag(key, tag_builder_properties, generated_ingition_json, tag)
         else:
-            log_message(f'Could not find opcItemPath or dataType in tag {tag['name']} so just leaving it as is')
+            log_message(f'Could not find opcItemPath or dataType in tag {tag['name']} so just leaving it as is', 'warning')
 
 
 def Create_Tag_Builder_Properties():

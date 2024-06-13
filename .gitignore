@@ -1,4 +1,5 @@
-input_files/*
+input_files/mitsubishi/csv/*
+input_files/mitsubishi/json/*
 output_files/*
 .DS_Store
 # Compiled python modules.

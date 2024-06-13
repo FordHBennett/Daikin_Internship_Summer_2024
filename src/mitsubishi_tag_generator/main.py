@@ -6,8 +6,8 @@ import os
 
 
 def main():
-    input_dir: str = os.path.join('input_files', 'mitsubishi_devices')
-    output_dir: str = os.path.join('output_files', 'mitsubishi_devices')
+    input_dir: str = os.path.join('input_files', 'mitsubishi')
+    output_dir: str = os.path.join('output_files', 'mitsubishi')
    
     json_files = Get_ALL_JSON_Paths(input_dir)
     csv_files = Get_ALL_CSV_Paths(input_dir)

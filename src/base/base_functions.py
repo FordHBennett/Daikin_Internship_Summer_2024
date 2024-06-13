@@ -6,6 +6,7 @@ import pandas as pd
 from typing import Dict, Any, List, Tuple
 import re
 import logging
+import copy
 
 logging.basicConfig(
     filename='tag_generation.log',  # Log file path
@@ -22,7 +23,7 @@ def log_message(message: str, level: str = 'info'):
         logging.warning(message)
     elif level == 'error':
         logging.error(message)
-    elif level == 'debug':
+    elif level == 'Name Change':
         logging.debug(message)
     else:
         logging.info(message)  
@@ -82,7 +83,7 @@ def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
 
 def Get_ALL_JSON_Paths(dir: str) -> List[str]:
 
-    dir = os.path.join(dir, 'ignition_json')
+    dir = os.path.join(dir, 'json')
     json_paths: List[str] = []
     for root, _, files in os.walk(dir):
         for file in files:
@@ -108,12 +109,14 @@ def Read_Json_Files(json_files: List[str]) -> Dict[str, Dict[str, Any]]:
             json_structure = json.load(f)
             keys = Get_All_Keys(json_structure)
             templete_json.update(keys)
+            new_file_name = ''
             for key in json_structure["tags"]:
                 if 'opcItemPath' in key:
-                    json_file =  key["opcItemPath"][key["opcItemPath"].rfind("=") + 1:key["opcItemPath"].find(".")]
+                    new_file_name =  copy.deepcopy(key["opcItemPath"][key["opcItemPath"].rfind("=") + 1:key["opcItemPath"].find(".")])
+                    log_message(f"{os.path.basename(json_file)[:os.path.basename(json_file).find('.')]} Changed to {new_file_name}", 'info')
                     break
-            ignition_json[json_file] = json_structure
-            ignition_json[json_file]["name"] = json_file
+            ignition_json[new_file_name] = json_structure
+            ignition_json[new_file_name]["name"] = new_file_name
     return ignition_json
 
 def Read_CSV_Files(csv_files: List[str]) -> Dict[str, pd.DataFrame]:
@@ -124,14 +127,14 @@ def Read_CSV_Files(csv_files: List[str]) -> Dict[str, pd.DataFrame]:
                 csv_df[Get_Basename_Without_Extension(csv_file)] = df
         return csv_df
 
-def Write_Json_Files(ignition_json: Dict[str, Any], dir: str) -> None:
+def Write_Json_Files(ingnition_json: Dict[str, Any], dir: str) -> None:
 
-    out_dir = f'{dir}/ignition_json'
+    out_dir = f'{dir}/json'
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
-    for key in ignition_json:
-        with open(os.path.join(out_dir, f"{ignition_json[key]['name']}.json"), 'w') as f:
-            json.dump(ignition_json[key], f, indent=4)
+    for key in ingnition_json:
+        with open(os.path.join(out_dir, f"{ingnition_json[key]['name']}.json"), 'w') as f:
+            json.dump(ingnition_json[key], f, indent=4)
 
 def Write_Address_CSV(address_csv: Dict[str, Any], dir: str) -> None:
 
