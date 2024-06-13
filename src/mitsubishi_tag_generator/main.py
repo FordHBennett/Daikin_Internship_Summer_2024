@@ -18,7 +18,6 @@ def main():
     ignition_json, address_csv = Modify_Tags_For_Direct_Driver_Communication(csv_df, ignition_json)
     Write_Json_Files(ignition_json, output_dir)
 
-    # address_csv = Generate_Address_CSV(csv_df, ignition_json)
     Write_Address_CSV(address_csv, output_dir)
 
     ignition_json = Read_Json_Files(json_files)

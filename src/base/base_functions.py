@@ -5,6 +5,28 @@ import json
 import pandas as pd
 from typing import Dict, Any, List, Tuple
 import re
+import logging
+
+logging.basicConfig(
+    filename='tag_generation.log',  # Log file path
+    level=logging.INFO,          # Logging level
+    format='%(asctime)s - %(levelname)s - %(message)s',  # Log format
+    datefmt='%Y-%m-%d %H:%M:%S',  # Date format
+    style='%'  # String formatting style
+)
+
+def log_message(message: str, level: str = 'info'):
+    if level == 'info':
+        logging.info(message)
+    elif level == 'warning':
+        logging.warning(message)
+    elif level == 'error':
+        logging.error(message)
+    elif level == 'debug':
+        logging.debug(message)
+    else:
+        logging.info(message)  
+
 
 def Get_Basename_Without_Extension(file_path: str) -> str:
     """
@@ -20,7 +42,7 @@ def Get_Basename_Without_Extension(file_path: str) -> str:
     name, _ = os.path.splitext(base_name)
     return name
 
-def Remove_Non_Alphanumeric_Characters(tag_name: str) -> str:
+def Remove_Invalid_Tag_Name_Characters(tag_name: str) -> str:
     return re.sub(r'[^a-zA-Z0-9-_ .]', '', tag_name)
 
 def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
@@ -58,57 +80,27 @@ def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
 
     return Recursive_Extract_Keys(json_structure)
 
-
-
 def Get_ALL_JSON_Paths(dir: str) -> List[str]:
-    """
-    Get all JSON file paths within a directory and its subdirectories.
 
-    Args:
-        dir (str): The directory path to search for JSON files.
-
-    Returns:
-        List[str]: A list of JSON file paths found within the directory and its subdirectories.
-    """
     dir = os.path.join(dir, 'ignition_json')
     json_paths: List[str] = []
-    for root, dirs, files in os.walk(dir):
+    for root, _, files in os.walk(dir):
         for file in files:
             if file.endswith('.json'):
                 json_paths.append(os.path.join(root, file))
     return json_paths
 
 def Get_ALL_CSV_Paths(dir: str) -> List[str]:
-    """
-    Get all the paths of CSV files within a directory and its subdirectories.
-
-    Args:
-        dir (str): The directory path to search for CSV files.
-
-    Returns:
-        List[str]: A list of paths to CSV files found within the directory and its subdirectories.
-    """
     dir = os.path.join(dir, 'csv')
     csv_paths: List[str] = []
-    for root, dirs, files in os.walk(dir):
+    for root, _, files in os.walk(dir):
         for file in files:
             if file.endswith('.csv'):
                 csv_paths.append(os.path.join(root, file))
     return csv_paths
 
-
 def Read_Json_Files(json_files: List[str]) -> Dict[str, Dict[str, Any]]:
-    """
-    Reads a list of JSON files and returns a dictionary containing the contents of each file.
 
-    Args:
-        json_files (List[str]): A list of file paths to JSON files.
-
-    Returns:
-        Dict[str, Dict[str, Any]]: A dictionary where the keys are the base names of the JSON files
-        (without the file extension) and the values are the contents of each JSON file.
-
-    """
     templete_json: Dict[str, Any] = {}
     ignition_json: Dict[str, Any] = {}
     for json_file in json_files:
@@ -116,20 +108,16 @@ def Read_Json_Files(json_files: List[str]) -> Dict[str, Dict[str, Any]]:
             json_structure = json.load(f)
             keys = Get_All_Keys(json_structure)
             templete_json.update(keys)
-            ignition_json[Get_Basename_Without_Extension(json_file)] = json_structure
+            for key in json_structure["tags"]:
+                if 'opcItemPath' in key:
+                    json_file =  key["opcItemPath"][key["opcItemPath"].rfind("=") + 1:key["opcItemPath"].find(".")]
+                    break
+            ignition_json[json_file] = json_structure
+            ignition_json[json_file]["name"] = json_file
     return ignition_json
 
 def Read_CSV_Files(csv_files: List[str]) -> Dict[str, pd.DataFrame]:
-        """
-        Read multiple CSV files and return a dictionary of DataFrames.
 
-        Parameters:
-        - csv_files (List[str]): A list of file paths to the CSV files.
-
-        Returns:
-        - csv_df (Dict[str, pd.DataFrame]): A dictionary where the keys are the base names of the CSV files
-            (without the file extension) and the values are the corresponding DataFrames read from the CSV files.
-        """
         csv_df: Dict[str, pd.DataFrame] = {}
         for csv_file in csv_files:
                 df = pd.read_csv(csv_file)
@@ -137,16 +125,7 @@ def Read_CSV_Files(csv_files: List[str]) -> Dict[str, pd.DataFrame]:
         return csv_df
 
 def Write_Json_Files(ignition_json: Dict[str, Any], dir: str) -> None:
-    """
-    Write the given Ignition JSON data to individual JSON files.
 
-    Args:
-        ignition_json (Dict[str, Any]): The Ignition JSON data to be written.
-        dir (str): The directory where the output files will be saved.
-
-    Returns:
-        None
-    """
     out_dir = f'{dir}/ignition_json'
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
@@ -155,16 +134,7 @@ def Write_Json_Files(ignition_json: Dict[str, Any], dir: str) -> None:
             json.dump(ignition_json[key], f, indent=4)
 
 def Write_Address_CSV(address_csv: Dict[str, Any], dir: str) -> None:
-    """
-    Write the address CSV files to the specified directory.
 
-    Args:
-        address_csv (Dict[str, Any]): A dictionary containing the address CSV data.
-        dir (str): The directory where the CSV files will be written.
-
-    Returns:
-        None
-    """
     out_dir = f'{dir}/csv'
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)

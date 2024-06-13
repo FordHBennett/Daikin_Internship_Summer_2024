@@ -1,13 +1,14 @@
 from math import e
 import shutil
 import unittest 
+import os
+from pandas.testing import assert_frame_equal
 from mitsubishi_tag_generator.process_tags import *
 from base.base_functions import *
-import os
 
 class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
 
-    def test_convert_data_type_short_int2_word(self):
+    def test_convert_data_type(self):
 
         data_type = 'Short'
         expected_data_type = ('Int2', 'Int16')
@@ -20,8 +21,6 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
         data_type = 'Word'
         expected_data_type = ('Int2', 'Int16')
         self.assertEqual(Convert_Data_Type(data_type), expected_data_type)
-
-    def test_convert_data_type_integer_int4_bcd(self):
              
         data_type = 'Integer'
         expected_data_type = ('Int4', 'Int32')
@@ -34,14 +33,12 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
         data_type = 'BCD'
         expected_data_type = ('Int4', 'Int32')
         self.assertEqual(Convert_Data_Type(data_type), expected_data_type)
-
-    def test_convert_data_type_boolean(self):   
              
         data_type = 'Boolean'
         expected_data_type = ('Boolean', 'Bool')
         self.assertEqual(Convert_Data_Type(data_type), expected_data_type)
 
-    def test_update_area_and_path_data_type_without_sh_in_area(self):
+    def test_update_area_and_path_data_type(self):
         area = 'RTY'
         data_type = 'Short'
         expected_area = 'RTY'
@@ -49,7 +46,6 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
 
         self.assertEqual(Update_Area_And_Path_Data_Type(area, data_type), (expected_area, expected_data_type))
 
-    def test_update_area_and_path_data_type_with_sh_in_area(self):
         area = 'TWSHqer'
         data_type = 'Short'
         expected_area = 'TWqer'
@@ -57,7 +53,6 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
 
         self.assertEqual(Update_Area_And_Path_Data_Type(area, data_type), (expected_area, expected_data_type))
 
-    def test_update_area_and_path_data_type_with_no_area_and_path_data_type(self):
         area = ''
         data_type = ''
         expected_area = ''
@@ -91,6 +86,8 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
             shutil.rmtree(output_dir)
 
         # Find a way to assert dataframes
+        with self.assertRaises(AssertionError):
+            assert_frame_equal(address_csv, expected_address_csv)
 
 
         
