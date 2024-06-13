@@ -148,6 +148,14 @@ def Handle_Duplicate_Tag(key, tag_builder_properties, generated_ingition_json, t
     log_message("So Deleting the duplicate tag", 'warning')
     generated_ingition_json[key]['tags'].remove(tag)
 
+def remove_tag(tags, tag_to_remove):
+    for tag in tags:
+        if tag == tag_to_remove:
+            tags.remove(tag)
+            return
+        if 'tags' in tag:
+            remove_tag(tag['tags'], tag_to_remove)
+
 def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, existing_tag_names):
     if 'tags' in tag:
         for sub_tag in tag['tags']:
@@ -172,8 +180,10 @@ def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, e
                         tag_to_remove = copy.deepcopy(tag)
                         Set_Unnested_Tag_Properties(tag_builder_properties, tag)
                         generated_ingition_json[key]['tags'].append(tag)
-                        
-                    generated_ingition_json[key]['tags'].remove(tag_to_remove)
+                    
+                    remove_tag(generated_ingition_json[key]['tags'], tag_to_remove)
+                    
+
                 else:
                     log_message(f"Could not find tag {tag_builder_properties['tag_name']} in CSV file {key}.csv so just leaving it as is")
             else:
@@ -236,7 +246,7 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
 
             for _, row in df.iterrows():
                 Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, device_csv)
-                
+
         else:
             log_message(f"Could not find CSV file {key}.csv in ignition JSON", 'error')
 
