@@ -61,7 +61,7 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
         self.assertEqual(Update_Area_And_Path_Data_Type(area, data_type), (expected_area, expected_data_type))
 
 
-    def test_modify_tags_for_direct_driver_communication(self):
+    def test_Generate_Ignition_JSON_And_Address_CSV(self):
         input_dir: str = os.path.join('src','tests','test_files','input_files', 'mitsubishi_devices')
         output_dir: str = os.path.join('src','tests','test_files','output_files', 'mitsubishi_devices')
         expected_output_dir: str = os.path.join('src','tests','test_files','expected_output_files', 'mitsubishi_devices')
@@ -72,7 +72,7 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
         ignition_json = Read_Json_Files(json_files)
         csv_df = Read_CSV_Files(csv_files)
 
-        ignition_json, address_csv = Modify_Tags_For_Direct_Driver_Communication(csv_df, ignition_json)
+        ignition_json, address_csv = Generate_Ignition_JSON_And_Address_CSV(csv_df, ignition_json)
         Write_Json_Files(ignition_json, output_dir)
         Write_Address_CSV(address_csv, output_dir)
 

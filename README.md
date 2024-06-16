@@ -106,6 +106,10 @@
     ```sh
         python -m unittest discover src/tests/mitsubishi_tag_generator_tests "*_tests.py" -v 
     ```
+    To run profiler:
+    ```sh
+        python -m cProfile -m src.mitsubishi_tag_generator.main > tmp/tmp.prof
+    ```
 - **Windows(PowerShell):**
     To run all base tests:
     ```pwsh

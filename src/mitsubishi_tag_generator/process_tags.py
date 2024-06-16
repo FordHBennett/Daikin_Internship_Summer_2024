@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 
-from re import U
 import pandas as pd
-from typing import Dict, Any, List, Union, Tuple, Final
+from typing import Dict, Any, List, Union, Tuple
 import copy
-from base.base_functions import *
+from base.base_functions import log_message, Find_Row_By_Tag_Name, Extract_Tag_Name, Reset_Tag_Builder_Properties, Extract_Area_And_Offset, Extract_Offset_And_Array_Size, Remove_Invalid_Tag_Name_Characters
 
 def Convert_Data_Type(data_type: str) -> Tuple[str, str]:
     data_type_mappings = {
@@ -208,29 +207,32 @@ def Create_Tag_Builder_Properties():
     }
 
 
-def Update_Device_CSV(device_csv, key, tag_builder_properties):
+def Update_Device_CSV(tag_builder_properties, collected_data):
     tag_name = ''
     if tag_builder_properties['tag_name_path']:
         if '/' not in tag_builder_properties['tag_name_path']:
             tag_name = tag_builder_properties['tag_name']
         else:
-            tag_name = f'{tag_builder_properties['tag_name_path'][tag_builder_properties['tag_name_path'].find('/') + 1:]}/{tag_builder_properties['tag_name']}'
+            tag_name = f'{tag_builder_properties["tag_name_path"][tag_builder_properties["tag_name_path"].find("/") + 1:]}/{tag_builder_properties["tag_name"]}'
             
-        dummy_list = [{
-            'tag_name': f"{tag_name}",
+        collected_data.append({
+            'tag_name': tag_name,
             'address': f"{tag_builder_properties['area']}<{tag_builder_properties['path_data_type']}{tag_builder_properties['array_size']}>{tag_builder_properties['offset']}"
-        }]
-        device_csv[key] = pd.concat([device_csv[key], pd.DataFrame(dummy_list)], ignore_index=True)
+        })
 
-def Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, device_csv):
+def Finalize_Device_CSV(device_csv, key, collected_data):
+    if collected_data:
+        device_csv[key] = pd.concat([device_csv[key], pd.DataFrame(collected_data)], ignore_index=True)
+
+def Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, collected_data=[]):
     tag_builder_properties['tag_name'] = row['Tag Name']
     Populate_Tag_Builder_Properties(tag_builder_properties, generated_ingition_json[key]['name'], row)
     Convert_Tag_Builder_Properties_To_Mitsubishi_Format(tag_builder_properties)
     Process_Tag_Name(tag_builder_properties['device_name'], generated_ingition_json[key]['tags'], {}, tag_builder_properties)
-    Update_Device_CSV(device_csv, key, tag_builder_properties)
+    Update_Device_CSV(tag_builder_properties, collected_data)
     Reset_Tag_Builder_Properties(tag_builder_properties)
             
-def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any]) -> Dict[str, Any]:
+def Generate_Ignition_JSON_And_Address_CSV(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any]) -> Dict[str, Any]:
     tag_builder_properties = Create_Tag_Builder_Properties()
     generated_ingition_json = copy.deepcopy(ignition_json)
     device_csv = {key: pd.DataFrame() for key in csv_df}
@@ -238,14 +240,16 @@ def Modify_Tags_For_Direct_Driver_Communication(csv_df: Dict[str, pd.DataFrame],
     for key, df in csv_df.items():
         if key in ignition_json:
             existing_tag_names = []
-
+            collected_data = []
             for tag in ignition_json[key]['tags']:
                 Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, existing_tag_names)
-                Update_Device_CSV(device_csv, key, tag_builder_properties)
+                Update_Device_CSV(tag_builder_properties, collected_data)
                 Reset_Tag_Builder_Properties(tag_builder_properties) 
 
             for _, row in df.iterrows():
-                Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, device_csv)
+                Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, collected_data)
+
+            Finalize_Device_CSV(device_csv, key, collected_data=[])
 
         else:
             log_message(f"Could not find CSV file {key}.csv in ignition JSON", 'error')

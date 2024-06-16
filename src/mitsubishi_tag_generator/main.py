@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-from base.base_functions import *
-from mitsubishi_tag_generator.process_tags import *
+from base.base_functions import Get_ALL_CSV_Paths, Get_ALL_JSON_Paths, Read_CSV_Files, Read_Json_Files, Write_Json_Files, Write_Address_CSV
+from mitsubishi_tag_generator.process_tags import Generate_Ignition_JSON_And_Address_CSV
 import os
 
 
@@ -15,7 +15,7 @@ def main():
     ignition_json = Read_Json_Files(json_files)
     csv_df = Read_CSV_Files(csv_files)
 
-    ignition_json, address_csv = Modify_Tags_For_Direct_Driver_Communication(csv_df, ignition_json)
+    ignition_json, address_csv = Generate_Ignition_JSON_And_Address_CSV(csv_df, ignition_json)
     Write_Json_Files(ignition_json, output_dir)
 
     Write_Address_CSV(address_csv, output_dir)
@@ -25,3 +25,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

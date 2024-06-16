@@ -9,11 +9,11 @@ import logging
 import copy
 
 logging.basicConfig(
-    filename='tag_generation.log',  # Log file path
-    level=logging.INFO,          # Logging level
-    format='%(asctime)s - %(levelname)s - %(message)s',  # Log format
-    datefmt='%Y-%m-%d %H:%M:%S',  # Date format
-    style='%'  # String formatting style
+    filename='tag_generation.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',  
+    style='%'  
 )
 
 def log_message(message: str, level: str = 'info'):
