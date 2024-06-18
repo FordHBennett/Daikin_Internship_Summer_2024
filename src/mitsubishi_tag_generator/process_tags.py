@@ -9,7 +9,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from copy import deepcopy as copy_deepcopy
 from functools import lru_cache
 
-from base.base_functions import log_message, Find_Row_By_Tag_Name, Extract_Tag_Name, Reset_Tag_Builder_Properties, Extract_Area_And_Offset, Extract_Offset_And_Array_Size
+from base.base_functions import log_message, Find_Row_By_Tag_Name, Extract_Tag_Name, Reset_Tag_Builder_Properties, Extract_Area_And_Offset, Extract_Offset_And_Array_Size, Remove_Invalid_Tag_Name_Characters
 
 
 DATA_TYPE_MAPPINGS = {
@@ -82,27 +82,30 @@ def Create_New_Tag(name_parts: List[str], tags: Dict[str, Any], current_tag, tag
     if tag_builder_properties['array_size'] != '':
         tag_builder_properties['data_type'] = 'String'
     if 'String' not in tag_builder_properties['path_data_type'] and '' != tag_builder_properties['array_size']:
-            tag_builder_properties['array_size'] = f"[{tag_builder_properties['array_size']}]"
+        tag_builder_properties['array_size'] = f"[{tag_builder_properties['array_size']}]"
 
     tag_builder_properties['tag_name'] = name_parts[-1]
-    if tag_builder_properties['tag_name_path'] != '':
-        tag_builder_properties['tag_name_path'] = f'{name_parts[0]}/{tag_builder_properties["tag_name_path"]}'
+    tag_builder_properties['device_name'] = name_parts[0]
+    if tag_builder_properties['is_tag_from_csv_flag']:
+        tag_builder_properties['tag_name_path'] = Generate_Full_Path_From_Name_Parts(name_parts)
     else:
-        tag_builder_properties['tag_name_path'] = name_parts[0]
+        if tag_builder_properties['tag_name_path'] != '':
+            tag_builder_properties['tag_name_path'] = f'{name_parts[0]}/{tag_builder_properties["tag_name_path"]}'
+        else:
+            tag_builder_properties['tag_name_path'] = name_parts[0]
 
 
     new_tag = {
         "name": tag_builder_properties['tag_name'],
-        "opcItemPath": f"ns=1;s=[{tag_builder_properties['tag_name_path']}]{tag_builder_properties['area']}<{tag_builder_properties['path_data_type']}{tag_builder_properties['array_size']}>{tag_builder_properties['offset']}",
+        "opcItemPath": f"ns=1;s=[{tag_builder_properties['device_name']}]{tag_builder_properties['area']}<{tag_builder_properties['path_data_type']}{tag_builder_properties['array_size']}>{tag_builder_properties['offset']}",
         "opcServer": 'Ignition OPC UA Server',
         "dataType": tag_builder_properties['data_type'],
         'valueSource': 'opc'
     }
 
     if tag_builder_properties['is_tag_from_csv_flag']:
-        pass
-        # Set_New_Tag_Properties(tags, new_tag)
-        # tags.append(new_tag)
+        Set_New_Tag_Properties(tags, new_tag)
+        current_tag.update(new_tag)
     else:
         Set_Existing_Tag_Properties(current_tag, new_tag)
         current_tag.update(new_tag)
@@ -126,11 +129,38 @@ def Set_Unnested_Tag_Properties(tag_builder_properties, tag):
         'valueSource': 'opc'
     })
 
-def Process_Tag_Name(device_name, tags, current_tag, tag_builder_properties) -> None:
-    name_parts = [tag_builder_properties['tag_name'].split('.')][-1]
 
-    name_parts.insert(0, device_name)
-    Create_New_Tag(name_parts, tags, current_tag, tag_builder_properties)
+def Build_Tag_Hierarchy(tags, name_parts):
+    dummy_tags = tags
+    for part in name_parts[:-1]:
+        found = False
+        for tag in dummy_tags:
+            if tag['name'] == part:
+                dummy_tags = tag['tags']
+                found = True
+                break
+        if not found:
+            new_folder_tag = {
+                "name": part,
+                "tagType": "Folder",
+                "tags": []
+            }
+            dummy_tags.append(new_folder_tag)
+            dummy_tags = new_folder_tag['tags']
+    return dummy_tags
+
+def Process_Tag_Name(device_name, tags, current_tag, tag_builder_properties) -> None:
+    if tag_builder_properties['is_tag_from_csv_flag']:
+        name_parts = [Remove_Invalid_Tag_Name_Characters(part) for part in tag_builder_properties['tag_name'].split('.')]
+        name_parts.insert(0, 'kepware')
+        dummy_tags = Build_Tag_Hierarchy(tags, name_parts)
+        name_parts.insert(0, device_name)
+        Create_New_Tag(name_parts, tags, current_tag, tag_builder_properties)
+        dummy_tags.append(current_tag)
+    else:
+        name_parts = [tag_builder_properties['tag_name'].split('.')][-1]
+        name_parts.insert(0, device_name)
+        Create_New_Tag(name_parts, tags, current_tag, tag_builder_properties)
 
 
 
@@ -206,12 +236,14 @@ def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, c
 def Update_Device_CSV(tag_builder_properties, collected_data):
     tag_name = ''
     if tag_builder_properties['data_type'] != '':
-        tag_name = tag_builder_properties['tag_name']
-        if '.' in tag_builder_properties['tag_name']:
-            tag_builder_properties['tag_name'] = tag_builder_properties['tag_name'].split('.')[-1]
+        # tag_name = tag_builder_properties['tag_name']
+        # if '.' in tag_builder_properties['tag_name']:
+        #     tag_builder_properties['tag_name'] = tag_builder_properties['tag_name'].split('.')[-1]
         if '/' in tag_builder_properties['tag_name_path']:
             tag_name = tag_builder_properties['tag_name_path'][tag_builder_properties['tag_name_path'].find('/') + 1:]
             tag_name = f'{tag_name}/{tag_builder_properties["tag_name"]}'
+        else:
+            tag_name = tag_builder_properties['tag_name']
             
         collected_data.append({
             'tag_name': tag_name,
@@ -228,7 +260,7 @@ def Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, c
     if tag_builder_properties['tag_name'] not in existing_tag_names:
         Populate_Tag_Builder_Properties(tag_builder_properties, generated_ingition_json[key]['name'], row)
         Convert_Tag_Builder_Properties_To_Mitsubishi_Format(tag_builder_properties)
-        Process_Tag_Name(tag_builder_properties['device_name'], generated_ingition_json[key]['tags'], None, tag_builder_properties)
+        Process_Tag_Name(tag_builder_properties['device_name'], generated_ingition_json[key]['tags'], {}, tag_builder_properties)
         Update_Device_CSV(tag_builder_properties, collected_data)
         tag_builder_properties.update(Reset_Tag_Builder_Properties())
             
