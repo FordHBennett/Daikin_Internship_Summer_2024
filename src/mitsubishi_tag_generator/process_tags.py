@@ -149,11 +149,12 @@ def Handle_Duplicate_Tag(key, tag_builder_properties, generated_ingition_json, t
 
 def remove_tag(tags, tag_to_remove):
     for tag in tags:
-        if tag == tag_to_remove:
-            tags.remove(tag)
-            return
-        if 'tags' in tag:
-            remove_tag(tag['tags'], tag_to_remove)
+        if 'opcItemPath' in tag:
+            if tag['opcItemPath'] == tag_to_remove['opcItemPath']:
+                tags.remove(tag)
+                return
+            if 'tags' in tag:
+                remove_tag(tag['tags'], tag_to_remove)
 
 def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, existing_tag_names):
     if 'tags' in tag:
@@ -173,14 +174,13 @@ def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, e
                     Convert_Tag_Builder_Properties_To_Mitsubishi_Format(tag_builder_properties)
 
                     if '.' in tag_builder_properties['tag_name']:
-                        tag_to_remove = tag
                         Process_Tag_Name(tag_builder_properties['device_name'], generated_ingition_json[key]['tags'], tag, tag_builder_properties)
                     else:
-                        tag_to_remove = copy.deepcopy(tag)
-                        Set_Unnested_Tag_Properties(tag_builder_properties, tag)
-                        generated_ingition_json[key]['tags'].append(tag)
+                        new_tag = copy.deepcopy(tag)
+                        Set_Unnested_Tag_Properties(tag_builder_properties, new_tag)
+                        generated_ingition_json[key]['tags'].append(new_tag)
                     
-                    remove_tag(generated_ingition_json[key]['tags'], tag_to_remove)
+                    remove_tag(generated_ingition_json[key]['tags'], tag)
                     
 
                 else:
@@ -209,7 +209,7 @@ def Create_Tag_Builder_Properties():
 
 def Update_Device_CSV(tag_builder_properties, collected_data):
     tag_name = ''
-    if tag_builder_properties['tag_name_path']:
+    if tag_builder_properties['data_type'] != '':
         if '/' not in tag_builder_properties['tag_name_path']:
             tag_name = tag_builder_properties['tag_name']
         else:
@@ -230,7 +230,7 @@ def Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, c
     Convert_Tag_Builder_Properties_To_Mitsubishi_Format(tag_builder_properties)
     Process_Tag_Name(tag_builder_properties['device_name'], generated_ingition_json[key]['tags'], {}, tag_builder_properties)
     Update_Device_CSV(tag_builder_properties, collected_data)
-    Reset_Tag_Builder_Properties(tag_builder_properties)
+    tag_builder_properties = copy.deepcopy(Create_Tag_Builder_Properties())
             
 def Generate_Ignition_JSON_And_Address_CSV(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any]) -> Dict[str, Any]:
     tag_builder_properties = Create_Tag_Builder_Properties()
@@ -244,12 +244,12 @@ def Generate_Ignition_JSON_And_Address_CSV(csv_df: Dict[str, pd.DataFrame], igni
             for tag in ignition_json[key]['tags']:
                 Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, existing_tag_names)
                 Update_Device_CSV(tag_builder_properties, collected_data)
-                Reset_Tag_Builder_Properties(tag_builder_properties) 
+                tag_builder_properties = copy.deepcopy(Create_Tag_Builder_Properties())
 
             for _, row in df.iterrows():
                 Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, collected_data)
 
-            Finalize_Device_CSV(device_csv, key, collected_data=[])
+            Finalize_Device_CSV(device_csv, key, collected_data)
 
         else:
             log_message(f"Could not find CSV file {key}.csv in ignition JSON", 'error')
