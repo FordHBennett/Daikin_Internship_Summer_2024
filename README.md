@@ -81,7 +81,7 @@
     python -m pip install -e .
     python -c "import mitsubishi_tag_generator"
     python -c "import base"
-    run-mitsubishi-tag-generator
+    run mitsubishi-tag-generator
     ```
 
     **Windows (PowerShell):**
@@ -134,5 +134,3 @@
     python.exe -m pip uninstall run-mitsubishi-tag-generator
     deactivate
     ```
-
-profiler: python -m cProfile -m src.mitsubishi_tag_generator.main > profiles/mitsubishi.prof
