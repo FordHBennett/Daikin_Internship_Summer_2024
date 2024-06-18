@@ -106,9 +106,16 @@ def Create_New_Tag(name_parts: List[str], tags: Dict[str, Any], current_tag, tag
     if tag_builder_properties['is_tag_from_csv_flag']:
         Set_New_Tag_Properties(tags, new_tag)
         current_tag.update(new_tag)
+        tag_builder_properties['tag_name_path'] = Generate_Full_Path_From_Name_Parts(name_parts)
+
     else:
         Set_Existing_Tag_Properties(current_tag, new_tag)
         current_tag.update(new_tag)
+        if tag_builder_properties['tag_name_path'] != '':
+            tag_builder_properties['tag_name_path'] = f'{name_parts[0]}/{tag_builder_properties["tag_name_path"]}'
+        else:
+            tag_builder_properties['tag_name_path'] = name_parts[0]
+
 
 def Set_Unnested_Tag_Properties(tag_builder_properties, tag):
     if tag_builder_properties['array_size'] != '':
@@ -197,10 +204,7 @@ def remove_tag(tags, tag_to_remove):
 def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, collected_data=[], existing_tag_names=[]) -> None:
     if 'tags' in tag:
         for sub_tag in tag['tags']:
-            # if 'opcItemPath' in sub_tag:
-                # tag_name = Extract_Tag_Name(sub_tag['opcItemPath'])
-                # if '.' in tag_name:
-                #         tag_name = tag_name.split('.')[-1]
+
             if tag_builder_properties['tag_name_path'] != '':
                 
                 tag_builder_properties['tag_name_path'] = f'{tag_builder_properties['tag_name_path']}/{tag['name']}'
@@ -211,10 +215,6 @@ def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, c
         if 'opcItemPath' in tag :
             tag_builder_properties['tag_name'] = Extract_Tag_Name(tag['opcItemPath'])
             existing_tag_names.append(tag_builder_properties['tag_name'])
-            # dummy_tag_name = copy_deepcopy(tag_builder_properties['tag_name'])
-            # if '.' in dummy_tag_name:
-            #     dummy_tag_name = dummy_tag_name.split('.')[-1]
-            # tag_builder_properties['tag_name_path'] = f'{tag_builder_properties['tag_name_path']}{dummy_tag_name}'
             tag_builder_properties['row'] = Find_Row_By_Tag_Name(df, tag_builder_properties['tag_name'])
 
             if not tag_builder_properties['row'].empty:
@@ -236,9 +236,7 @@ def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, c
 def Update_Device_CSV(tag_builder_properties, collected_data):
     tag_name = ''
     if tag_builder_properties['data_type'] != '':
-        # tag_name = tag_builder_properties['tag_name']
-        # if '.' in tag_builder_properties['tag_name']:
-        #     tag_builder_properties['tag_name'] = tag_builder_properties['tag_name'].split('.')[-1]
+
         if '/' in tag_builder_properties['tag_name_path']:
             tag_name = tag_builder_properties['tag_name_path'][tag_builder_properties['tag_name_path'].find('/') + 1:]
             tag_name = f'{tag_name}/{tag_builder_properties["tag_name"]}'

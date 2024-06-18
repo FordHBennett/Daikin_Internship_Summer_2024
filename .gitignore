@@ -20,3 +20,4 @@ src/mitsubishi_tag_generator.egg-info/*
 /tmp
 .zshrc
 
+/profiles
