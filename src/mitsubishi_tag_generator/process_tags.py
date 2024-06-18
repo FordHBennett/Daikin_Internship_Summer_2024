@@ -24,7 +24,6 @@ DATA_TYPE_MAPPINGS = {
 
 REQUIRED_KEYS = ['tagGroup', 'dataType', 'tagType', 'historyProvider', 'historicalDeadband', 'historicalDeadbandStyle']
 
-# Caching frequently called functions
 @lru_cache(maxsize=None)
 def Convert_Data_Type(data_type: str) -> Tuple[str, str]:
     return DATA_TYPE_MAPPINGS.get(data_type, (data_type, ''))
@@ -50,14 +49,12 @@ def Convert_Tag_Builder_Properties_To_Mitsubishi_Format(tag_builder_properties: 
     tag_builder_properties['offset'], tag_builder_properties['array_size'] = Extract_Offset_And_Array_Size(tag_builder_properties['offset'])
 
 def Find_Missing_Tag_Properties(tags, new_tag) -> None:
-    if isinstance(tags, list):
-        required_keys = ['tagGroup', 'dataType', 'tagType', 'historyProvider', 'historicalDeadband', 'historicalDeadbandStyle']
-        for dummy_tag in tags:
-            for key in required_keys:
-                if key not in new_tag and key in dummy_tag:
-                    new_tag[key] = dummy_tag[key]
-            if all(key in new_tag for key in required_keys):
-                break
+    for dummy_tag in tags:
+        for key in REQUIRED_KEYS:
+            if key not in new_tag and key in dummy_tag:
+                new_tag[key] = dummy_tag[key]
+        if all(key in new_tag for key in REQUIRED_KEYS):
+            break
 
 def Generate_Full_Path_From_Name_Parts(name_parts):
     return ('/'.join(name_parts[:-1])).rstrip('/')
@@ -86,14 +83,6 @@ def Create_New_Tag(name_parts: List[str], tags: Dict[str, Any], current_tag, tag
 
     tag_builder_properties['tag_name'] = name_parts[-1]
     tag_builder_properties['device_name'] = name_parts[0]
-    if tag_builder_properties['is_tag_from_csv_flag']:
-        tag_builder_properties['tag_name_path'] = Generate_Full_Path_From_Name_Parts(name_parts)
-    else:
-        if tag_builder_properties['tag_name_path'] != '':
-            tag_builder_properties['tag_name_path'] = f'{name_parts[0]}/{tag_builder_properties["tag_name_path"]}'
-        else:
-            tag_builder_properties['tag_name_path'] = name_parts[0]
-
 
     new_tag = {
         "name": tag_builder_properties['tag_name'],
