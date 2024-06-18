@@ -1,21 +1,31 @@
 #!/usr/bin/env python
 
-import pandas as pd
+from pandas import DataFrame as pd_DataFrame
+from pandas import concat as pd_concat
 from typing import Dict, Any, List, Union, Tuple
-import copy
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from copy import deepcopy as copy_deepcopy
+from functools import lru_cache
+
 from base.base_functions import log_message, Find_Row_By_Tag_Name, Extract_Tag_Name, Reset_Tag_Builder_Properties, Extract_Area_And_Offset, Extract_Offset_And_Array_Size, Remove_Invalid_Tag_Name_Characters
 
+
+DATA_TYPE_MAPPINGS = {
+    'Short': ('Int2', 'Int16'),
+    'Int2': ('Int2', 'Int16'),
+    'Word': ('Int2', 'Int16'),
+    'Integer': ('Int4', 'Int32'),
+    'Int4': ('Int4', 'Int32'),
+    'BCD': ('Int4', 'Int32'),
+    'Boolean': ('Boolean', 'Bool')
+}
+
+REQUIRED_KEYS = ['tagGroup', 'dataType', 'tagType', 'historyProvider', 'historicalDeadband', 'historicalDeadbandStyle']
+
+# Caching frequently called functions
+@lru_cache(maxsize=None)
 def Convert_Data_Type(data_type: str) -> Tuple[str, str]:
-    data_type_mappings = {
-        'Short': ('Int2', 'Int16'),
-        'Int2': ('Int2', 'Int16'),
-        'Word': ('Int2', 'Int16'),
-        'Integer': ('Int4', 'Int32'),
-        'Int4': ('Int4', 'Int32'),
-        'BCD': ('Int4', 'Int32'),
-        'Boolean': ('Boolean', 'Bool')
-    }
-    return data_type_mappings.get(data_type, (data_type, ''))
+    return DATA_TYPE_MAPPINGS.get(data_type, (data_type, ''))
 
 def Update_Area_And_Path_Data_Type(area: str, path_data_type: str='') -> Tuple[str, str]:
     if 'SH' in area:
@@ -176,7 +186,7 @@ def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, e
                     if '.' in tag_builder_properties['tag_name']:
                         Process_Tag_Name(tag_builder_properties['device_name'], generated_ingition_json[key]['tags'], tag, tag_builder_properties)
                     else:
-                        new_tag = copy.deepcopy(tag)
+                        new_tag = copy_deepcopy(tag)
                         Set_Unnested_Tag_Properties(tag_builder_properties, new_tag)
                         generated_ingition_json[key]['tags'].append(new_tag)
                     
@@ -222,7 +232,7 @@ def Update_Device_CSV(tag_builder_properties, collected_data):
 
 def Finalize_Device_CSV(device_csv, key, collected_data):
     if collected_data:
-        device_csv[key] = pd.concat([device_csv[key], pd.DataFrame(collected_data)], ignore_index=True)
+        device_csv[key] = pd_concat([device_csv[key], pd_DataFrame(collected_data)], ignore_index=True)
 
 def Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, collected_data=[]):
     tag_builder_properties['tag_name'] = row['Tag Name']
@@ -230,32 +240,40 @@ def Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, c
     Convert_Tag_Builder_Properties_To_Mitsubishi_Format(tag_builder_properties)
     Process_Tag_Name(tag_builder_properties['device_name'], generated_ingition_json[key]['tags'], {}, tag_builder_properties)
     Update_Device_CSV(tag_builder_properties, collected_data)
-    tag_builder_properties = copy.deepcopy(Create_Tag_Builder_Properties())
+    tag_builder_properties = copy_deepcopy(Create_Tag_Builder_Properties())
             
-def Generate_Ignition_JSON_And_Address_CSV(csv_df: Dict[str, pd.DataFrame], ignition_json: Dict[str, Any]) -> Dict[str, Any]:
+def Generate_Ignition_JSON_And_Address_CSV_Helper(key, df, ignition_json, csv_df):
     tag_builder_properties = Create_Tag_Builder_Properties()
-    generated_ingition_json = copy.deepcopy(ignition_json)
-    device_csv = {key: pd.DataFrame() for key in csv_df}
+    generated_ingition_json = copy_deepcopy(ignition_json)
+    collected_data = []
+    existing_tag_names = []
 
-    for key, df in csv_df.items():
-        if key in ignition_json:
-            existing_tag_names = []
-            collected_data = []
-            for tag in ignition_json[key]['tags']:
-                Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, existing_tag_names)
-                Update_Device_CSV(tag_builder_properties, collected_data)
-                tag_builder_properties = copy.deepcopy(Create_Tag_Builder_Properties())
+    for tag in ignition_json[key]['tags']:
+        Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, existing_tag_names)
+        Update_Device_CSV(tag_builder_properties, collected_data)
+        Reset_Tag_Builder_Properties(tag_builder_properties)
 
-            for _, row in df.iterrows():
-                Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, collected_data)
+    for _, row in df.iterrows():
+        Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, collected_data)
 
-            Finalize_Device_CSV(device_csv, key, collected_data)
+    Finalize_Device_CSV(csv_df, key, collected_data)
 
-        else:
-            log_message(f"Could not find CSV file {key}.csv in ignition JSON", 'error')
+    return key, generated_ingition_json[key], csv_df[key]
 
-        del ignition_json[key]
-        del df
-            
+def Generate_Ignition_JSON_And_Address_CSV(csv_df: Dict[str, pd_DataFrame], ignition_json: Dict[str, Any]) -> Dict[str, Any]:
+    generated_ingition_json = copy_deepcopy(ignition_json)
+    device_csv = {key: pd_DataFrame() for key in csv_df}
+
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        futures = {executor.submit(Generate_Ignition_JSON_And_Address_CSV_Helper, key, df, generated_ingition_json, device_csv): key for key, df in csv_df.items()}
+
+        for future in as_completed(futures):
+            key = futures[future]
+            try:
+                key, updated_json, updated_csv = future.result()
+                generated_ingition_json[key] = updated_json
+                device_csv[key] = updated_csv
+            except Exception as exc:
+                log_message(f"Error processing {key}: {exc}", 'error')
+
     return generated_ingition_json, device_csv
-

@@ -1,12 +1,9 @@
 #!/usr/bin/env python
-
-import os
-import json
-import pandas as pd
+from pandas import DataFrame as pd_DataFrame
 from typing import Dict, Any, List, Tuple
-import re
+
 import logging
-import copy
+
 
 logging.basicConfig(
     filename='tag_generation.log',
@@ -30,6 +27,8 @@ def log_message(message: str, level: str = 'info'):
 
 
 def Get_Basename_Without_Extension(file_path: str) -> str:
+    from os.path import basename as os_path_basename
+    from os.path import splitext as os_path_splitext
     """
     Returns the base name of a file path without the file extension.
 
@@ -39,12 +38,13 @@ def Get_Basename_Without_Extension(file_path: str) -> str:
     Returns:
         str: The base name of the file without the extension.
     """
-    base_name = os.path.basename(file_path)
-    name, _ = os.path.splitext(base_name)
+    base_name = os_path_basename(file_path)
+    name, _ = os_path_splitext(base_name)
     return name
 
 def Remove_Invalid_Tag_Name_Characters(tag_name: str) -> str:
-    return re.sub(r'[^a-zA-Z0-9-_ .]', '', tag_name)
+    from re import sub as re_sub
+    return re_sub(r'[^a-zA-Z0-9-_ .]', '', tag_name)
 
 def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
     """
@@ -82,81 +82,82 @@ def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
     return Recursive_Extract_Keys(json_structure)
 
 def Get_ALL_JSON_Paths(dir: str) -> List[str]:
+    from os import walk as os_walk
+    from os.path import join as os_path_join
 
-    dir = os.path.join(dir, 'json')
+    dir = os_path_join(dir, 'json')
     json_paths: List[str] = []
-    for root, _, files in os.walk(dir):
+    for root, _, files in os_walk(dir):
         for file in files:
             if file.endswith('.json'):
-                json_paths.append(os.path.join(root, file))
+                json_paths.append(os_path_join(root, file))
     return json_paths
 
 def Get_ALL_CSV_Paths(dir: str) -> List[str]:
-    dir = os.path.join(dir, 'csv')
+    from os import walk as os_walk
+    from os.path import join as os_path_join
+    dir = os_path_join(dir, 'csv')
     csv_paths: List[str] = []
-    for root, _, files in os.walk(dir):
+    for root, _, files in os_walk(dir):
         for file in files:
             if file.endswith('.csv'):
-                csv_paths.append(os.path.join(root, file))
+                csv_paths.append(os_path_join(root, file))
     return csv_paths
 
 def Read_Json_Files(json_files: List[str]) -> Dict[str, Dict[str, Any]]:
-
+    from os.path import basename as os_path_basename
+    from json import load as json_load
+    from copy import deepcopy as copy_deepcopy
     templete_json: Dict[str, Any] = {}
     ignition_json: Dict[str, Any] = {}
     for json_file in json_files:
         with open(json_file, 'r') as f:
-            json_structure = json.load(f)
+            json_structure = json_load(f)
             keys = Get_All_Keys(json_structure)
             templete_json.update(keys)
             new_file_name = ''
             for key in json_structure["tags"]:
                 if 'opcItemPath' in key:
-                    new_file_name =  copy.deepcopy(key["opcItemPath"][key["opcItemPath"].rfind("=") + 1:key["opcItemPath"].find(".")])
-                    log_message(f"{os.path.basename(json_file)[:os.path.basename(json_file).find('.')]} Changed to {new_file_name}", 'info')
+                    new_file_name =  copy_deepcopy(key["opcItemPath"][key["opcItemPath"].rfind("=") + 1:key["opcItemPath"].find(".")])
+                    log_message(f"{os_path_basename(json_file)[:os_path_basename(json_file).find('.')]} Changed to {new_file_name}", 'info')
                     break
             ignition_json[new_file_name] = json_structure
             ignition_json[new_file_name]["name"] = new_file_name
     return ignition_json
 
-def Read_CSV_Files(csv_files: List[str]) -> Dict[str, pd.DataFrame]:
-
-        csv_df: Dict[str, pd.DataFrame] = {}
-        for csv_file in csv_files:
-                df = pd.read_csv(csv_file)
-                csv_df[Get_Basename_Without_Extension(csv_file)] = df
-        return csv_df
+def Read_CSV_Files(csv_files: List[str]) -> Dict[str, pd_DataFrame]:
+    from pandas import read_csv as pd_read_csv
+    csv_df: Dict[str, pd_DataFrame] = {}
+    for csv_file in csv_files:
+            df = pd_read_csv(csv_file)
+            csv_df[Get_Basename_Without_Extension(csv_file)] = df
+    return csv_df
 
 def Write_Json_Files(ingnition_json: Dict[str, Any], dir: str) -> None:
-
+    from os.path import join as os_path_join
+    from os import makedirs as os_makedirs
+    from os.path import exists as os_path_exists
+    from json import dump as json_dump
     out_dir = f'{dir}/json'
-    if not os.path.exists(out_dir):
-        os.makedirs(out_dir)
+    if not os_path_exists(out_dir):
+        os_makedirs(out_dir)
     for key in ingnition_json:
-        with open(os.path.join(out_dir, f"{ingnition_json[key]['name']}.json"), 'w') as f:
-            json.dump(ingnition_json[key], f, indent=4)
+        with open(os_path_join(out_dir, f"{ingnition_json[key]['name']}.json"), 'w') as f:
+            json_dump(ingnition_json[key], f, indent=4)
 
 def Write_Address_CSV(address_csv: Dict[str, Any], dir: str) -> None:
+    from os.path import join as os_path_join
+    from os import makedirs as os_makedirs
+    from os.path import exists as os_path_exists
 
     out_dir = f'{dir}/csv'
-    if not os.path.exists(out_dir):
-        os.makedirs(out_dir)
+    if not os_path_exists(out_dir):
+        os_makedirs(out_dir)
     for key, df in address_csv.items():
-        df.to_csv(os.path.join(out_dir, f'{key}.csv'), index=False)
+        df.to_csv(os_path_join(out_dir, f'{key}.csv'), index=False)
 
-def Reset_Tag_Builder_Properties(tag_builder_properties: Dict[str, Any]):
-    for property in tag_builder_properties:
-        if isinstance(tag_builder_properties[property], dict):
-            Reset_Tag_Builder_Properties(tag_builder_properties[property])
-        elif isinstance(tag_builder_properties[property], list):
-            for item in tag_builder_properties[property]:
-                Reset_Tag_Builder_Properties(item)
-        elif property == 'is_tag_from_csv_flag':
-            tag_builder_properties[property] = False
-        else:
-            tag_builder_properties[property] = ''
     
-def Find_Row_By_Tag_Name(df: pd.DataFrame, tag_name: str) -> pd.DataFrame:
+def Find_Row_By_Tag_Name(df: pd_DataFrame, tag_name: str) -> pd_DataFrame:
     return df[df['Tag Name'] == tag_name]
 
 def Extract_Tag_Name(opc_item_path: str) -> str:
@@ -165,7 +166,8 @@ def Extract_Tag_Name(opc_item_path: str) -> str:
     return opc_item_path.split('.', 2)[-1]
 
 def Extract_Area_And_Offset(address: str) -> Tuple[str, str]:
-    match = re.search(r'\d+', address)
+    from re import search as re_search
+    match = re_search(r'\d+', address)
     if match:
         if 'X' in address:
             area = 'X'

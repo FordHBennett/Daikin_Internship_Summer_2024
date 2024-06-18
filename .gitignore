@@ -19,3 +19,4 @@ src/mitsubishi_tag_generator.egg-info/*
 *.log
 /tmp
 .zshrc
+
