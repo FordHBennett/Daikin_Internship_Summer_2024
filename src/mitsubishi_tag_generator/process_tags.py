@@ -201,20 +201,20 @@ def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, e
             log_message(f'Could not find opcItemPath or dataType in tag {tag['name']} so just leaving it as is', 'warning')
 
 
-def Create_Tag_Builder_Properties():
-    return {
-        "path_data_type": '',
-        "data_type": '',
-        "tag_name": '',
-        "tag_name_path": '',
-        "address": '',
-        "area": '',
-        "offset": '',
-        "array_size": '',
-        "row": '',
-        "device_name": '',
-        "is_tag_from_csv_flag": False
-    }
+# def Reset_Tag_Builder_Properties():
+#     return {
+#         "path_data_type": '',
+#         "data_type": '',
+#         "tag_name": '',
+#         "tag_name_path": '',
+#         "address": '',
+#         "area": '',
+#         "offset": '',
+#         "array_size": '',
+#         "row": '',
+#         "device_name": '',
+#         "is_tag_from_csv_flag": False
+#     }
 
 
 def Update_Device_CSV(tag_builder_properties, collected_data):
@@ -240,10 +240,10 @@ def Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, c
     Convert_Tag_Builder_Properties_To_Mitsubishi_Format(tag_builder_properties)
     Process_Tag_Name(tag_builder_properties['device_name'], generated_ingition_json[key]['tags'], {}, tag_builder_properties)
     Update_Device_CSV(tag_builder_properties, collected_data)
-    tag_builder_properties = copy_deepcopy(Create_Tag_Builder_Properties())
+    tag_builder_properties = Reset_Tag_Builder_Properties()
             
 def Generate_Ignition_JSON_And_Address_CSV_Helper(key, df, ignition_json, csv_df):
-    tag_builder_properties = Create_Tag_Builder_Properties()
+    tag_builder_properties = Reset_Tag_Builder_Properties()
     generated_ingition_json = copy_deepcopy(ignition_json)
     collected_data = []
     existing_tag_names = []
@@ -251,7 +251,7 @@ def Generate_Ignition_JSON_And_Address_CSV_Helper(key, df, ignition_json, csv_df
     for tag in ignition_json[key]['tags']:
         Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, existing_tag_names)
         Update_Device_CSV(tag_builder_properties, collected_data)
-        Reset_Tag_Builder_Properties(tag_builder_properties)
+        tag_builder_properties = Reset_Tag_Builder_Properties()
 
     for _, row in df.iterrows():
         Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, collected_data)
@@ -261,19 +261,18 @@ def Generate_Ignition_JSON_And_Address_CSV_Helper(key, df, ignition_json, csv_df
     return key, generated_ingition_json[key], csv_df[key]
 
 def Generate_Ignition_JSON_And_Address_CSV(csv_df: Dict[str, pd_DataFrame], ignition_json: Dict[str, Any]) -> Dict[str, Any]:
-    generated_ingition_json = copy_deepcopy(ignition_json)
     device_csv = {key: pd_DataFrame() for key in csv_df}
 
     with ThreadPoolExecutor(max_workers=4) as executor:
-        futures = {executor.submit(Generate_Ignition_JSON_And_Address_CSV_Helper, key, df, generated_ingition_json, device_csv): key for key, df in csv_df.items()}
+        futures = {executor.submit(Generate_Ignition_JSON_And_Address_CSV_Helper, key, df, ignition_json, device_csv): key for key, df in csv_df.items()}
 
         for future in as_completed(futures):
             key = futures[future]
             try:
                 key, updated_json, updated_csv = future.result()
-                generated_ingition_json[key] = updated_json
+                ignition_json[key] = updated_json
                 device_csv[key] = updated_csv
             except Exception as exc:
                 log_message(f"Error processing {key}: {exc}", 'error')
 
-    return generated_ingition_json, device_csv
+    return ignition_json, device_csv

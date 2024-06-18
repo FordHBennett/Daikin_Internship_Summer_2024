@@ -62,9 +62,9 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
 
 
     def test_Generate_Ignition_JSON_And_Address_CSV(self):
-        input_dir: str = os.path.join('src','tests','test_files','input_files', 'mitsubishi_devices')
-        output_dir: str = os.path.join('src','tests','test_files','output_files', 'mitsubishi_devices')
-        expected_output_dir: str = os.path.join('src','tests','test_files','expected_output_files', 'mitsubishi_devices')
+        input_dir: str = os.path.join('src','tests','test_files','input_files', 'mitsubishi')
+        output_dir: str = os.path.join('src','tests','test_files','output_files', 'mitsubishi')
+        expected_output_dir: str = os.path.join('src','tests','test_files','expected_output_files', 'mitsubishi')
     
         json_files = Get_ALL_JSON_Paths(input_dir)
         csv_files = Get_ALL_CSV_Paths(input_dir)
@@ -82,8 +82,7 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
         expected_output_csv_files = Get_ALL_CSV_Paths(expected_output_dir)
         expected_address_csv = Read_CSV_Files(expected_output_csv_files)
 
-        if self.assertEqual(ignition_json, expected_ignition_json) == None:
-            shutil.rmtree(output_dir)
+        self.assertEqual(ignition_json, expected_ignition_json)
 
         # Find a way to assert dataframes
         with self.assertRaises(AssertionError):

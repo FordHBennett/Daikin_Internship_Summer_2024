@@ -156,6 +156,20 @@ def Write_Address_CSV(address_csv: Dict[str, Any], dir: str) -> None:
     for key, df in address_csv.items():
         df.to_csv(os_path_join(out_dir, f'{key}.csv'), index=False)
 
+def Reset_Tag_Builder_Properties():
+    return {
+        "path_data_type": '',
+        "data_type": '',
+        "tag_name": '',
+        "tag_name_path": '',
+        "address": '',
+        "area": '',
+        "offset": '',
+        "array_size": '',
+        "row": '',
+        "device_name": '',
+        "is_tag_from_csv_flag": False
+    }
     
 def Find_Row_By_Tag_Name(df: pd_DataFrame, tag_name: str) -> pd_DataFrame:
     return df[df['Tag Name'] == tag_name]
