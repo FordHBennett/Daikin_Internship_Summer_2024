@@ -172,7 +172,8 @@ def Reset_Tag_Builder_Properties():
     }
     
 def Find_Row_By_Tag_Name(df: pd_DataFrame, tag_name: str) -> pd_DataFrame:
-    return df[df['Tag Name'] == tag_name]
+    from copy import deepcopy as copy_deepcopy
+    return copy_deepcopy(df[df['Tag Name'] == tag_name])
 
 def Extract_Tag_Name(opc_item_path: str) -> str:
     if '.' not in opc_item_path:

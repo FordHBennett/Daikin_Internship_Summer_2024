@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from os import path
+import re
 from pandas import DataFrame as pd_DataFrame
 from pandas import concat as pd_concat
 from typing import Dict, Any, List, Union, Tuple
@@ -83,24 +84,38 @@ def Create_New_Tag(name_parts: List[str], tags: Dict[str, Any], current_tag, tag
     if 'String' not in tag_builder_properties['path_data_type'] and '' != tag_builder_properties['array_size']:
             tag_builder_properties['array_size'] = f"[{tag_builder_properties['array_size']}]"
 
-    tag_builder_properties['tag_name_path'] = Generate_Full_Path_From_Name_Parts(name_parts)
     tag_builder_properties['tag_name'] = name_parts[-1]
+    if tag_builder_properties['tag_name_path'] != '':
+        tag_builder_properties['tag_name_path'] = f'{name_parts[0]}/{tag_builder_properties["tag_name_path"]}'
+    else:
+        tag_builder_properties['tag_name_path'] = name_parts[0]
+
 
     new_tag = {
         "name": tag_builder_properties['tag_name'],
-        "opcItemPath": f"ns=1;s=[{name_parts[0]}]{tag_builder_properties['area']}<{tag_builder_properties['path_data_type']}{tag_builder_properties['array_size']}>{tag_builder_properties['offset']}",
+        "opcItemPath": f"ns=1;s=[{tag_builder_properties['tag_name_path']}]{tag_builder_properties['area']}<{tag_builder_properties['path_data_type']}{tag_builder_properties['array_size']}>{tag_builder_properties['offset']}",
         "opcServer": 'Ignition OPC UA Server',
         "dataType": tag_builder_properties['data_type'],
         'valueSource': 'opc'
     }
 
     if tag_builder_properties['is_tag_from_csv_flag']:
-        Set_New_Tag_Properties(tags, new_tag)
+        pass
+        # Set_New_Tag_Properties(tags, new_tag)
+        # tags.append(new_tag)
     else:
         Set_Existing_Tag_Properties(current_tag, new_tag)
-    return new_tag
+        current_tag.update(new_tag)
 
 def Set_Unnested_Tag_Properties(tag_builder_properties, tag):
+    if tag_builder_properties['array_size'] != '':
+        tag_builder_properties['data_type'] = 'String'
+    if 'String' not in tag_builder_properties['path_data_type'] and '' != tag_builder_properties['array_size']:
+        tag_builder_properties['array_size'] = f"[{tag_builder_properties['array_size']}]"
+    
+    if '.' in tag_builder_properties['tag_name']:
+        tag_builder_properties['tag_name'] = tag_builder_properties['tag_name'].split('.')[-1]
+
     tag.update({
         'name': tag_builder_properties['tag_name'],
         'opcItemPath': f"ns=1;s=[{tag_builder_properties['device_name']}]{tag_builder_properties['area']}<{tag_builder_properties['path_data_type']}{tag_builder_properties['array_size']}>{tag_builder_properties['offset']}",
@@ -115,8 +130,8 @@ def Process_Tag_Name(device_name, tags, current_tag, tag_builder_properties) -> 
     name_parts = [tag_builder_properties['tag_name'].split('.')][-1]
 
     name_parts.insert(0, device_name)
-    new_tag = Create_New_Tag(name_parts, tags, current_tag, tag_builder_properties)
-    tags.append(new_tag)
+    Create_New_Tag(name_parts, tags, current_tag, tag_builder_properties)
+
 
 
 def Populate_Tag_Builder_Properties(tag_builder_properties, device_name, row=None, is_tag_from_csv_flag=True) -> None:
@@ -149,44 +164,54 @@ def remove_tag(tags, tag_to_remove):
             if 'tags' in tag:
                 remove_tag(tag['tags'], tag_to_remove)
 
-def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag):
+def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, collected_data=[], existing_tag_names=[]) -> None:
     if 'tags' in tag:
         for sub_tag in tag['tags']:
-            Process_Tag(generated_ingition_json, tag_builder_properties, key, df, sub_tag)
+            # if 'opcItemPath' in sub_tag:
+                # tag_name = Extract_Tag_Name(sub_tag['opcItemPath'])
+                # if '.' in tag_name:
+                #         tag_name = tag_name.split('.')[-1]
+            if tag_builder_properties['tag_name_path'] != '':
+                
+                tag_builder_properties['tag_name_path'] = f'{tag_builder_properties['tag_name_path']}/{tag['name']}'
+            else:
+                tag_builder_properties['tag_name_path'] = tag['name']
+            Process_Tag(generated_ingition_json, tag_builder_properties, key, df, sub_tag, collected_data=collected_data, existing_tag_names=existing_tag_names)
     else:
         if 'opcItemPath' in tag :
             tag_builder_properties['tag_name'] = Extract_Tag_Name(tag['opcItemPath'])
-
+            existing_tag_names.append(tag_builder_properties['tag_name'])
+            # dummy_tag_name = copy_deepcopy(tag_builder_properties['tag_name'])
+            # if '.' in dummy_tag_name:
+            #     dummy_tag_name = dummy_tag_name.split('.')[-1]
+            # tag_builder_properties['tag_name_path'] = f'{tag_builder_properties['tag_name_path']}{dummy_tag_name}'
             tag_builder_properties['row'] = Find_Row_By_Tag_Name(df, tag_builder_properties['tag_name'])
 
             if not tag_builder_properties['row'].empty:
-                df.drop(tag_builder_properties['row'].index, inplace=True)
                 Populate_Tag_Builder_Properties(tag_builder_properties, generated_ingition_json[key]['name'], is_tag_from_csv_flag=False, row=tag_builder_properties['row'])
                 Convert_Tag_Builder_Properties_To_Mitsubishi_Format(tag_builder_properties)
-
-                if '.' in tag_builder_properties['tag_name']:
+                if tag_builder_properties['tag_name_path'] != '':
                     Process_Tag_Name(tag_builder_properties['device_name'], generated_ingition_json[key]['tags'], tag, tag_builder_properties)
                 else:
-                    new_tag = copy_deepcopy(tag)
-                    Set_Unnested_Tag_Properties(tag_builder_properties, new_tag)
-                    generated_ingition_json[key]['tags'].append(new_tag)
-                
-                remove_tag(generated_ingition_json[key]['tags'], tag)
-                
+                    Set_Unnested_Tag_Properties(tag_builder_properties, tag)
 
+                Update_Device_CSV(tag_builder_properties, collected_data)
             else:
                 log_message(f"Could not find tag {tag_builder_properties['tag_name']} in CSV file {key}.csv so just leaving it as is", 'warning')
 
         else:
             log_message(f'Could not find opcItemPath or dataType in tag {tag['name']} so just leaving it as is', 'warning')
+    tag_builder_properties.update(Reset_Tag_Builder_Properties())
 
 def Update_Device_CSV(tag_builder_properties, collected_data):
     tag_name = ''
     if tag_builder_properties['data_type'] != '':
+        tag_name = tag_builder_properties['tag_name']
         if '.' in tag_builder_properties['tag_name']:
-            tag_name = tag_builder_properties['tag_name'].split('.')[-1]
-        else:
-            tag_name = tag_builder_properties['tag_name']
+            tag_builder_properties['tag_name'] = tag_builder_properties['tag_name'].split('.')[-1]
+        if '/' in tag_builder_properties['tag_name_path']:
+            tag_name = tag_builder_properties['tag_name_path'][tag_builder_properties['tag_name_path'].find('/') + 1:]
+            tag_name = f'{tag_name}/{tag_builder_properties["tag_name"]}'
             
         collected_data.append({
             'tag_name': tag_name,
@@ -197,31 +222,34 @@ def Finalize_Device_CSV(device_csv, key, collected_data):
     if collected_data:
         device_csv[key] = pd_concat([device_csv[key], pd_DataFrame(collected_data)], ignore_index=True)
 
-def Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, collected_data=[]):
+def Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, collected_data=[], existing_tag_names=[]) -> None:
     tag_builder_properties['tag_name'] = row['Tag Name']
-    Populate_Tag_Builder_Properties(tag_builder_properties, generated_ingition_json[key]['name'], row)
-    Convert_Tag_Builder_Properties_To_Mitsubishi_Format(tag_builder_properties)
 
-    Update_Device_CSV(tag_builder_properties, collected_data)
-    tag_builder_properties = copy_deepcopy(Reset_Tag_Builder_Properties())
+    if tag_builder_properties['tag_name'] not in existing_tag_names:
+        Populate_Tag_Builder_Properties(tag_builder_properties, generated_ingition_json[key]['name'], row)
+        Convert_Tag_Builder_Properties_To_Mitsubishi_Format(tag_builder_properties)
+        Process_Tag_Name(tag_builder_properties['device_name'], generated_ingition_json[key]['tags'], None, tag_builder_properties)
+        Update_Device_CSV(tag_builder_properties, collected_data)
+        tag_builder_properties.update(Reset_Tag_Builder_Properties())
             
 def Generate_Ignition_JSON_And_Address_CSV(csv_df: Dict[str, pd_DataFrame], ignition_json: Dict[str, Any]) -> Dict[str, Any]:
-    generated_ingition_json = copy_deepcopy(ignition_json)
+    generated_ingition_json = ignition_json
     device_csv = {key: pd_DataFrame() for key in csv_df}
-
+    tag_builder_properties = copy_deepcopy(Reset_Tag_Builder_Properties())
     for key, df in csv_df.items():
         if key in ignition_json:
             collected_data = []
+            existing_tag_names = []
             for tag in ignition_json[key]['tags']:
-                tag_builder_properties = copy_deepcopy(Reset_Tag_Builder_Properties())
-                Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag)
-                Update_Device_CSV(tag_builder_properties, collected_data)
+                tag_builder_properties.update(Reset_Tag_Builder_Properties())
+                Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, collected_data=collected_data, existing_tag_names=existing_tag_names)
                 
             for _, row in df.iterrows():
-                Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, collected_data)
+                Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, collected_data, existing_tag_names)
 
             Finalize_Device_CSV(device_csv, key, collected_data)
         else:
             log_message(f"Could not find {key}.json in ignition JSON so skipping it", 'warning')
+        del df
 
     return generated_ingition_json, device_csv
