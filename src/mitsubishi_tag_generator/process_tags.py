@@ -78,7 +78,7 @@ def Set_Existing_Tag_Properties(current_tag, new_tag):
             new_tag[key] = current_tag[key]
     new_tag['enabled'] = True
 
-def Create_New_Tag(name_parts: List[str], tags: Dict[str, Any], current_tag, tag_builder_properties) -> Dict[str, Any]:
+def Create_New_Tag(name_parts: List[str], tags: Dict[str, Any], current_tag, tag_builder_properties) -> None:
     if tag_builder_properties['array_size'] != '':
         tag_builder_properties['data_type'] = 'String'
     if 'String' not in tag_builder_properties['path_data_type'] and '' != tag_builder_properties['array_size']:
@@ -99,7 +99,6 @@ def Create_New_Tag(name_parts: List[str], tags: Dict[str, Any], current_tag, tag
         Set_New_Tag_Properties(tags, new_tag)
         current_tag.update(new_tag)
         tag_builder_properties['tag_name_path'] = Generate_Full_Path_From_Name_Parts(name_parts)
-
     else:
         Set_Existing_Tag_Properties(current_tag, new_tag)
         current_tag.update(new_tag)
@@ -118,14 +117,15 @@ def Set_Unnested_Tag_Properties(tag_builder_properties, tag):
     if '.' in tag_builder_properties['tag_name']:
         tag_builder_properties['tag_name'] = tag_builder_properties['tag_name'].split('.')[-1]
 
+
     tag.update({
-        'name': tag_builder_properties['tag_name'],
-        'opcItemPath': f"ns=1;s=[{tag_builder_properties['device_name']}]{tag_builder_properties['area']}<{tag_builder_properties['path_data_type']}{tag_builder_properties['array_size']}>{tag_builder_properties['offset']}",
-        'opcServer': 'Ignition OPC UA Server',
-        'dataType': tag_builder_properties['data_type'],
-        'tagGroup': 'default',
-        'enabled': True,
-        'valueSource': 'opc'
+        "name": tag_builder_properties['tag_name'],
+        "opcItemPath": f"ns=1;s=[{tag_builder_properties['device_name']}]{tag_builder_properties['area']}<{tag_builder_properties['path_data_type']}{tag_builder_properties['array_size']}>{tag_builder_properties['offset']}",
+        "opcServer": 'Ignition OPC UA Server',
+        "dataType": tag_builder_properties['data_type'],
+        'valueSource': 'opc',
+        'tagGroup': 'default', # Remove once this in production
+        'enabled': True
     })
 
 
