@@ -52,9 +52,12 @@ def Find_Missing_Tag_Properties(tags, new_tag) -> None:
     for dummy_tag in tags:
         for key in REQUIRED_KEYS:
             if key not in new_tag and key in dummy_tag:
-                new_tag[key] = dummy_tag[key]
+                if dummy_tag[key] != 'Folder':
+                    new_tag[key] = dummy_tag[key]
         if all(key in new_tag for key in REQUIRED_KEYS):
             break
+        if 'tags' in dummy_tag:
+            Find_Missing_Tag_Properties(dummy_tag['tags'], new_tag)
 
 def Generate_Full_Path_From_Name_Parts(name_parts):
     return ('/'.join(name_parts[:-1])).rstrip('/')
