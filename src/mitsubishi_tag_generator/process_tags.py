@@ -3,8 +3,8 @@
 # from os import path
 # import re
 from re import S
-from pandas import DataFrame as pd_DataFrame
-from pandas import concat as pd_concat
+# from pandas import DataFrame as pd_DataFrame
+# from pandas import concat as pd_concat
 from typing import Dict, Any, List, Tuple
 from concurrent.futures import ThreadPoolExecutor, as_completed
 # from copy import deepcopy as copy_deepcopy
@@ -151,6 +151,8 @@ def Update_Device_CSV(tag_builder_properties, collected_data):
         })
 
 def Finalize_Device_CSV(device_csv, key, collected_data):
+    from pandas import DataFrame as pd_DataFrame
+    from pandas import concat as pd_concat
     if collected_data:
         device_csv[key] = pd_concat([device_csv[key], pd_DataFrame(collected_data)], ignore_index=True)
 
@@ -163,8 +165,10 @@ def Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, c
         Process_Tag_Name(tag_builder_properties['device_name'], generated_ingition_json[key]['tags'], {}, tag_builder_properties)
         Update_Device_CSV(tag_builder_properties, collected_data)
         Reset_Tag_Builder_Properties(tag_builder_properties)
-            
-def Generate_Ignition_JSON_And_Address_CSV(csv_df: Dict[str, pd_DataFrame], ignition_json: Dict[str, Any]) -> Dict[str, Any]:
+
+
+def Generate_Ignition_JSON_And_Address_CSV(csv_df, ignition_json) -> Dict[str, Any]:
+    from pandas import DataFrame as pd_DataFrame
     generated_ingition_json = ignition_json
     device_csv = {key: pd_DataFrame() for key in csv_df}
     tag_builder_properties = Create_Tag_Builder_Properties()

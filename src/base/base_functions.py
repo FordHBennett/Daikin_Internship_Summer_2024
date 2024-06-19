@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-import re
-from pandas import DataFrame as pd_DataFrame
+
 from typing import Dict, Any, List, Tuple, Union
 from functools import lru_cache
 
@@ -86,25 +85,33 @@ def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
 def Get_ALL_JSON_Paths(dir: str) -> List[str]:
     from os import walk as os_walk
     from os.path import join as os_path_join
-
-    dir = os_path_join(dir, 'json')
     json_paths: List[str] = []
-    for root, _, files in os_walk(dir):
-        for file in files:
-            if file.endswith('.json'):
-                json_paths.append(os_path_join(root, file))
+
+    def Recursive_Get_JSON_Paths(directory: str) -> None:
+        for root, dirs, files in os_walk(directory):
+            for file in files:
+                if file.endswith('.json'):
+                    json_paths.append(os_path_join(root, file))
+            for folder in dirs:
+                Recursive_Get_JSON_Paths(os_path_join(root, folder))
+
+    Recursive_Get_JSON_Paths(dir)
     return json_paths
 
 def Get_ALL_CSV_Paths(dir: str) -> List[str]:
     from os import walk as os_walk
     from os.path import join as os_path_join
-
-    dir = os_path_join(dir, 'csv')
     csv_paths: List[str] = []
-    for root, _, files in os_walk(dir):
-        for file in files:
-            if file.endswith('.csv'):
-                csv_paths.append(os_path_join(root, file))
+
+    def Recursive_Get_CSV_Paths(directory: str) -> None:
+        for root, dirs, files in os_walk(directory):
+            for file in files:
+                if file.endswith('.csv'):
+                    csv_paths.append(os_path_join(root, file))
+            for folder in dirs:
+                Recursive_Get_CSV_Paths(os_path_join(root, folder))
+
+    Recursive_Get_CSV_Paths(dir)
     return csv_paths
 
 def Read_Json_Files(json_files: List[str], is_test=False) -> Dict[str, Dict[str, Any]]:
@@ -113,52 +120,71 @@ def Read_Json_Files(json_files: List[str], is_test=False) -> Dict[str, Dict[str,
     from copy import deepcopy as copy_deepcopy
     ignition_json: Dict[str, Any] = {}
     for json_file in json_files:
+        json_structure = {}
         with open(json_file, 'r') as f:
             json_structure = json_load(f)
-            new_file_name = ''
-            if not is_test:
-                for key in json_structure["tags"]:
-                    if 'opcItemPath' in key:
-                        new_file_name =  copy_deepcopy(key["opcItemPath"][key["opcItemPath"].rfind("=") + 1:key["opcItemPath"].find(".")])
-                        log_message(f"{os_path_basename(json_file)[:os_path_basename(json_file).find('.')]} Changed to {new_file_name}", 'info')
-                        break
-            else:
-                new_file_name = os_path_basename(json_file)[:os_path_basename(json_file).find('.')]
+        
+        new_file_name = ''
+        if not is_test:
+            for key in json_structure["tags"]:
+                if 'opcItemPath' in key:
+                    new_file_name =  copy_deepcopy(key["opcItemPath"][key["opcItemPath"].rfind("=") + 1:key["opcItemPath"].find(".")])
+                    log_message(f"{os_path_basename(json_file)[:os_path_basename(json_file).find('.')]} Changed to {new_file_name}", 'info')
+                    break
+        else:
+            new_file_name = os_path_basename(json_file)[:os_path_basename(json_file).find('.')]
 
-            ignition_json[new_file_name] = json_structure
-            ignition_json[new_file_name]["name"] = new_file_name
+        ignition_json[new_file_name] = json_structure
+        ignition_json[new_file_name]["name"] = new_file_name
     return ignition_json
 
-def Read_CSV_Files(csv_files: List[str]) -> Dict[str, pd_DataFrame]:
-    from pandas import read_csv as pd_read_csv
-    csv_df: Dict[str, pd_DataFrame] = {}
-    for csv_file in csv_files:
-            df = pd_read_csv(csv_file)
-            csv_df[Get_Basename_Without_Extension(csv_file)] = df
-    return csv_df
+def Read_CSV_Files(file_paths):
+    from pandas import read_csv as pd_read_csv    
+    from pandas import DataFrame as pd_DataFrame
+    from concurrent.futures import ThreadPoolExecutor
 
-def Write_Json_Files(ingnition_json: Dict[str, Any], dir: str) -> None:
-    from os.path import join as os_path_join
+    with ThreadPoolExecutor() as executor:
+        dfs = list(executor.map(pd_read_csv, file_paths))
+    return {Get_Basename_Without_Extension(file_paths[i]): dfs[i] for i in range(len(file_paths))}
+
+
+def Write_Json_Files(json_data, output_dir):
+    from concurrent.futures import ThreadPoolExecutor
+    from json import dump as json_dump
     from os import makedirs as os_makedirs
     from os.path import exists as os_path_exists
-    from json import dump as json_dump
-    out_dir = f'{dir}/json'
-    if not os_path_exists(out_dir):
-        os_makedirs(out_dir)
-    for key in ingnition_json:
-        with open(os_path_join(out_dir, f"{ingnition_json[key]['name']}.json"), 'w') as f:
-            json_dump(ingnition_json[key], f, indent=4)
+
+    output_dir = f'{output_dir}/json'
+    if not os_path_exists(output_dir):
+        os_makedirs(output_dir)
+    def write_file(file_path, data):
+        with open(file_path, 'w') as f:
+            json_dump(data, f, indent=4)
+
+    with ThreadPoolExecutor() as executor:
+        futures = [
+            executor.submit(write_file, f"{output_dir}/{key}.json", data)
+            for key, data in json_data.items()
+        ]
+        for future in futures:
+            future.result()
 
 def Write_Address_CSV(address_csv: Dict[str, Any], dir: str) -> None:
     from os.path import join as os_path_join
     from os import makedirs as os_makedirs
     from os.path import exists as os_path_exists
+    from concurrent.futures import ThreadPoolExecutor
 
     out_dir = f'{dir}/csv'
     if not os_path_exists(out_dir):
         os_makedirs(out_dir)
-    for key, df in address_csv.items():
-        df.to_csv(os_path_join(out_dir, f'{key}.csv'), index=False)
+    with ThreadPoolExecutor() as executor:
+        futures = [
+            executor.submit(df.to_csv, os_path_join(out_dir, f'{key}.csv'), index=False)
+            for key, df in address_csv.items()
+        ]
+        for future in futures:
+            future.result()
 
 def Create_Tag_Builder_Properties() -> Dict[str, Any]:
     return {
@@ -190,7 +216,7 @@ def Reset_Tag_Builder_Properties(tag_builder_properties: Dict[str, Any] = {}) ->
         "is_tag_from_csv_flag": False
     })
     
-def Find_Row_By_Tag_Name(df: pd_DataFrame, tag_name: str) -> pd_DataFrame:
+def Find_Row_By_Tag_Name(df, tag_name):
     from copy import deepcopy as copy_deepcopy
     return copy_deepcopy(df[df['Tag Name'] == tag_name])
 
@@ -201,6 +227,7 @@ def Extract_Tag_Name(opc_item_path: str) -> str:
 
 def Extract_Area_And_Offset(address: str) -> Tuple[str, str]:
     from re import search as re_search
+
     match = re_search(r'\d+', address)
     if match:
         if 'X' in address:
