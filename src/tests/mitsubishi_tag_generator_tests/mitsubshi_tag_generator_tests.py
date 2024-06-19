@@ -3,6 +3,7 @@ import os
 from pandas.testing import assert_frame_equal
 from mitsubishi_tag_generator.process_tags import *
 from base.base_functions import *
+import pandas as pd
 
 class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
 
@@ -29,9 +30,18 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
 
         self.assertEqual(ignition_json, expected_ignition_json)
 
-        # Find a way to assert dataframes
-        with self.assertRaises(AssertionError):
-            assert_frame_equal(address_csv, expected_address_csv)
+        # Loop through every element of both dataframes and compare them
+        for key, df in address_csv.items():
+            if key in expected_address_csv:
+                pd.testing.assert_frame_equal(df, expected_address_csv[key])
+            else:
+                self.fail(f"Missing expected CSV for key: {key}")
+
+        # Check for any extra keys in expected_address_csv that were not processed
+        for key in expected_address_csv.keys():
+            if key not in address_csv:
+                self.fail(f"Expected CSV for key {key} was not processed")
+
 
 
         
