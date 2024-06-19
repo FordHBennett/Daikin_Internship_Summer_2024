@@ -18,8 +18,6 @@ def main():
 
     Write_Address_CSV(address_csv, output_dir)
 
-    ignition_json = Read_Json_Files(json_files)
-    csv_df = Read_CSV_Files(csv_files)
 
 if __name__ == '__main__':
     main()

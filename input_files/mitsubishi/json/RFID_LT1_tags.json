@@ -1,0 +1,326 @@
+{
+  "name": "RFID_LT1",
+  "tagType": "Folder",
+  "tags": [
+    {
+      "valueSource": "expr",
+      "expression": "switch({[.]Status_Step},0,1,2,3,4,5,\"IDLE\",\"Waiting PHS_OK\",\"Process Done, waiting for MPLC to clear data\",\"Process Done, waiting for PHS to clear flag\",\"AMS didn\u0027t accept the data, going to retry, witing PHS clear flag\",\"More than 5 retries to store results, waiting for PHS to clear flag\",\"\")",
+      "dataType": "String",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "Station_State_MSG",
+      "historyEnabled": true,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1._System._NoError",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "alarms": [
+        {
+          "ackPipeline": "FIT_Main/NoCommNotifications",
+          "activePipeline": "FIT_Main/NoCommNotifications",
+          "CustomEmailMessage": "FIT LT1 PLC Disconnected",
+          "name": "FITLT1Disconnected",
+          "clearPipeline": "FIT_Main/NoCommNotifications",
+          "CustomEmailSubject": "FIT PLC Disconnected Alarm"
+        }
+      ],
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "dataType": "Int4",
+      "historyProvider": "IGN_DB_FIT",
+      "name": "IsConnected",
+      "historyEnabled": true,
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1.PostResult_ReturnCode",
+      "dataType": "Int2",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "returnCode",
+      "historyEnabled": true,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1.TestResult.TestResult_LeakageLocation",
+      "dataType": "Int4",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "LEAKAGE_LOCATION",
+      "historyEnabled": false,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "expr",
+      "expression": "if({[.]REQUEST_TO_PHS} \u003d 0 \u0026\u0026 {[.]PHS_OK} \u003d 0,0,\r\nif({[.]REQUEST_TO_PHS} \u003d 1 \u0026\u0026 {[.]PHS_OK} \u003d 0,1,\r\nif({[.]REQUEST_TO_PHS} \u003d 1 \u0026\u0026 {[.]PHS_OK} \u003d 1,2,\r\nif({[.]REQUEST_TO_PHS} \u003d 0 \u0026\u0026 {[.]PHS_OK} \u003d 1,3,\r\nif({[.]REQUEST_TO_PHS} \u003d 0 \u0026\u0026 {[.]PHS_OK} \u003d 2,4,\r\nif({[.]REQUEST_TO_PHS} \u003d 0 \u0026\u0026 {[.]PHS_OK} \u003d 3,5,99))))))",
+      "dataType": "Int4",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "Status_Step",
+      "historyEnabled": true,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1.UnitInfo.UnitInfo_LineCode",
+      "dataType": "String",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "LINE_NAME",
+      "historyEnabled": true,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1.PHS_PLC_Heartbeat",
+      "dataType": "Int2",
+      "name": "PHS_PLC_Heartbeat",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1.UnitInfo.UnitInfo_PalletNo",
+      "dataType": "String",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "PALLET_NO",
+      "historyEnabled": true,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1.UnitInfo.UnitInfo_ModelName",
+      "dataType": "String",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "MODEL_NAME",
+      "historyEnabled": true,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1.TestResult.TestResult_LeakCheckPoints",
+      "dataType": "String",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "LEAKAGE_POINTS",
+      "historyEnabled": false,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1.TestResult.TestResult_NGCode",
+      "dataType": "String",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "NG_CODE",
+      "historyEnabled": true,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "memory",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "AMS_RESP",
+      "historyEnabled": true,
+      "value": 0,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1.TestResult.TestResult_AmbientTemp",
+      "dataType": "Int4",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "AMBIENT_TEMP",
+      "historyEnabled": false,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1.UnitInfo.UnitInfo_Revision",
+      "dataType": "String",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "REVISION",
+      "historyEnabled": true,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1.RequestPostResults",
+      "dataType": "Int2",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "TEST_TAG",
+      "historyEnabled": false,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1.TestResult.TestResult_RobotLeakCheckFlag",
+      "dataType": "Int4",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "ROBOT_LEAKCHECK_FLAG",
+      "historyEnabled": false,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "expr",
+      "eventScripts": [
+        {
+          "eventid": "valueChanged",
+          "script": "\tif currentValue !\u003d previousValue:\n\t\tsystem.tag.writeBlocking([\"[.]PHS_PLC_Heartbeat\"], currentValue)",
+          "enabled": false
+        }
+      ],
+      "expression": "if(getSecond(now(1000))%2 \u003d 0, 1,0)",
+      "name": "Heartbeat",
+      "tagType": "AtomicTag",
+      "enabled": false
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1.TestResult.TestResult_TrendDataFN",
+      "dataType": "Int4",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "TREND_DATA_FN",
+      "historyEnabled": false,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1.TestResult.TestResult_CycleTime",
+      "dataType": "Int4",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "CYCLE_TIME",
+      "historyEnabled": false,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1.PostResult_PHSOK",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "eventScripts": [
+        {
+          "eventid": "valueChanged",
+          "script": "\tif currentValue.value !\u003d previousValue.value :\n\t\tsystem.tag.writeBlocking([\"[.]returnCode\"],[currentValue.value] )"
+        }
+      ],
+      "dataType": "Int2",
+      "historyProvider": "IGN_DB_FIT",
+      "name": "PHS_OK",
+      "historyEnabled": true,
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1.TestResult.TestResult_AmbientMoisture",
+      "dataType": "Int4",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "AMBIENT_MOISTURE",
+      "historyEnabled": false,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1.RequestPostResults",
+      "dataType": "Int2",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "REQUEST_TO_PHS",
+      "historyEnabled": true,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1.UnitInfo.UnitInfo_SerialNo",
+      "dataType": "String",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "SN",
+      "historyEnabled": true,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_LC1.MA_LC1.TestResult.TestResult_ProcessingResult",
+      "dataType": "String",
+      "historyProvider": "IGN_DB_FIT",
+      "historicalDeadband": 0.5,
+      "historicalDeadbandStyle": "Discrete",
+      "name": "TEST_RESULT",
+      "historyEnabled": true,
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    }
+  ]
+}

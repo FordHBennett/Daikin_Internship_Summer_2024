@@ -1,0 +1,54 @@
+{
+  "name": "KANSEI_CONV",
+  "tagType": "Folder",
+  "tags": [
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_KanseiConveyor.MA_KanseiConveyor.PHS_PLC_Heartbeat",
+      "dataType": "Int2",
+      "name": "PHS_PLC_Heartbeat",
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_KanseiConveyor.MA_KanseiConveyor.PLC_PHS_Heartbeat",
+      "dataType": "Int2",
+      "name": "PLC_PHS_Heartbeat",
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    },
+    {
+      "valueSource": "expr",
+      "eventScripts": [
+        {
+          "eventid": "valueChanged",
+          "script": "\tif currentValue !\u003d previousValue:\n\t\tsystem.tag.writeBlocking([\"[.]PHS_PLC_Heartbeat\"], currentValue)"
+        }
+      ],
+      "expression": "if(getSecond(now(1000))%2 \u003d 0, 1,0)",
+      "name": "Heartbeat",
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag"
+    },
+    {
+      "valueSource": "opc",
+      "opcItemPath": "nsu\u003dThingWorx Kepware Server;s\u003dMA_KanseiConveyor.MA_KanseiConveyor._System._NoError",
+      "alarms": [
+        {
+          "activePipeline": "FIT_Main/NoCommNotifications",
+          "CustomEmailMessage": "FIT Kansei Conveyor PLC Disconnected",
+          "name": "FITKanseiConvDisconnected",
+          "clearPipeline": "FIT_Main/NoCommNotifications",
+          "CustomEmailSubject": "FIT PLC Disconnected Alarm"
+        }
+      ],
+      "name": "IsConnected",
+      "tagGroup": "AFP01_Normal",
+      "tagType": "AtomicTag",
+      "opcServer": "FIT_Kepware"
+    }
+  ]
+}

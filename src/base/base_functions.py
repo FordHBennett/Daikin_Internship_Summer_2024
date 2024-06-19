@@ -104,7 +104,7 @@ def Get_ALL_CSV_Paths(dir: str) -> List[str]:
                 csv_paths.append(os_path_join(root, file))
     return csv_paths
 
-def Read_Json_Files(json_files: List[str]) -> Dict[str, Dict[str, Any]]:
+def Read_Json_Files(json_files: List[str], is_test=False) -> Dict[str, Dict[str, Any]]:
     from os.path import basename as os_path_basename
     from json import load as json_load
     from copy import deepcopy as copy_deepcopy
@@ -116,11 +116,14 @@ def Read_Json_Files(json_files: List[str]) -> Dict[str, Dict[str, Any]]:
             keys = Get_All_Keys(json_structure)
             templete_json.update(keys)
             new_file_name = ''
-            for key in json_structure["tags"]:
-                if 'opcItemPath' in key:
-                    new_file_name =  copy_deepcopy(key["opcItemPath"][key["opcItemPath"].rfind("=") + 1:key["opcItemPath"].find(".")])
-                    log_message(f"{os_path_basename(json_file)[:os_path_basename(json_file).find('.')]} Changed to {new_file_name}", 'info')
-                    break
+            if not is_test:
+                for key in json_structure["tags"]:
+                    if 'opcItemPath' in key:
+                        new_file_name =  copy_deepcopy(key["opcItemPath"][key["opcItemPath"].rfind("=") + 1:key["opcItemPath"].find(".")])
+                        log_message(f"{os_path_basename(json_file)[:os_path_basename(json_file).find('.')]} Changed to {new_file_name}", 'info')
+                        break
+            else:
+                new_file_name = os_path_basename(json_file)[:os_path_basename(json_file).find('.')]
             ignition_json[new_file_name] = json_structure
             ignition_json[new_file_name]["name"] = new_file_name
     return ignition_json
