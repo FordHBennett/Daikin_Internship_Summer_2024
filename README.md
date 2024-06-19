@@ -134,3 +134,6 @@
     python.exe -m pip uninstall run-mitsubishi-tag-generator
     deactivate
     ```
+
+
+Profiling: python -m cProfile -o profiles/mitsubishi.prof -m src.mitsubishi_tag_generator.main

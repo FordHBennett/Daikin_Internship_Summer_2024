@@ -4,6 +4,7 @@ from pandas.testing import assert_frame_equal
 from mitsubishi_tag_generator.process_tags import *
 from base.base_functions import *
 import pandas as pd
+from shutil import rmtree
 
 class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
 
@@ -41,6 +42,9 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
         for key in expected_address_csv.keys():
             if key not in address_csv:
                 self.fail(f"Expected CSV for key {key} was not processed")
+
+        # remove the generated files using shutil.rmtree
+        # rmtree(output_dir)
 
 
 

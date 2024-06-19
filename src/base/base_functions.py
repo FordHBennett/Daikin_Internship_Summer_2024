@@ -1,6 +1,8 @@
 #!/usr/bin/env python
+import re
 from pandas import DataFrame as pd_DataFrame
-from typing import Dict, Any, List, Tuple
+from typing import Dict, Any, List, Tuple, Union
+from functools import lru_cache
 
 import logging
 
@@ -96,6 +98,7 @@ def Get_ALL_JSON_Paths(dir: str) -> List[str]:
 def Get_ALL_CSV_Paths(dir: str) -> List[str]:
     from os import walk as os_walk
     from os.path import join as os_path_join
+
     dir = os_path_join(dir, 'csv')
     csv_paths: List[str] = []
     for root, _, files in os_walk(dir):
@@ -108,13 +111,10 @@ def Read_Json_Files(json_files: List[str], is_test=False) -> Dict[str, Dict[str,
     from os.path import basename as os_path_basename
     from json import load as json_load
     from copy import deepcopy as copy_deepcopy
-    templete_json: Dict[str, Any] = {}
     ignition_json: Dict[str, Any] = {}
     for json_file in json_files:
         with open(json_file, 'r') as f:
             json_structure = json_load(f)
-            keys = Get_All_Keys(json_structure)
-            templete_json.update(keys)
             new_file_name = ''
             if not is_test:
                 for key in json_structure["tags"]:
@@ -124,6 +124,7 @@ def Read_Json_Files(json_files: List[str], is_test=False) -> Dict[str, Dict[str,
                         break
             else:
                 new_file_name = os_path_basename(json_file)[:os_path_basename(json_file).find('.')]
+
             ignition_json[new_file_name] = json_structure
             ignition_json[new_file_name]["name"] = new_file_name
     return ignition_json
@@ -159,7 +160,7 @@ def Write_Address_CSV(address_csv: Dict[str, Any], dir: str) -> None:
     for key, df in address_csv.items():
         df.to_csv(os_path_join(out_dir, f'{key}.csv'), index=False)
 
-def Reset_Tag_Builder_Properties():
+def Create_Tag_Builder_Properties() -> Dict[str, Any]:
     return {
         "path_data_type": '',
         "data_type": '',
@@ -173,6 +174,21 @@ def Reset_Tag_Builder_Properties():
         "device_name": '',
         "is_tag_from_csv_flag": False
     }
+
+def Reset_Tag_Builder_Properties(tag_builder_properties: Dict[str, Any] = {}) -> None:
+    tag_builder_properties.update({
+        "path_data_type": '',
+        "data_type": '',
+        "tag_name": '',
+        "tag_name_path": '',
+        "address": '',
+        "area": '',
+        "offset": '',
+        "array_size": '',
+        "row": '',
+        "device_name": '',
+        "is_tag_from_csv_flag": False
+    })
     
 def Find_Row_By_Tag_Name(df: pd_DataFrame, tag_name: str) -> pd_DataFrame:
     from copy import deepcopy as copy_deepcopy
@@ -190,7 +206,6 @@ def Extract_Area_And_Offset(address: str) -> Tuple[str, str]:
         if 'X' in address:
             area = 'X'
             hex_address = address.split('X')[1]
-            # Convert hex to decimal
             offset = str(int(hex_address.lstrip('0') or '0', 16))
             return area, offset
         else:
@@ -209,3 +224,85 @@ def Extract_Offset_And_Array_Size(offset: str) -> Tuple[str, str]:
         offset = offset.split('.')[0]
         return offset, array_size
     return offset, ''
+
+
+DATA_TYPE_MAPPINGS = {
+    'Short': ('Int2', 'Int16'),
+    'Int2': ('Int2', 'Int16'),
+    'Word': ('Int2', 'Int16'),
+    'Integer': ('Int4', 'Int32'),
+    'Int4': ('Int4', 'Int32'),
+    'BCD': ('Int4', 'Int32'),
+    'Boolean': ('Boolean', 'Bool')
+}
+
+REQUIRED_KEYS = ['tagGroup', 'dataType', 'tagType', 'historyProvider', 'historicalDeadband', 'historicalDeadbandStyle']
+
+@lru_cache(maxsize=None)
+def Convert_Data_Type(data_type: str) -> Tuple[str, str]:
+    return DATA_TYPE_MAPPINGS.get(data_type, (data_type, ''))
+
+def Find_Missing_Tag_Properties(tags, new_tag) -> None:
+    from copy import deepcopy as copy_deepcopy
+
+    required_keys = copy_deepcopy(REQUIRED_KEYS)
+
+    def handle_missing_tags(dummy_tag, new_tag):
+        if required_keys == []:
+            return True
+        if 'tags' in dummy_tag:
+            handle_missing_tags(dummy_tag['tags'], new_tag)
+        else:
+            for key in required_keys:
+                if (key not in new_tag) and (key in dummy_tag) and (dummy_tag[key] != 'Folder'):
+                    new_tag[key] = dummy_tag[key]
+                    required_keys.remove(key)
+
+    for dummy_tag in tags:
+        if handle_missing_tags(dummy_tag, new_tag):
+            break
+
+
+def Generate_Full_Path_From_Name_Parts(name_parts):
+    return ('/'.join(name_parts[:-1])).rstrip('/')
+
+def Set_New_Tag_Properties(tags: Union[Dict[str, Any], List[Dict[str, Any]]], new_tag: Dict[str, Any]) -> None:
+    Find_Missing_Tag_Properties(tags, new_tag)
+    new_tag.update({
+        'enabled': False,
+        'valueSource': 'opc',
+        'tagGroup': 'default' # Remove once this in production
+    })
+
+def Set_Existing_Tag_Properties(current_tag, new_tag):
+    new_tag['tagGroup'] = 'default' # Remove once this in production
+    new_tag['tagType'] = current_tag['tagType']
+    for key in ['historyProvider', 'historicalDeadband', 'historicalDeadbandStyle']:
+        if key in current_tag:
+            new_tag[key] = current_tag[key]
+    new_tag['enabled'] = True
+
+def Set_Tag_Properties(tags={}, new_tag={}, current_tag={}):
+    if tags:
+        Set_New_Tag_Properties(tags, new_tag)
+    else:
+        Set_Existing_Tag_Properties(current_tag, new_tag)
+
+def Build_Tag_Hierarchy(tags, name_parts):
+    dummy_tags = tags
+    for part in name_parts[:-1]:
+        found = False
+        for tag in dummy_tags:
+            if tag['name'] == part:
+                dummy_tags = tag['tags']
+                found = True
+                break
+        if not found:
+            new_folder_tag = {
+                "name": part,
+                "tagType": "Folder",
+                "tags": []
+            }
+            dummy_tags.append(new_folder_tag)
+            dummy_tags = new_folder_tag['tags']
+    return dummy_tags

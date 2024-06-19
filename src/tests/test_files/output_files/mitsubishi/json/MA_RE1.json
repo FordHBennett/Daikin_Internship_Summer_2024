@@ -316,8 +316,8 @@
                     "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "historyProvider": "IGN_DB_FIT",
                     "historicalDeadband": 0.5,
+                    "historyProvider": "IGN_DB_FIT",
                     "historicalDeadbandStyle": "Discrete",
                     "enabled": false
                 },
@@ -329,8 +329,8 @@
                     "valueSource": "opc",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "historyProvider": "IGN_DB_FIT",
                     "historicalDeadband": 0.5,
+                    "historyProvider": "IGN_DB_FIT",
                     "historicalDeadbandStyle": "Discrete",
                     "enabled": false
                 },
@@ -346,8 +346,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -359,8 +359,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -372,8 +372,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -385,8 +385,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -398,8 +398,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -411,8 +411,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         }
@@ -430,8 +430,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -443,8 +443,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -456,8 +456,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -469,8 +469,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -482,8 +482,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -495,8 +495,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -508,8 +508,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         }
@@ -527,8 +527,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -540,8 +540,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -553,8 +553,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -566,8 +566,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -579,8 +579,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -592,8 +592,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -605,8 +605,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -618,8 +618,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -631,8 +631,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -644,8 +644,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -657,8 +657,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -670,8 +670,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -683,8 +683,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -696,8 +696,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -709,8 +709,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -722,8 +722,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -735,8 +735,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -748,8 +748,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -761,8 +761,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -774,8 +774,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -787,8 +787,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -800,8 +800,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -813,8 +813,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -826,8 +826,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -839,8 +839,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -852,8 +852,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -865,8 +865,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -878,8 +878,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -891,8 +891,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -904,8 +904,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -917,8 +917,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -930,8 +930,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -943,8 +943,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -956,8 +956,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -969,8 +969,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -982,8 +982,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -995,8 +995,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1008,8 +1008,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1021,8 +1021,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1034,8 +1034,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1047,8 +1047,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1060,8 +1060,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1073,8 +1073,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1086,8 +1086,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1099,8 +1099,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1112,8 +1112,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1125,8 +1125,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1138,8 +1138,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1151,8 +1151,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1164,8 +1164,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1177,8 +1177,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1190,8 +1190,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1203,8 +1203,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1216,8 +1216,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1229,8 +1229,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1242,8 +1242,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1255,8 +1255,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1268,8 +1268,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1281,8 +1281,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1294,8 +1294,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1307,8 +1307,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1320,8 +1320,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1333,8 +1333,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1346,8 +1346,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1359,8 +1359,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1372,8 +1372,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1385,8 +1385,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1398,8 +1398,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1411,8 +1411,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1424,8 +1424,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1437,8 +1437,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1450,8 +1450,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1463,8 +1463,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1476,8 +1476,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1489,8 +1489,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1502,8 +1502,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1515,8 +1515,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1528,8 +1528,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1541,8 +1541,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1554,8 +1554,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1567,8 +1567,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1580,8 +1580,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1593,8 +1593,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1606,8 +1606,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1619,8 +1619,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1632,8 +1632,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1645,8 +1645,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1658,8 +1658,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1671,8 +1671,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1684,8 +1684,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1697,8 +1697,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1710,8 +1710,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1723,8 +1723,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1736,8 +1736,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1749,8 +1749,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1762,8 +1762,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1775,8 +1775,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1788,8 +1788,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1801,8 +1801,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         }
@@ -1820,8 +1820,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1833,8 +1833,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1846,8 +1846,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         },
@@ -1859,8 +1859,8 @@
                             "valueSource": "opc",
                             "tagGroup": "default",
                             "tagType": "AtomicTag",
-                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadband": 0.5,
+                            "historyProvider": "IGN_DB_FIT",
                             "historicalDeadbandStyle": "Discrete",
                             "enabled": false
                         }
