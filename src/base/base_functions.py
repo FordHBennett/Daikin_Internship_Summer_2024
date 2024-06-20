@@ -95,6 +95,7 @@ def Create_Tag_Builder_Properties() -> Dict[str, Any]:
         "array_size": None,
         "row": None,
         "device_name": None,
+        "kepware_tag_name": None,
         "is_tag_from_csv_flag": False
     }
 
@@ -110,6 +111,7 @@ def Reset_Tag_Builder_Properties(tag_builder_properties: Dict[str, Any] = {}) ->
         "array_size": None,
         "row": None,
         "device_name": None,
+        "kepware_tag_name": None,
         "is_tag_from_csv_flag": False
     })
     
@@ -117,7 +119,7 @@ def Find_Row_By_Tag_Name(df, tag_name):
     from copy import deepcopy as copy_deepcopy
     return copy_deepcopy(df[df['Tag Name'] == tag_name])
 
-def Extract_Tag_Name(opc_item_path: str) -> str:
+def Extract_Kepware_Tag_Name(opc_item_path: str) -> str:
     if '.' not in opc_item_path:
         return opc_item_path
     return opc_item_path.split('.', 2)[-1]
@@ -182,7 +184,8 @@ def Find_Missing_Tag_Properties(tags, new_tag) -> None:
 
 
 def Generate_Full_Path_From_Name_Parts(name_parts):
-    return ('/'.join(name_parts[:-1])).rstrip('/')
+    return ('/'.join(name_parts)).rstrip('/')
+
 
 def Set_New_Tag_Properties(tags: Union[Dict[str, Any], List[Dict[str, Any]]], new_tag: Dict[str, Any]) -> None:
     Find_Missing_Tag_Properties(tags, new_tag)
