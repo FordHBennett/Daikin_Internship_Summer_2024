@@ -100,24 +100,11 @@ def Create_Tag_Builder_Properties() -> Dict[str, Any]:
     }
 
 def Reset_Tag_Builder_Properties(tag_builder_properties: Dict[str, Any] = {}) -> None:
-    tag_builder_properties.update({
-        "path_data_type": None,
-        "data_type": None,
-        "tag_name": None,
-        "tag_name_path": None,
-        "address": None,
-        "area": None,
-        "offset": None,
-        "array_size": None,
-        "row": None,
-        "device_name": None,
-        "kepware_tag_name": None,
-        "is_tag_from_csv_flag": False
-    })
+    tag_builder_properties.update(Create_Tag_Builder_Properties())
     
 def Find_Row_By_Tag_Name(df, tag_name):
-    from copy import deepcopy as copy_deepcopy
-    return copy_deepcopy(df[df['Tag Name'] == tag_name])
+
+    return df[df['Tag Name'] == tag_name]
 
 def Extract_Kepware_Tag_Name(opc_item_path: str) -> str:
     if '.' not in opc_item_path:
@@ -125,17 +112,6 @@ def Extract_Kepware_Tag_Name(opc_item_path: str) -> str:
     return opc_item_path.split('.', 2)[-1]
 
 def Extract_Area_And_Offset(address: str) -> Tuple[str, str]:
-    # for i, char in enumerate(address):
-    #     if char.isdigit():
-    #         first_number_index = i
-    #         break
-    # area = address[:first_number_index]
-    # if 'X' in address:
-    #     offset = str(int(address[first_number_index:].lstrip('0') or '0', 16))
-    # else:
-    #     offset = address[first_number_index:].lstrip('0') or '0'
-    # return area, offset
-
     match = ADDRESS_PATTERN.search(address)
     if match:
         first_number_index = match.start()
@@ -163,9 +139,8 @@ def Convert_Data_Type(data_type: str) -> Tuple[str, str]:
     return DATA_TYPE_MAPPINGS.get(data_type, (data_type, ''))
 
 def Find_Missing_Tag_Properties(tags, new_tag) -> None:
-    from copy import deepcopy as copy_deepcopy
+    required_keys = REQUIRED_KEYS.copy()
 
-    required_keys = copy_deepcopy(REQUIRED_KEYS)
 
     def handle_missing_tags(dummy_tag, new_tag):
         if required_keys == []:

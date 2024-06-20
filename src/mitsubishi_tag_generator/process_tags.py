@@ -66,11 +66,6 @@ def Create_New_Tag(name_parts: List[str], tags: Dict[str, Any], current_tag, tag
     else:
         Set_Tag_Properties(new_tag=new_tag, current_tag=current_tag)
         current_tag.update(new_tag)
-        # if tag_builder_properties['tag_name_path']:
-        #     tag_builder_properties['tag_name_path'] = tag_builder_properties["tag_name_path"]
-        # else:
-        #     tag_builder_properties['tag_name_path'] = name_parts[0]
-
 
 
 
@@ -80,7 +75,6 @@ def Process_Tag_Name(device_name, tags, current_tag, tag_builder_properties) -> 
 
         name_parts.insert(0, 'kepware')
         dummy_tags = Build_Tag_Hierarchy(tags, name_parts)
-        # name_parts.insert(0, device_name)
 
 
         Create_New_Tag(name_parts, tags, current_tag, tag_builder_properties)
@@ -89,7 +83,6 @@ def Process_Tag_Name(device_name, tags, current_tag, tag_builder_properties) -> 
         name_parts = [tag_builder_properties['kepware_tag_name'].split('.')[-1]] or [tag_builder_properties['kepware_tag_name']]
         if tag_builder_properties['tag_name_path']:
             name_parts.insert(0, tag_builder_properties['tag_name_path'])
-        # name_parts.insert(0, device_name)
         Create_New_Tag(name_parts, tags, current_tag, tag_builder_properties)
 
 
