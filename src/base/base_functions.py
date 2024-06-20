@@ -2,7 +2,7 @@
 
 from typing import Dict, Any, List, Tuple, Union
 from functools import lru_cache
-
+from re import compile as re_compile, sub
 import logging
 
 
@@ -27,6 +27,9 @@ def log_message(message: str, level: str = 'info'):
         logging.info(message)  
 
 
+ADDRESS_PATTERN = re_compile(r'\d+')
+TAG_NAME_PATTERN = re_compile(r'[^a-zA-Z0-9-_ .]')
+
 DATA_TYPE_MAPPINGS = {
     'Short': ('Int2', 'Int16'),
     'Int2': ('Int2', 'Int16'),
@@ -40,8 +43,8 @@ DATA_TYPE_MAPPINGS = {
 REQUIRED_KEYS = ['tagGroup', 'dataType', 'tagType', 'historyProvider', 'historicalDeadband', 'historicalDeadbandStyle']
 
 def Remove_Invalid_Tag_Name_Characters(tag_name: str) -> str:
-    from re import sub as re_sub
-    return re_sub(r'[^a-zA-Z0-9-_ .]', '', tag_name)
+    
+    return TAG_NAME_PATTERN.sub('', tag_name)
 
 def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
     """
@@ -82,31 +85,31 @@ def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
 
 def Create_Tag_Builder_Properties() -> Dict[str, Any]:
     return {
-        "path_data_type": '',
-        "data_type": '',
-        "tag_name": '',
-        "tag_name_path": '',
-        "address": '',
-        "area": '',
-        "offset": '',
-        "array_size": '',
-        "row": '',
-        "device_name": '',
+        "path_data_type": None,
+        "data_type": None,
+        "tag_name": None,
+        "tag_name_path": None,
+        "address": None,
+        "area": None,
+        "offset": None,
+        "array_size": None,
+        "row": None,
+        "device_name": None,
         "is_tag_from_csv_flag": False
     }
 
 def Reset_Tag_Builder_Properties(tag_builder_properties: Dict[str, Any] = {}) -> None:
     tag_builder_properties.update({
-        "path_data_type": '',
-        "data_type": '',
-        "tag_name": '',
-        "tag_name_path": '',
-        "address": '',
-        "area": '',
-        "offset": '',
-        "array_size": '',
-        "row": '',
-        "device_name": '',
+        "path_data_type": None,
+        "data_type": None,
+        "tag_name": None,
+        "tag_name_path": None,
+        "address": None,
+        "area": None,
+        "offset": None,
+        "array_size": None,
+        "row": None,
+        "device_name": None,
         "is_tag_from_csv_flag": False
     })
     
@@ -120,22 +123,29 @@ def Extract_Tag_Name(opc_item_path: str) -> str:
     return opc_item_path.split('.', 2)[-1]
 
 def Extract_Area_And_Offset(address: str) -> Tuple[str, str]:
-    from re import search as re_search
+    # for i, char in enumerate(address):
+    #     if char.isdigit():
+    #         first_number_index = i
+    #         break
+    # area = address[:first_number_index]
+    # if 'X' in address:
+    #     offset = str(int(address[first_number_index:].lstrip('0') or '0', 16))
+    # else:
+    #     offset = address[first_number_index:].lstrip('0') or '0'
+    # return area, offset
 
-    match = re_search(r'\d+', address)
+    match = ADDRESS_PATTERN.search(address)
     if match:
+        first_number_index = match.start()
+        area = address[:first_number_index]
         if 'X' in address:
-            area = 'X'
-            hex_address = address.split('X')[1]
-            offset = str(int(hex_address.lstrip('0') or '0', 16))
-            return area, offset
+            offset = str(int(address[first_number_index:].lstrip('0') or '0', 16))
         else:
-            first_number_index = match.start()
-            area = address[:first_number_index]
             offset = address[first_number_index:].lstrip('0') or '0'
-            return area, offset
-    else:
-        exit(f"Invalid address format: {address}")
+        return area, offset
+    else :
+        exit(f"Could not find any numbers in address {address}")
+    
 
 
 def Extract_Offset_And_Array_Size(offset: str) -> Tuple[str, str]:
