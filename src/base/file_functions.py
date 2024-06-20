@@ -1,8 +1,5 @@
 from typing import List, Dict, Any
 
-# from mitsubishi_tag_generator.main import logger
-
-
 def Get_Basename_Without_Extension(file_path: str) -> str:
     from os.path import basename as os_path_basename
     from os.path import splitext as os_path_splitext
@@ -54,10 +51,10 @@ def Get_ALL_CSV_Paths(dir: str) -> List[str]:
 def Read_Json_Files(json_files: List[str], is_test=False, logger=None) -> Dict[str, Dict[str, Any]]:
     from json import load as json_load
     from os.path import basename as os_path_basename
+    from os.path import join as os_path_join
     from concurrent.futures import ThreadPoolExecutor
-    from base.logging_class import Logger
 
-
+    log_messages = []
     def read_file(json_file):
         json_structure = {}
         with open(json_file, 'r') as f:
@@ -68,7 +65,8 @@ def Read_Json_Files(json_files: List[str], is_test=False, logger=None) -> Dict[s
             for key in json_structure["tags"]:
                 if 'opcItemPath' in key:
                     new_file_name =  key["opcItemPath"][key["opcItemPath"].rfind("=") + 1:key["opcItemPath"].find(".")]
-                    logger.log_message(f"{os_path_basename(json_file)[:os_path_basename(json_file).find('.')]} Changed to {new_file_name}", 'NAME_CHANGE')
+                    # logger.log_message(f"{os_path_basename(json_file)[:os_path_basename(json_file).find('.')]} Changed to {new_file_name}", 'NAME_CHANGE')
+                    log_messages.append(f"{os_path_basename(json_file)[:os_path_basename(json_file).find('.')]} Changed to {new_file_name}")
                     break
         else:
             new_file_name = os_path_basename(json_file)[:os_path_basename(json_file).find('.')]
@@ -80,6 +78,12 @@ def Read_Json_Files(json_files: List[str], is_test=False, logger=None) -> Dict[s
     ignition_json: Dict[str, Any] = {}
     with ThreadPoolExecutor() as executor:
         list(executor.map(read_file, json_files))
+
+    if logger:
+        logger.change_log_file(os_path_join('files','logs', 'mitsubishi', 'name_change.log'))
+        logger.set_level('NAME_CHANGE')
+        for message in log_messages:
+            logger.log_message(message, 'NAME_CHANGE')
     
     return ignition_json
 

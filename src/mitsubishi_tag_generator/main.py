@@ -1,22 +1,27 @@
 #!/usr/bin/env python
 
 
+
+
 from base.logging_class import Logger
-logger = Logger(log_file='tag_generation.log')
-logger.clear()
+
+logger = Logger()
 
 def main():
     from base.file_functions import Get_ALL_JSON_Paths, Get_ALL_CSV_Paths, Read_Json_Files, Read_CSV_Files, Write_Json_Files, Write_Address_CSV
     from mitsubishi_tag_generator.process_tags import Generate_Ignition_JSON_And_Address_CSV
     from os.path import join as os_path_join
 
-    input_dir: str = os_path_join('input_files', 'mitsubishi')
-    output_dir: str = os_path_join('output_files', 'mitsubishi')
+
+    input_dir: str = os_path_join('files', 'input', 'mitsubishi')
+    output_dir: str = os_path_join('files', 'output', 'mitsubishi')
    
 
     json_files = Get_ALL_JSON_Paths(input_dir)
     csv_files = Get_ALL_CSV_Paths(input_dir)
 
+
+    #FUTURE PROOF: Read_Json_Files will take a single file
     ignition_json = Read_Json_Files(json_files, logger=logger)
     csv_df = Read_CSV_Files(csv_files)
 

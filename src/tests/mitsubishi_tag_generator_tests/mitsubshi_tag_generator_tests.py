@@ -7,17 +7,19 @@ import pandas as pd
 from shutil import rmtree
 from base.logging_class import Logger
 
-logger = Logger(log_file='tag_generation.log')
+
 
 class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
 
     def test_Generate_Ignition_JSON_And_Address_CSV(self):
-        input_dir: str = os.path.join('src','tests','test_files','input_files', 'mitsubishi')
-        output_dir: str = os.path.join('src','tests','test_files','output_files', 'mitsubishi')
-        expected_output_dir: str = os.path.join('src','tests','test_files','expected_output_files', 'mitsubishi')
+        input_dir: str = os.path.join('src','tests','files','input', 'mitsubishi')
+        output_dir: str = os.path.join('src','tests','files','output', 'mitsubishi')
+        expected_output_dir: str = os.path.join('src','tests','files','expected_output', 'mitsubishi')
     
         json_files = Get_ALL_JSON_Paths(input_dir)
         csv_files = Get_ALL_CSV_Paths(input_dir)
+
+        logger = Logger()
 
         ignition_json = Read_Json_Files(json_files, logger=logger)
         csv_df = Read_CSV_Files(csv_files)
@@ -46,8 +48,8 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
             if key not in address_csv:
                 self.fail(f"Expected CSV for key {key} was not processed")
 
-        # remove the generated files using shutil.rmtree
-        # rmtree(output_dir)
+
+        rmtree(output_dir)
 
 
 

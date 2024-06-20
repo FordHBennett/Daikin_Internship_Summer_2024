@@ -32,40 +32,31 @@ class CustomFormatter(logging.Formatter):
         return formatter.format(record)
 
 class Logger:
-    def __init__(self, log_file: str, level: str = 'INFO', format: str = '%(asctime)s - %(levelname)s - %(message)s', datefmt: str = '%Y-%m-%d %H:%M:%S'):
+    def __init__(self, log_file: str='', level: str = 'INFO', format: str = '%(asctime)s - %(levelname)s - %(message)s', datefmt: str = '%Y-%m-%d %H:%M:%S'):
         self.log_file = log_file
-        self.logger = logging.getLogger(__name__)
-        self.set_level(level)
-        self.set_format(log_file, format, datefmt)
+        self.logger = logging.getLogger(log_file if log_file else __name__) 
+        self.logger.setLevel(level.upper())
+        self.set_format()
+        if log_file:
+            self.set_file_handler(log_file, format, datefmt)
 
-    def set_level(self, level: str):
-        level = level.upper()
-        if level == 'DEBUG':
-            self.logger.setLevel(logging.DEBUG)
-        elif level == 'INFO':
-            self.logger.setLevel(logging.INFO)
-        elif level == 'WARNING':
-            self.logger.setLevel(logging.WARNING)
-        elif level == 'ERROR':
-            self.logger.setLevel(logging.ERROR)
-        elif level == 'CRITICAL':
-            self.logger.setLevel(logging.CRITICAL)
-        elif level == 'NAME_CHANGE':
-            self.logger.setLevel(NAME_CHANGE)
-        else:
-            self.logger.setLevel(logging.INFO)
+    def set_format(self):
+        console_handler = logging.StreamHandler()
+        console_handler.setFormatter(CustomFormatter())
+        self.logger.addHandler(console_handler)
 
-    def set_format(self, log_file: str, format: str, datefmt: str):
-        # File handler
+    def set_file_handler(self, log_file: str, format: str, datefmt: str):
+        from os.path import exists as os_path_exists
+        from os import makedirs as os_makedirs
+        from os.path import dirname as os_path_dirname
+
+        if not os_path_exists(os_path_dirname(log_file)):
+            os_makedirs(os_path_dirname(log_file))
+
         file_handler = logging.FileHandler(log_file)
         file_formatter = logging.Formatter(format, datefmt)
         file_handler.setFormatter(file_formatter)
         self.logger.addHandler(file_handler)
-
-        # Console handler
-        console_handler = logging.StreamHandler()
-        console_handler.setFormatter(CustomFormatter())
-        self.logger.addHandler(console_handler)
 
     def log_message(self, message: str, level: str = 'INFO'):
         level = level.upper()
@@ -85,17 +76,22 @@ class Logger:
             self.logger.info(message)
     
     def clear(self):
-        open(self.log_file, 'w').close()
+        from os.path import exists as os_path_exists
+        if os_path_exists(self.log_file):
+            open(self.log_file, 'w').close()
 
-# Usage example
-# logger = Logger(log_file='tag_generation.log', level='INFO')
+    def change_log_file(self, log_file: str):
+        # Close and remove all current handlers
+        for handler in self.logger.handlers[:]:
+            if isinstance(handler, logging.FileHandler):
+                handler.close()
+                self.logger.removeHandler(handler)
+        self.log_file = log_file
+        self.set_file_handler(log_file, '%(asctime)s - %(levelname)s - %(message)s', '%Y-%m-%d %H:%M:%S')
 
-# logger.log_message('This is an info message.', 'INFO')
-# logger.log_message('This is a warning message.', 'WARNING')
-# logger.log_message('This is an error message.', 'ERROR')
-# logger.log_message('This is a debug message.', 'DEBUG')
-# logger.log_message('This is a critical message.', 'CRITICAL')
-# logger.log_message('This is a name change message.', 'NAME_CHANGE')
+    def set_level(self, level: str):
+        self.logger.setLevel(level.upper())
+        for handler in self.logger.handlers:
+            handler.setLevel(level.upper())
 
-# # Clear the log file
-# logger.clear()
+        

@@ -6,7 +6,7 @@ from collections import defaultdict
 
 from base.tag_functions import Find_Row_By_Tag_Name, Extract_Kepware_Tag_Name, Reset_Tag_Builder_Properties, Extract_Area_And_Offset, Extract_Offset_And_Array_Size, Remove_Invalid_Tag_Name_Characters, Set_Tag_Properties, Generate_Full_Path_From_Name_Parts, Convert_Data_Type, Build_Tag_Hierarchy, Create_Tag_Builder_Properties
 
-from mitsubishi_tag_generator.main import logger
+from mitsubishi_tag_generator.main import logger 
 
 def Update_Area_And_Path_Data_Type(area: str, path_data_type: str='') -> Tuple[str, str]:
     if 'SH' in area:
@@ -98,6 +98,7 @@ def Populate_Tag_Builder_Properties(tag_builder_properties, device_name, row=Non
 
 
 def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, collected_data=[], processed_csv_tags=[]) -> None:
+    from os.path import join as os_path_join
     if 'tags' in tag:
         for sub_tag in tag['tags']:
             if tag_builder_properties['tag_name_path']:
@@ -107,6 +108,7 @@ def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, c
             
             Process_Tag(generated_ingition_json, tag_builder_properties, key, df, sub_tag, collected_data=collected_data, processed_csv_tags=processed_csv_tags)
     else:
+
         if 'opcItemPath' in tag :
             tag_builder_properties.update({
                 'kepware_tag_name': Extract_Kepware_Tag_Name(tag['opcItemPath']),
@@ -120,8 +122,12 @@ def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, c
                 Process_Tag_Name(generated_ingition_json[key]['tags'], tag, tag_builder_properties)
                 Update_Device_CSV(tag_builder_properties, collected_data)
             else:
+                logger.change_log_file(os_path_join('files','logs', 'mitsubishi', 'info.log'))
+                logger.set_level('INFO')
                 logger.log_message(f"Could not find tag {tag_builder_properties['kepware_tag_name']} in CSV file {key}.csv so just leaving it as is", 'INFO')
         else:
+            logger.change_log_file(os_path_join('files','logs', 'mitsubishi', 'info.log'))
+            logger.set_level('INFO')
             logger.log_message(f'Could not find opcItemPath or dataType in tag {tag['name']} so just leaving it as is', 'INFO')
     Reset_Tag_Builder_Properties(tag_builder_properties)
 
@@ -151,6 +157,7 @@ def Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, c
 
 def Generate_Ignition_JSON_And_Address_CSV(csv_df, ignition_json) -> Dict[str, Any]:
     from pandas import DataFrame as pd_DataFrame
+    from os.path import join as os_path_join
     
     generated_ingition_json = ignition_json
     device_csv = defaultdict(pd_DataFrame)
@@ -167,6 +174,8 @@ def Generate_Ignition_JSON_And_Address_CSV(csv_df, ignition_json) -> Dict[str, A
 
             Finalize_Device_CSV(device_csv, key, collected_data)
         else:
+            logger.change_log_file(os_path_join('files','logs', 'mitsubishi', 'critical.log'))
+            logger.set_level('CRITICAL')
             logger.log_message(f"Could not find {key}.json in ignition JSON so skipping it", 'CRITICAL')
         del df
 
