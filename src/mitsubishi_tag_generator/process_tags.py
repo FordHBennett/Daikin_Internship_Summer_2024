@@ -1,16 +1,12 @@
 #!/usr/bin/env python
 
-# from os import path
-# import re
-# from re import S
-# from pandas import DataFrame as pd_DataFrame
-# from pandas import concat as pd_concat
 from typing import Dict, Any, List, Tuple
-# from concurrent.futures import ThreadPoolExecutor, as_completed
 from collections import defaultdict
-from unicodedata import name
 
-from base.base_functions import log_message, Find_Row_By_Tag_Name, Extract_Kepware_Tag_Name, Reset_Tag_Builder_Properties, Extract_Area_And_Offset, Extract_Offset_And_Array_Size, Remove_Invalid_Tag_Name_Characters, Set_Tag_Properties, Generate_Full_Path_From_Name_Parts, Convert_Data_Type, Build_Tag_Hierarchy, Create_Tag_Builder_Properties
+
+from base.tag_functions import Find_Row_By_Tag_Name, Extract_Kepware_Tag_Name, Reset_Tag_Builder_Properties, Extract_Area_And_Offset, Extract_Offset_And_Array_Size, Remove_Invalid_Tag_Name_Characters, Set_Tag_Properties, Generate_Full_Path_From_Name_Parts, Convert_Data_Type, Build_Tag_Hierarchy, Create_Tag_Builder_Properties
+
+from mitsubishi_tag_generator.main import logger
 
 def Update_Area_And_Path_Data_Type(area: str, path_data_type: str='') -> Tuple[str, str]:
     if 'SH' in area:
@@ -42,8 +38,6 @@ def Convert_Tag_Builder_Properties_To_Mitsubishi_Format(tag_builder_properties: 
     })
 
 
-
-
 def Create_New_Tag(name_parts: List[str], tags: Dict[str, Any], current_tag, tag_builder_properties) -> None:
 
     tag_builder_properties.update({
@@ -69,7 +63,7 @@ def Create_New_Tag(name_parts: List[str], tags: Dict[str, Any], current_tag, tag
 
 
 
-def Process_Tag_Name(device_name, tags, current_tag, tag_builder_properties) -> None:
+def Process_Tag_Name(tags, current_tag, tag_builder_properties) -> None:
     if tag_builder_properties['is_tag_from_csv_flag']:
         name_parts = [Remove_Invalid_Tag_Name_Characters(part) for part in tag_builder_properties['kepware_tag_name'].split('.')]
 
@@ -123,24 +117,16 @@ def Process_Tag(generated_ingition_json, tag_builder_properties, key, df, tag, c
                 processed_csv_tags.append(tag_builder_properties['kepware_tag_name'])
                 Populate_Tag_Builder_Properties(tag_builder_properties, generated_ingition_json[key]['name'], is_tag_from_csv_flag=False, row=tag_builder_properties['row'])
                 Convert_Tag_Builder_Properties_To_Mitsubishi_Format(tag_builder_properties)
-                Process_Tag_Name(tag_builder_properties['device_name'], generated_ingition_json[key]['tags'], tag, tag_builder_properties)
+                Process_Tag_Name(generated_ingition_json[key]['tags'], tag, tag_builder_properties)
                 Update_Device_CSV(tag_builder_properties, collected_data)
             else:
-                log_message(f"Could not find tag {tag_builder_properties['kepware_tag_name']} in CSV file {key}.csv so just leaving it as is", 'warning')
+                logger.log_message(f"Could not find tag {tag_builder_properties['kepware_tag_name']} in CSV file {key}.csv so just leaving it as is", 'INFO')
         else:
-            log_message(f'Could not find opcItemPath or dataType in tag {tag['name']} so just leaving it as is', 'warning')
+            logger.log_message(f'Could not find opcItemPath or dataType in tag {tag['name']} so just leaving it as is', 'INFO')
     Reset_Tag_Builder_Properties(tag_builder_properties)
 
 def Update_Device_CSV(tag_builder_properties, collected_data):
-    # tag_name = ''
     if tag_builder_properties['data_type']:
-
-        # if '/' in tag_builder_properties['tag_name_path']:
-        #     tag_name = tag_builder_properties['tag_name_path'][tag_builder_properties['tag_name_path'].find('/') + 1:]
-        #     tag_name = f'{tag_name}/{tag_builder_properties["tag_name"]}'
-        # else:
-            # tag_name = tag_builder_properties['tag_name']
-            
         collected_data.append({
             'tag_name': tag_builder_properties['tag_name_path'],
             'address': f"{tag_builder_properties['area']}<{tag_builder_properties['path_data_type']}{tag_builder_properties['array_size']}>{tag_builder_properties['offset']}"
@@ -158,7 +144,7 @@ def Process_CSV_Row(generated_ingition_json, tag_builder_properties, key, row, c
     if tag_builder_properties['kepware_tag_name'] not in processed_csv_tags:
         Populate_Tag_Builder_Properties(tag_builder_properties, generated_ingition_json[key]['name'], row)
         Convert_Tag_Builder_Properties_To_Mitsubishi_Format(tag_builder_properties)
-        Process_Tag_Name(tag_builder_properties['device_name'], generated_ingition_json[key]['tags'], {}, tag_builder_properties)
+        Process_Tag_Name(generated_ingition_json[key]['tags'], {}, tag_builder_properties)
         Update_Device_CSV(tag_builder_properties, collected_data)
         Reset_Tag_Builder_Properties(tag_builder_properties)
 
@@ -181,7 +167,7 @@ def Generate_Ignition_JSON_And_Address_CSV(csv_df, ignition_json) -> Dict[str, A
 
             Finalize_Device_CSV(device_csv, key, collected_data)
         else:
-            log_message(f"Could not find {key}.json in ignition JSON so skipping it", 'warning')
+            logger.log_message(f"Could not find {key}.json in ignition JSON so skipping it", 'CRITICAL')
         del df
 
     return generated_ingition_json, device_csv

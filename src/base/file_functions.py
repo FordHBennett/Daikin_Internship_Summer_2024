@@ -1,5 +1,8 @@
 from typing import List, Dict, Any
 
+# from mitsubishi_tag_generator.main import logger
+
+
 def Get_Basename_Without_Extension(file_path: str) -> str:
     from os.path import basename as os_path_basename
     from os.path import splitext as os_path_splitext
@@ -48,40 +51,40 @@ def Get_ALL_CSV_Paths(dir: str) -> List[str]:
     Recursive_Get_CSV_Paths(dir)
     return csv_paths
 
-def Read_Json_Files(json_files: List[str], is_test=False, is_single_threaded=False) -> Dict[str, Dict[str, Any]]:
+def Read_Json_Files(json_files: List[str], is_test=False, logger=None) -> Dict[str, Dict[str, Any]]:
     from json import load as json_load
     from os.path import basename as os_path_basename
     from concurrent.futures import ThreadPoolExecutor
-    from base.base_functions import log_message
-    if is_single_threaded:
-        pass
-    else:
-        ignition_json: Dict[str, Any] = {}
+    from base.logging_class import Logger
 
-        def read_file(json_file):
-            json_structure = {}
-            with open(json_file, 'r') as f:
-                json_structure = json_load(f)
-            
-            new_file_name = ''
-            if not is_test:
-                for key in json_structure["tags"]:
-                    if 'opcItemPath' in key:
-                        new_file_name =  key["opcItemPath"][key["opcItemPath"].rfind("=") + 1:key["opcItemPath"].find(".")]
-                        log_message(f"{os_path_basename(json_file)[:os_path_basename(json_file).find('.')]} Changed to {new_file_name}", 'info')
-                        break
-            else:
-                new_file_name = os_path_basename(json_file)[:os_path_basename(json_file).find('.')]
 
-            ignition_json[new_file_name] = json_structure
-            ignition_json[new_file_name]["name"] = new_file_name
+    def read_file(json_file):
+        json_structure = {}
+        with open(json_file, 'r') as f:
+            json_structure = json_load(f)
         
-        with ThreadPoolExecutor() as executor:
-            list(executor.map(read_file, json_files))
-        return ignition_json
+        new_file_name = ''
+        if not is_test:
+            for key in json_structure["tags"]:
+                if 'opcItemPath' in key:
+                    new_file_name =  key["opcItemPath"][key["opcItemPath"].rfind("=") + 1:key["opcItemPath"].find(".")]
+                    logger.log_message(f"{os_path_basename(json_file)[:os_path_basename(json_file).find('.')]} Changed to {new_file_name}", 'NAME_CHANGE')
+                    break
+        else:
+            new_file_name = os_path_basename(json_file)[:os_path_basename(json_file).find('.')]
+
+        ignition_json[new_file_name] = json_structure
+        ignition_json[new_file_name]["name"] = new_file_name
 
 
-def Read_CSV_Files(csv_files):
+    ignition_json: Dict[str, Any] = {}
+    with ThreadPoolExecutor() as executor:
+        list(executor.map(read_file, json_files))
+    
+    return ignition_json
+
+
+def Read_CSV_Files(csv_files) -> Dict[str, Any]:
     from pandas import read_csv as pd_read_csv    
     from pandas import DataFrame as pd_DataFrame
 

@@ -1,10 +1,13 @@
 import unittest 
 import os
 from mitsubishi_tag_generator.process_tags import *
-from base.base_functions import *
-from base.base_file_functions import *
+from base.tag_functions import *
+from base.file_functions import *
 import pandas as pd
 from shutil import rmtree
+from base.logging_class import Logger
+
+logger = Logger(log_file='tag_generation.log')
 
 class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
 
@@ -16,7 +19,7 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
         json_files = Get_ALL_JSON_Paths(input_dir)
         csv_files = Get_ALL_CSV_Paths(input_dir)
 
-        ignition_json = Read_Json_Files(json_files)
+        ignition_json = Read_Json_Files(json_files, logger=logger)
         csv_df = Read_CSV_Files(csv_files)
 
         ignition_json, address_csv = Generate_Ignition_JSON_And_Address_CSV(csv_df, ignition_json)
@@ -24,7 +27,7 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
         Write_Address_CSV(address_csv, output_dir)
 
         expected_output_json_files = Get_ALL_JSON_Paths(expected_output_dir)
-        expected_ignition_json = Read_Json_Files(expected_output_json_files, is_test=True)
+        expected_ignition_json = Read_Json_Files(expected_output_json_files, is_test=True, logger=logger)
 
         expected_output_csv_files = Get_ALL_CSV_Paths(expected_output_dir)
         expected_address_csv = Read_CSV_Files(expected_output_csv_files)

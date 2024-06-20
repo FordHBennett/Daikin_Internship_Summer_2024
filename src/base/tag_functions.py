@@ -2,48 +2,9 @@
 
 from typing import Dict, Any, List, Tuple, Union
 from functools import lru_cache
-from re import compile as re_compile, sub
-import logging
-
-
-logging.basicConfig(
-    filename='tag_generation.log',
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S',  
-    style='%'  
-)
-
-def log_message(message: str, level: str = 'info'):
-    if level == 'info':
-        logging.info(message)
-    elif level == 'warning':
-        logging.warning(message)
-    elif level == 'error':
-        logging.error(message)
-    elif level == 'Name Change':
-        logging.debug(message)
-    else:
-        logging.info(message)  
-
-
-ADDRESS_PATTERN = re_compile(r'\d+')
-TAG_NAME_PATTERN = re_compile(r'[^a-zA-Z0-9-_ .]')
-
-DATA_TYPE_MAPPINGS = {
-    'Short': ('Int2', 'Int16'),
-    'Int2': ('Int2', 'Int16'),
-    'Word': ('Int2', 'Int16'),
-    'Integer': ('Int4', 'Int32'),
-    'Int4': ('Int4', 'Int32'),
-    'BCD': ('Int4', 'Int32'),
-    'Boolean': ('Boolean', 'Bool')
-}
-
-REQUIRED_KEYS = ['tagGroup', 'dataType', 'tagType', 'historyProvider', 'historicalDeadband', 'historicalDeadbandStyle']
 
 def Remove_Invalid_Tag_Name_Characters(tag_name: str) -> str:
-    
+    from base.constants import TAG_NAME_PATTERN
     return TAG_NAME_PATTERN.sub('', tag_name)
 
 def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
@@ -84,23 +45,12 @@ def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
 
 
 def Create_Tag_Builder_Properties() -> Dict[str, Any]:
-    return {
-        "path_data_type": None,
-        "data_type": None,
-        "tag_name": None,
-        "tag_name_path": None,
-        "address": None,
-        "area": None,
-        "offset": None,
-        "array_size": None,
-        "row": None,
-        "device_name": None,
-        "kepware_tag_name": None,
-        "is_tag_from_csv_flag": False
-    }
+    from base.constants import TAG_BUILDER_TEMPLATE
+    return TAG_BUILDER_TEMPLATE.copy()
 
 def Reset_Tag_Builder_Properties(tag_builder_properties: Dict[str, Any] = {}) -> None:
-    tag_builder_properties.update(Create_Tag_Builder_Properties())
+    from base.constants import TAG_BUILDER_TEMPLATE
+    tag_builder_properties.update(TAG_BUILDER_TEMPLATE)
     
 def Find_Row_By_Tag_Name(df, tag_name):
 
@@ -112,6 +62,7 @@ def Extract_Kepware_Tag_Name(opc_item_path: str) -> str:
     return opc_item_path.split('.', 2)[-1]
 
 def Extract_Area_And_Offset(address: str) -> Tuple[str, str]:
+    from base.constants import ADDRESS_PATTERN
     match = ADDRESS_PATTERN.search(address)
     if match:
         first_number_index = match.start()
@@ -123,8 +74,6 @@ def Extract_Area_And_Offset(address: str) -> Tuple[str, str]:
         return area, offset
     else :
         exit(f"Could not find any numbers in address {address}")
-    
-
 
 def Extract_Offset_And_Array_Size(offset: str) -> Tuple[str, str]:
     if '.' in offset:
@@ -136,11 +85,12 @@ def Extract_Offset_And_Array_Size(offset: str) -> Tuple[str, str]:
 
 @lru_cache(maxsize=None)
 def Convert_Data_Type(data_type: str) -> Tuple[str, str]:
+    from base.constants import DATA_TYPE_MAPPINGS
     return DATA_TYPE_MAPPINGS.get(data_type, (data_type, ''))
 
 def Find_Missing_Tag_Properties(tags, new_tag) -> None:
+    from base.constants import REQUIRED_KEYS
     required_keys = REQUIRED_KEYS.copy()
-
 
     def handle_missing_tags(dummy_tag, new_tag):
         if required_keys == []:
