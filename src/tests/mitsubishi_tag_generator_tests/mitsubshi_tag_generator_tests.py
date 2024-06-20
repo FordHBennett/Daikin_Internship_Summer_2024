@@ -1,8 +1,8 @@
 import unittest 
 import os
-from pandas.testing import assert_frame_equal
 from mitsubishi_tag_generator.process_tags import *
 from base.base_functions import *
+from base.base_file_functions import *
 import pandas as pd
 from shutil import rmtree
 
