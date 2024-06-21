@@ -41,8 +41,6 @@ def remove_invalid_tag_name_characters(tag_name: str) -> str:
     from base.constants import TAG_NAME_PATTERN
     return TAG_NAME_PATTERN.sub('', tag_name)
 
-
-
 def get_tag_builder() -> Dict[str, Any]:
     from base.constants import TAG_BUILDER_TEMPLATE
     return TAG_BUILDER_TEMPLATE.copy()
@@ -84,9 +82,7 @@ def get_offset_and_array_size(offset: str) -> Tuple[str, str]:
 
     return (offset, array_size)
 
-
-
-def Find_Missing_Tag_Properties(tags, new_tag) -> None:
+def set_missing_tag_properties(tags, new_tag) -> None:
     from base.constants import REQUIRED_KEYS
     required_keys = REQUIRED_KEYS.copy()
 
@@ -110,15 +106,15 @@ def generate_full_path_from_name_parts(name_parts):
     return ('/'.join(name_parts)).rstrip('/')
 
 
-def Set_New_Tag_Properties(tags: Union[Dict[str, Any], List[Dict[str, Any]]], new_tag: Dict[str, Any]) -> None:
-    Find_Missing_Tag_Properties(tags, new_tag)
+def set_new_tag_properties(tags: Union[Dict[str, Any], List[Dict[str, Any]]], new_tag: Dict[str, Any]) -> None:
+    set_missing_tag_properties(tags, new_tag)
     new_tag.update({
         'enabled': False,
         'valueSource': 'opc',
         'tagGroup': 'default' # Remove once this in production
     })
 
-def Set_Existing_Tag_Properties(current_tag, new_tag):
+def set_existing_tag_properties(current_tag, new_tag):
     new_tag['tagGroup'] = 'default' # Remove once this in production
     new_tag['tagType'] = current_tag['tagType']
     for key in ['historyProvider', 'historicalDeadband', 'historicalDeadbandStyle']:
@@ -128,9 +124,9 @@ def Set_Existing_Tag_Properties(current_tag, new_tag):
 
 def set_tag_properties(tags={}, new_tag={}, current_tag={}):
     if tags:
-        Set_New_Tag_Properties(tags, new_tag)
+        set_new_tag_properties(tags, new_tag)
     else:
-        Set_Existing_Tag_Properties(current_tag, new_tag)
+        set_existing_tag_properties(current_tag, new_tag)
 
 def build_tag_hierarchy(tags, name_parts):
     dummy_tags = tags

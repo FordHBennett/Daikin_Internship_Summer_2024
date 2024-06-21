@@ -61,17 +61,16 @@ def create_new_tag(name_parts, tags, current_tag, tag_builder) -> None:
 
     if tag_builder['is_tag_from_csv_flag']:
         set_tag_properties(tags=tags, new_tag=new_tag)
-        current_tag.update(new_tag)
     else:
         set_tag_properties(new_tag=new_tag, current_tag=current_tag)
-        current_tag.update(new_tag)
+    
+    current_tag.update(new_tag)
 
 
 
 def process_tag_name(tags, tag_builder, current_tag=None) -> None:
     if current_tag is None:
         current_tag = {}
-
 
     if tag_builder['is_tag_from_csv_flag']:
         name_parts = [remove_invalid_tag_name_characters(part) for part in tag_builder['kepware_tag_name'].split('.')]
@@ -97,55 +96,31 @@ def handle_opc_path_not_found(tag, os_path_join):
     logger.set_level('INFO')
     logger.log_message(f'Could not find opcItemPath or dataType in tag {tag['name']} so just leaving it as is', 'INFO')
 
-def populate_tag_builder(tag_builder) -> None:
-    # if tag_builder['is_tag_from_csv_flag']:
-    #     tag_builder.update({
-    #         'data_type': tag_builder['row'].iloc[0, 0],
-    #         'address': tag_builder['row'].iloc[0, 1]
-    #     })
-    # else:
-    #     tag_builder.update({
-    #         'data_type': tag_builder['row'].iloc[0, 0],
-    #         'address': tag_builder['row'].iloc[0, 1]
-    #     })
-    tag_builder.update({
-    'address': tag_builder['row']["Address"],
-    'data_type': tag_builder['row']["Data Type"]
-
-    })
-
-
-def process_sub_tag(generated_ingition_json, tag_builder, key, df, tag, tag_name_and_address_list, processed_csv_tags, sub_tag):
+def process_sub_tag(ingition_json, tag_builder, key, df, tag, tag_name_and_address_list, processed_tags, sub_tag):
     if tag_builder['tag_name_path']:
         tag_builder['tag_name_path'] = f'{tag_builder['tag_name_path']}/{tag['name']}'
     else:
         tag_builder['tag_name_path'] = tag['name']
             
-    process_tag(generated_ingition_json, tag_builder, key, df, sub_tag, tag_name_and_address_list=tag_name_and_address_list, processed_csv_tags=processed_csv_tags)
+    process_tag(ingition_json, tag_builder, key, df, sub_tag, tag_name_and_address_list=tag_name_and_address_list, processed_tags=processed_tags)
 
 
-def process_tag(generated_ingition_json, tag_builder, key, df, tag, tag_name_and_address_list=[], processed_csv_tags=[]) -> None:
+def process_tag(ingition_json, tag_builder, key, df, tag, tag_name_and_address_list=[], processed_tags=[]) -> None:
     from os.path import join as os_path_join
     if 'tags' in tag:
         for sub_tag in tag['tags']:
-            process_sub_tag(generated_ingition_json, tag_builder, key, df, tag, tag_name_and_address_list, processed_csv_tags, sub_tag)
+            process_sub_tag(ingition_json, tag_builder, key, df, tag, tag_name_and_address_list, processed_tags, sub_tag)
     else:
         if 'opcItemPath' in tag:
                 tag_builder.update({
-                'kepware_tag_name': extract_kepware_tag_name(tag['opcItemPath']),
-                'row': find_row_by_tag_name(df, extract_kepware_tag_name(tag['opcItemPath'])),
-                'device_name': generated_ingition_json[key]['name']
-            })
+                    'row': find_row_by_tag_name(df, extract_kepware_tag_name(tag['opcItemPath']))
+                })
+
                 
                 if tag_builder['row'] is not None:
-                    processed_csv_tags.append(tag_builder['kepware_tag_name'])
-                    tag_builder.update({
-                    'address': tag_builder['row']["Address"],
-                    'data_type': tag_builder['row']["Data Type"]
-                    })
-                    convert_tag_builder_to_mitsubishi_format(tag_builder)
-                    process_tag_name(generated_ingition_json[key]['tags'], tag_builder, current_tag=tag)
-                    update_tag_builder_wrt_tag_name_and_address_list(tag_builder, tag_name_and_address_list)
+                    update_tag_builder(ingition_json, tag_builder, key)
+                    processed_tags.append(tag_builder['kepware_tag_name'])
+                    update_tags(tag_builder, tag, ingition_json[key]['tags'], tag_name_and_address_list)
 
                 else:
                     handle_tag_not_found(tag_builder, key, os_path_join)
@@ -153,6 +128,11 @@ def process_tag(generated_ingition_json, tag_builder, key, df, tag, tag_name_and
             handle_opc_path_not_found(tag, os_path_join)
 
     reset_tag_builder(tag_builder)
+
+def update_tags(tag_builder, current_tag, tags, tag_name_and_address_list):
+    convert_tag_builder_to_mitsubishi_format(tag_builder)
+    process_tag_name(tags, tag_builder, current_tag=current_tag)
+    update_tag_builder_wrt_tag_name_and_address_list(tag_builder, tag_name_and_address_list)
 
 
 
@@ -169,20 +149,20 @@ def finalize_address_csv_dict(device_csv, key, tag_name_and_address_list):
     if tag_name_and_address_list:
         device_csv[key] = pd_concat([device_csv[key], pd_DataFrame(tag_name_and_address_list)], ignore_index=True)
 
-def generate_df_from_kepware(ignition_json, tag_builder, key, tag_name_and_address_list, processed_csv_tags) -> None:
+def generate_df_from_kepware(ignition_json, tag_builder, key, tag_name_and_address_list, row) -> None:
+    tag_builder.update({'row': row})
+    update_tag_builder(ignition_json, tag_builder, key, is_tag_from_csv_flag=True)
+    update_tags(tag_builder, {}, ignition_json[key]['tags'], tag_name_and_address_list)
+    reset_tag_builder(tag_builder)
+
+def update_tag_builder(ignition_json, tag_builder, key, is_tag_from_csv_flag=False) -> None:
     tag_builder.update({
             'kepware_tag_name': tag_builder['row']['Tag Name'],
-            'is_tag_from_csv_flag': True,
+            'is_tag_from_csv_flag': is_tag_from_csv_flag,
             'device_name': ignition_json[key]['name'],
             'address': tag_builder['row']['Address'],
             'data_type': tag_builder['row']['Data Type']
         })
-    if tag_builder['kepware_tag_name'] not in processed_csv_tags:
-        convert_tag_builder_to_mitsubishi_format(tag_builder)
-        process_tag_name(ignition_json[key]['tags'], tag_builder)
-        update_tag_builder_wrt_tag_name_and_address_list(tag_builder, tag_name_and_address_list)
-    
-    reset_tag_builder(tag_builder)
 
 
 def get_generated_ignition_json_and_csv_files(kepware_df, ignition_json):
@@ -194,22 +174,24 @@ def get_generated_ignition_json_and_csv_files(kepware_df, ignition_json):
     for key, df in kepware_df.items():
         if key in ignition_json:
             tag_name_and_address_list = []
-            processed_csv_tags = []
+            processed_tags = []
             for tag in ignition_json[key]['tags']:
-                process_tag(ignition_json, tag_builder, key, df, tag, tag_name_and_address_list=tag_name_and_address_list, processed_csv_tags=processed_csv_tags)
+                process_tag(ignition_json, tag_builder, key, df, tag, tag_name_and_address_list=tag_name_and_address_list, processed_tags=processed_tags)
+
+            # drop all rows that have been processed
+            df = df[~df['Tag Name'].isin(processed_tags)]
                 
             for _, row in df.iterrows():
-
-                tag_builder.update({
-                    'row': row
-                })
-                generate_df_from_kepware(ignition_json, tag_builder, key, tag_name_and_address_list, processed_csv_tags)
+                generate_df_from_kepware(ignition_json, tag_builder, key, tag_name_and_address_list, row)
 
             finalize_address_csv_dict(address_csv_dict, key, tag_name_and_address_list)
         else:
-            logger.change_log_file(os_path_join('files','logs', 'mitsubishi', 'critical.log'))
-            logger.set_level('CRITICAL')
-            logger.log_message(f"Could not find {key}.json in ignition JSON so skipping it", 'CRITICAL')
+            log_missing_key_critical(os_path_join, key)
         del df
 
     return (ignition_json, address_csv_dict)
+
+def log_missing_key_critical(os_path_join, key):
+    logger.change_log_file(os_path_join('files','logs', 'mitsubishi', 'critical.log'))
+    logger.set_level('CRITICAL')
+    logger.log_message(f"Could not find {key}.json in ignition JSON so skipping it", 'CRITICAL')

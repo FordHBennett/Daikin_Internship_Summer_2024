@@ -49,7 +49,7 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
                 self.fail(f"Expected CSV for key {key} was not processed")
 
 
-        rmtree(output_dir)
+        # rmtree(output_dir)
 
 
 

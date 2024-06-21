@@ -18,3 +18,4 @@ Build/*
 .zshrc
 
 /profiles
+/files/profiles
