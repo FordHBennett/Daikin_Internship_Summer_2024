@@ -11,28 +11,28 @@ from base.logging_class import Logger
 
 class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
 
-    def test_Generate_Ignition_JSON_And_Address_CSV(self):
+    def test_get_generated_ignition_json_and_csv_files(self):
         input_dir: str = os.path.join('src','tests','files','input', 'mitsubishi')
         output_dir: str = os.path.join('src','tests','files','output', 'mitsubishi')
         expected_output_dir: str = os.path.join('src','tests','files','expected_output', 'mitsubishi')
     
-        json_files = Get_ALL_JSON_Paths(input_dir)
-        csv_files = Get_ALL_CSV_Paths(input_dir)
+        json_files = get_all_json_files(input_dir)
+        csv_files = get_all_csv_files(input_dir)
 
         logger = Logger()
 
-        ignition_json = Read_Json_Files(json_files, logger=logger)
-        csv_df = Read_CSV_Files(csv_files)
+        ignition_json = get_dict_from_json_files(json_files, logger=logger)
+        csv_df = get_dict_of_dfs_from_csv_files(csv_files)
 
-        ignition_json, address_csv = Generate_Ignition_JSON_And_Address_CSV(csv_df, ignition_json)
-        Write_Json_Files(ignition_json, output_dir)
-        Write_Address_CSV(address_csv, output_dir)
+        ignition_json, address_csv = get_generated_ignition_json_and_csv_files(csv_df, ignition_json)
+        write_json_files(ignition_json, output_dir)
+        write_csv_files(address_csv, output_dir)
 
-        expected_output_json_files = Get_ALL_JSON_Paths(expected_output_dir)
-        expected_ignition_json = Read_Json_Files(expected_output_json_files, is_test=True, logger=logger)
+        expected_output_json_files = get_all_json_files(expected_output_dir)
+        expected_ignition_json = get_dict_from_json_files(expected_output_json_files, is_test=True, logger=logger)
 
-        expected_output_csv_files = Get_ALL_CSV_Paths(expected_output_dir)
-        expected_address_csv = Read_CSV_Files(expected_output_csv_files)
+        expected_output_csv_files = get_all_csv_files(expected_output_dir)
+        expected_address_csv = get_dict_of_dfs_from_csv_files(expected_output_csv_files)
 
         self.assertEqual(ignition_json, expected_ignition_json)
 

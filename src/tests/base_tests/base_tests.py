@@ -4,7 +4,7 @@ from base.tag_functions import *
 from base.file_functions import *
 class Test_Base_Functions(unittest.TestCase):
     def test_get_basename_without_extension(self):
-        self.assertEqual(Get_Basename_Without_Extension('src/base/base_functions.py'), 'base_functions')
+        self.assertEqual(get_basename_without_extension('src/base/base_functions.py'), 'base_functions')
 
     def test_Remove_Invalid_Tag_Name_Characters(self):
         #Remove special characters
@@ -28,7 +28,7 @@ class Test_Base_Functions(unittest.TestCase):
         self.assertEqual(Remove_Invalid_Tag_Name_Characters(tag_name), expected_result)
 
 
-    def test_get_all_keys(self):
+    def test_get_all_dict_keys(self):
         #Test with nested dictionary and list
         json_structure = {
             "key1": "value1",
@@ -64,12 +64,12 @@ class Test_Base_Functions(unittest.TestCase):
                 }
             ]
         }
-        self.assertEqual(Get_All_Keys(json_structure), expected_keys)
+        self.assertEqual(get_all_dict_keys(json_structure), expected_keys)
 
         #Test with empty dictionary
         json_structure = {}
         expected_keys = {}
-        self.assertEqual(Get_All_Keys(json_structure), expected_keys)
+        self.assertEqual(get_all_dict_keys(json_structure), expected_keys)
 
         #Test with nested dictionary
         json_structure = {
@@ -86,7 +86,7 @@ class Test_Base_Functions(unittest.TestCase):
                 }
             ]
         }
-        self.assertEqual(Get_All_Keys(json_structure), expected_keys)
+        self.assertEqual(get_all_dict_keys(json_structure), expected_keys)
 
 
     def test_extract_tag_name(self):

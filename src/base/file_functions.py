@@ -1,6 +1,6 @@
 from typing import List, Dict, Any
 
-def Get_Basename_Without_Extension(file_path: str) -> str:
+def get_basename_without_extension(file_path: str) -> str:
     from os.path import basename as os_path_basename
     from os.path import splitext as os_path_splitext
     """
@@ -16,39 +16,39 @@ def Get_Basename_Without_Extension(file_path: str) -> str:
     name, _ = os_path_splitext(base_name)
     return name
 
-def Get_ALL_JSON_Paths(dir: str) -> List[str]:
+def get_all_json_files(dir: str) -> List[str]:
     from os import walk as os_walk
     from os.path import join as os_path_join
     json_paths: List[str] = []
 
-    def Recursive_Get_JSON_Paths(directory: str) -> None:
+    def recursive_get_json_paths(directory: str) -> None:
         for root, dirs, files in os_walk(directory):
             for file in files:
                 if file.endswith('.json'):
                     json_paths.append(os_path_join(root, file))
             for folder in dirs:
-                Recursive_Get_JSON_Paths(os_path_join(root, folder))
+                recursive_get_json_paths(os_path_join(root, folder))
 
-    Recursive_Get_JSON_Paths(dir)
+    recursive_get_json_paths(dir)
     return json_paths
 
-def Get_ALL_CSV_Paths(dir: str) -> List[str]:
+def get_all_csv_files(dir: str) -> List[str]:
     from os import walk as os_walk
     from os.path import join as os_path_join
     csv_paths: List[str] = []
 
-    def Recursive_Get_CSV_Paths(directory: str) -> None:
+    def recursive_get_csv_files(directory: str) -> None:
         for root, dirs, files in os_walk(directory):
             for file in files:
                 if file.endswith('.csv'):
                     csv_paths.append(os_path_join(root, file))
             for folder in dirs:
-                Recursive_Get_CSV_Paths(os_path_join(root, folder))
+                recursive_get_csv_files(os_path_join(root, folder))
 
-    Recursive_Get_CSV_Paths(dir)
+    recursive_get_csv_files(dir)
     return csv_paths
 
-def Read_Json_Files(json_files: List[str], is_test=False, logger=None) -> Dict[str, Dict[str, Any]]:
+def get_dict_from_json_files(json_files: List[str], is_test=False, logger=None) -> Dict[str, Dict[str, Any]]:
     from json import load as json_load
     from os.path import basename as os_path_basename
     from os.path import join as os_path_join
@@ -88,18 +88,18 @@ def Read_Json_Files(json_files: List[str], is_test=False, logger=None) -> Dict[s
     return ignition_json
 
 
-def Read_CSV_Files(csv_files) -> Dict[str, Any]:
+def get_dict_of_dfs_from_csv_files(csv_files) -> Dict[str, Any]:
     from pandas import read_csv as pd_read_csv    
     from pandas import DataFrame as pd_DataFrame
 
     csv_df: Dict[str, pd_DataFrame] = {}
     for csv_file in csv_files:
             df = pd_read_csv(csv_file)
-            csv_df[Get_Basename_Without_Extension(csv_file)] = df
+            csv_df[get_basename_without_extension(csv_file)] = df
     return csv_df
 
 
-def Write_Json_Files(json_data, output_dir):
+def write_json_files(json_data, output_dir):
     from concurrent.futures import ThreadPoolExecutor
     from json import dump as json_dump
     from os import makedirs as os_makedirs
@@ -120,7 +120,7 @@ def Write_Json_Files(json_data, output_dir):
         for future in futures:
             future.result()
 
-def Write_Address_CSV(address_csv: Dict[str, Any], dir: str) -> None:
+def write_csv_files(address_csv: Dict[str, Any], dir: str) -> None:
     from os.path import join as os_path_join
     from os import makedirs as os_makedirs
     from os.path import exists as os_path_exists

@@ -8,8 +8,8 @@ from base.logging_class import Logger
 logger = Logger()
 
 def main():
-    from base.file_functions import Get_ALL_JSON_Paths, Get_ALL_CSV_Paths, Read_Json_Files, Read_CSV_Files, Write_Json_Files, Write_Address_CSV
-    from mitsubishi_tag_generator.process_tags import Generate_Ignition_JSON_And_Address_CSV
+    from base.file_functions import get_all_json_files, get_all_csv_files, get_dict_from_json_files, get_dict_of_dfs_from_csv_files, write_json_files, write_csv_files
+    from mitsubishi_tag_generator.process_tags import get_generated_ignition_json_and_csv_files
     from os.path import join as os_path_join
 
 
@@ -17,19 +17,19 @@ def main():
     output_dir: str = os_path_join('files', 'output', 'mitsubishi')
    
 
-    json_files = Get_ALL_JSON_Paths(input_dir)
-    csv_files = Get_ALL_CSV_Paths(input_dir)
+    json_files = get_all_json_files(input_dir)
+    csv_files = get_all_csv_files(input_dir)
 
 
-    #FUTURE PROOF: Read_Json_Files will take a single file
-    ignition_json = Read_Json_Files(json_files, logger=logger)
-    csv_df = Read_CSV_Files(csv_files)
+    #FUTURE PROOF: get_dict_from_json_files will take a single file
+    ignition_json = get_dict_from_json_files(json_files, logger=logger)
+    csv_df = get_dict_of_dfs_from_csv_files(csv_files)
 
 
-    ignition_json, address_csv = Generate_Ignition_JSON_And_Address_CSV(csv_df, ignition_json)
+    ignition_json, address_csv = get_generated_ignition_json_and_csv_files(csv_df, ignition_json)
 
-    Write_Json_Files(ignition_json, output_dir)
-    Write_Address_CSV(address_csv, output_dir)
+    write_json_files(ignition_json, output_dir)
+    write_csv_files(address_csv, output_dir)
     
 
 

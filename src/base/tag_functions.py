@@ -1,13 +1,8 @@
 #!/usr/bin/env python
 
 from typing import Dict, Any, List, Tuple, Union
-from functools import lru_cache
 
-def Remove_Invalid_Tag_Name_Characters(tag_name: str) -> str:
-    from base.constants import TAG_NAME_PATTERN
-    return TAG_NAME_PATTERN.sub('', tag_name)
-
-def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
+def get_all_dict_keys(json_structure: Any) -> Dict[str, Any]:
     """
     Recursively extracts all keys from a JSON structure.
 
@@ -17,7 +12,7 @@ def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
     Returns:
         Dict[str, Any]: A dictionary containing all the extracted keys.
     """
-    def Recursive_Extract_Keys(obj: Any, parent_key: str = '', keys_set: set[str] = None) -> Dict[str, Any]:
+    def recursive_extract_keys(obj: Any, parent_key: str = '', keys_set: set[str] = None) -> Dict[str, Any]:
         if keys_set is None:
             keys_set = set()
 
@@ -27,41 +22,46 @@ def Get_All_Keys(json_structure: Any) -> Dict[str, Any]:
                 full_key = f"{parent_key}.{key}" if parent_key else key
                 if full_key not in keys_set:
                     keys_set.add(full_key)
-                    keys[key] = Recursive_Extract_Keys(value, full_key, keys_set)
+                    keys[key] = recursive_extract_keys(value, full_key, keys_set)
         elif isinstance(obj, list):
             list_keys = []
             for i, item in enumerate(obj):
                 full_key = f"{parent_key}[{i}]"
                 if full_key not in keys_set:
                     keys_set.add(full_key)
-                    list_keys.append(Recursive_Extract_Keys(item, full_key, keys_set))
+                    list_keys.append(recursive_extract_keys(item, full_key, keys_set))
             return list_keys
         else:
             return None
         return keys
 
-    return Recursive_Extract_Keys(json_structure)
+    return recursive_extract_keys(json_structure)
+
+def remove_invalid_tag_name_characters(tag_name: str) -> str:
+    from base.constants import TAG_NAME_PATTERN
+    return TAG_NAME_PATTERN.sub('', tag_name)
 
 
 
-def Create_Tag_Builder_Properties() -> Dict[str, Any]:
+def get_tag_builder() -> Dict[str, Any]:
     from base.constants import TAG_BUILDER_TEMPLATE
     return TAG_BUILDER_TEMPLATE.copy()
 
-def Reset_Tag_Builder_Properties(tag_builder_properties: Dict[str, Any] = {}) -> None:
+def reset_tag_builder(tag_builder: Dict[str, Any] = {}) -> None:
     from base.constants import TAG_BUILDER_TEMPLATE
-    tag_builder_properties.update(TAG_BUILDER_TEMPLATE)
+    tag_builder.update(TAG_BUILDER_TEMPLATE)
     
-def Find_Row_By_Tag_Name(df, tag_name):
+def find_row_by_tag_name(df, tag_name):
+    row = df[df['Tag Name'] == tag_name]
+    return row.iloc[0] if not row.empty else None
 
-    return df[df['Tag Name'] == tag_name]
 
-def Extract_Kepware_Tag_Name(opc_item_path: str) -> str:
+def extract_kepware_tag_name(opc_item_path: str) -> str:
     if '.' not in opc_item_path:
         return opc_item_path
     return opc_item_path.split('.', 2)[-1]
 
-def Extract_Area_And_Offset(address: str) -> Tuple[str, str]:
+def extract_area_and_offset(address: str) -> Tuple[str, str]:
     from base.constants import ADDRESS_PATTERN
     match = ADDRESS_PATTERN.search(address)
     if match:
@@ -75,18 +75,16 @@ def Extract_Area_And_Offset(address: str) -> Tuple[str, str]:
     else :
         exit(f"Could not find any numbers in address {address}")
 
-def Extract_Offset_And_Array_Size(offset: str) -> Tuple[str, str]:
+def get_offset_and_array_size(offset: str) -> Tuple[str, str]:
+    array_size = ''
     if '.' in offset:
         array_size = offset.split('.')[1]
         array_size = array_size.lstrip('0')
         offset = offset.split('.')[0]
-        return offset, array_size
-    return offset, ''
 
-@lru_cache(maxsize=None)
-def Convert_Data_Type(data_type: str) -> Tuple[str, str]:
-    from base.constants import DATA_TYPE_MAPPINGS
-    return DATA_TYPE_MAPPINGS.get(data_type, (data_type, ''))
+    return (offset, array_size)
+
+
 
 def Find_Missing_Tag_Properties(tags, new_tag) -> None:
     from base.constants import REQUIRED_KEYS
@@ -108,7 +106,7 @@ def Find_Missing_Tag_Properties(tags, new_tag) -> None:
             break
 
 
-def Generate_Full_Path_From_Name_Parts(name_parts):
+def generate_full_path_from_name_parts(name_parts):
     return ('/'.join(name_parts)).rstrip('/')
 
 
@@ -128,13 +126,13 @@ def Set_Existing_Tag_Properties(current_tag, new_tag):
             new_tag[key] = current_tag[key]
     new_tag['enabled'] = True
 
-def Set_Tag_Properties(tags={}, new_tag={}, current_tag={}):
+def set_tag_properties(tags={}, new_tag={}, current_tag={}):
     if tags:
         Set_New_Tag_Properties(tags, new_tag)
     else:
         Set_Existing_Tag_Properties(current_tag, new_tag)
 
-def Build_Tag_Hierarchy(tags, name_parts):
+def build_tag_hierarchy(tags, name_parts):
     dummy_tags = tags
     for part in name_parts[:-1]:
         found = False
