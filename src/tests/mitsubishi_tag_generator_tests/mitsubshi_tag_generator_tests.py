@@ -1,5 +1,3 @@
-import csv
-import json
 import unittest 
 import os
 from mitsubishi_tag_generator.process_tags import *

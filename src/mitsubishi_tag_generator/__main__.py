@@ -27,7 +27,7 @@ def main():
     # process_files(output_dir, json_files, csv_df)
     for json_file in json_files:
         generate_output(output_dir, csv_files, json_file)
-        # gc.collect()
+        gc.collect()
 
         
 @profile
@@ -54,6 +54,15 @@ def generate_output(output_dir, csv_files, json_file):
             ignition_json, address_csv = get_generated_ignition_json_and_csv_files(csv_df, ignition_json)
             write_json_files(ignition_json, output_dir)
             write_csv_files(address_csv, output_dir)
+            del csv_df
+            del address_csv
+            break
+    del ignition_json
+    del csv_files
+    gc.collect()
+
+    
+
 
 
 if __name__ == '__main__':

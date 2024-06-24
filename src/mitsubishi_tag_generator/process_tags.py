@@ -4,7 +4,7 @@ from typing import Dict, Any, Tuple
 from collections import defaultdict
 
 
-from mitsubishi_tag_generator.main import logger 
+from mitsubishi_tag_generator.__main__ import logger 
 from functools import lru_cache
 from pandas import DataFrame as pd_DataFrame
 import memory_profiler
