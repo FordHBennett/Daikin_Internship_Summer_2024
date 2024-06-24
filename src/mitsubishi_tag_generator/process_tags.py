@@ -1,18 +1,19 @@
 #!/usr/bin/env python
 
-from typing import Dict, Any, List, Tuple
+from typing import Dict, Any, Tuple
 from collections import defaultdict
 
 
-from base.tag_functions import find_row_by_tag_name, extract_kepware_tag_name, reset_tag_builder, extract_area_and_offset, get_offset_and_array_size, remove_invalid_tag_name_characters, set_tag_properties, generate_full_path_from_name_parts, build_tag_hierarchy, get_tag_builder
-
 from mitsubishi_tag_generator.main import logger 
 from functools import lru_cache
+from pandas import DataFrame as pd_DataFrame
+import memory_profiler
 
 @lru_cache(maxsize=None)
 def convert_data_type(data_type: str) -> Tuple[str, str]:
     from base.constants import DATA_TYPE_MAPPINGS
     return DATA_TYPE_MAPPINGS.get(data_type, (data_type, ''))
+
 
 def update_area_and_path_data_type(area: str, path_data_type: str='') -> Tuple[str, str]:
     if 'SH' in area:
@@ -25,6 +26,7 @@ def update_area_and_path_data_type(area: str, path_data_type: str='') -> Tuple[s
     return area, path_data_type
 
 def convert_tag_builder_to_mitsubishi_format(tag_builder: Dict[str, Any]) -> None:
+    from base.tag_functions import extract_area_and_offset, get_offset_and_array_size
     data_type, path_data_type = convert_data_type(tag_builder['data_type'])
     area, offset = extract_area_and_offset(tag_builder['address'])
     area, path_data_type = update_area_and_path_data_type(area, path_data_type)
@@ -45,7 +47,7 @@ def convert_tag_builder_to_mitsubishi_format(tag_builder: Dict[str, Any]) -> Non
 
 
 def create_new_tag(name_parts, tags, current_tag, tag_builder) -> None:
-
+    from base.tag_functions import generate_full_path_from_name_parts, set_tag_properties
     tag_builder.update({
         'tag_name': name_parts[-1],
         'tag_name_path': generate_full_path_from_name_parts(name_parts)
@@ -67,8 +69,8 @@ def create_new_tag(name_parts, tags, current_tag, tag_builder) -> None:
     current_tag.update(new_tag)
 
 
-
 def process_tag_name(tags, tag_builder, current_tag=None) -> None:
+    from base.tag_functions import build_tag_hierarchy, remove_invalid_tag_name_characters
     if current_tag is None:
         current_tag = {}
 
@@ -107,6 +109,7 @@ def process_sub_tag(ingition_json, tag_builder, key, df, tag, tag_name_and_addre
 
 def process_tag(ingition_json, tag_builder, key, df, tag, tag_name_and_address_list=[], processed_tags=[]) -> None:
     from os.path import join as os_path_join
+    from base.tag_functions import find_row_by_tag_name, extract_kepware_tag_name, reset_tag_builder
     if 'tags' in tag:
         for sub_tag in tag['tags']:
             process_sub_tag(ingition_json, tag_builder, key, df, tag, tag_name_and_address_list, processed_tags, sub_tag)
@@ -144,12 +147,12 @@ def update_tag_builder_wrt_tag_name_and_address_list(tag_builder, tag_name_and_a
         })
 
 def finalize_address_csv_dict(device_csv, key, tag_name_and_address_list):
-    from pandas import DataFrame as pd_DataFrame
     from pandas import concat as pd_concat
     if tag_name_and_address_list:
         device_csv[key] = pd_concat([device_csv[key], pd_DataFrame(tag_name_and_address_list)], ignore_index=True)
 
 def generate_df_from_kepware(ignition_json, tag_builder, key, tag_name_and_address_list, row) -> None:
+    from base.tag_functions import reset_tag_builder
     tag_builder.update({'row': row})
     update_tag_builder(ignition_json, tag_builder, key, is_tag_from_csv_flag=True)
     update_tags(tag_builder, {}, ignition_json[key]['tags'], tag_name_and_address_list)
@@ -165,10 +168,9 @@ def update_tag_builder(ignition_json, tag_builder, key, is_tag_from_csv_flag=Fal
         })
 
 
+@memory_profiler.profile
 def get_generated_ignition_json_and_csv_files(kepware_df, ignition_json):
-    from pandas import DataFrame as pd_DataFrame
-    from os.path import join as os_path_join
-    
+    from base.tag_functions import get_tag_builder
     address_csv_dict = defaultdict(pd_DataFrame)
     tag_builder = get_tag_builder()
     for key, df in kepware_df.items():
@@ -185,8 +187,8 @@ def get_generated_ignition_json_and_csv_files(kepware_df, ignition_json):
                 generate_df_from_kepware(ignition_json, tag_builder, key, tag_name_and_address_list, row)
 
             finalize_address_csv_dict(address_csv_dict, key, tag_name_and_address_list)
-        else:
-            log_missing_key_critical(os_path_join, key)
+        # else:
+        #     log_missing_key_critical(os_path_join, key)
         del df
 
     return (ignition_json, address_csv_dict)

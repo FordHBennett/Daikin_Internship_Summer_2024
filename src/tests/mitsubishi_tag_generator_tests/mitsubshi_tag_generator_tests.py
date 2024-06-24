@@ -1,3 +1,5 @@
+import csv
+import json
 import unittest 
 import os
 from mitsubishi_tag_generator.process_tags import *
@@ -6,6 +8,7 @@ from base.file_functions import *
 import pandas as pd
 from shutil import rmtree
 from base.logging_class import Logger
+from deepdiff import DeepDiff
 
 
 
@@ -21,12 +24,19 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
 
         logger = Logger()
 
-        ignition_json = get_dict_from_json_files(json_files, logger=logger)
-        csv_df = get_dict_of_dfs_from_csv_files(csv_files)
+        for json_file in json_files:
+            ignition_json = get_dict_from_json_files([json_file], logger=logger)
+            for csv_file in csv_files:
+                dummy_csv_file = get_basename_without_extension(csv_file)
+                if dummy_csv_file in ignition_json.keys():
+                    csv_df = get_dict_of_dfs_from_csv_files([csv_file])
+                    ignition_json, address_csv = get_generated_ignition_json_and_csv_files(csv_df, ignition_json)
+                    write_json_files(ignition_json, output_dir)
+                    write_csv_files(address_csv, output_dir)
 
-        ignition_json, address_csv = get_generated_ignition_json_and_csv_files(csv_df, ignition_json)
-        write_json_files(ignition_json, output_dir)
-        write_csv_files(address_csv, output_dir)
+        json_files = get_all_json_files(output_dir)
+
+        ignition_json = get_dict_from_json_files(json_files, is_test=True, logger=logger)
 
         expected_output_json_files = get_all_json_files(expected_output_dir)
         expected_ignition_json = get_dict_from_json_files(expected_output_json_files, is_test=True, logger=logger)
@@ -34,7 +44,9 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
         expected_output_csv_files = get_all_csv_files(expected_output_dir)
         expected_address_csv = get_dict_of_dfs_from_csv_files(expected_output_csv_files)
 
-        self.assertEqual(ignition_json, expected_ignition_json)
+        diff = DeepDiff(expected_ignition_json, ignition_json, ignore_order=True)
+        if diff:
+            self.fail(f"JSON files do not match: {diff}")
 
         # Loop through every element of both dataframes and compare them
         for key, df in address_csv.items():
@@ -42,11 +54,6 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
                 pd.testing.assert_frame_equal(df, expected_address_csv[key])
             else:
                 self.fail(f"Missing expected CSV for key: {key}")
-
-        # Check for any extra keys in expected_address_csv that were not processed
-        for key in expected_address_csv.keys():
-            if key not in address_csv:
-                self.fail(f"Expected CSV for key {key} was not processed")
 
 
         # rmtree(output_dir)

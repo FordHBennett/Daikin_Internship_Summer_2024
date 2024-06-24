@@ -1,8 +1,14 @@
+#!/usr/bin/env python
+
+import gc
 from typing import List, Dict, Any
+from memory_profiler import profile
+
 
 def get_basename_without_extension(file_path: str) -> str:
     from os.path import basename as os_path_basename
     from os.path import splitext as os_path_splitext
+
     """
     Returns the base name of a file path without the file extension.
 
@@ -17,33 +23,34 @@ def get_basename_without_extension(file_path: str) -> str:
     return name
 
 def get_all_json_files(dir: str) -> List[str]:
+
     from os import walk as os_walk
-    from os.path import join as os_path_join
     json_paths: List[str] = []
 
     def recursive_get_json_paths(directory: str) -> None:
-        for root, dirs, files in os_walk(directory):
+        from os.path import join as os_path_join
+
+        for root, _, files in os_walk(directory):
             for file in files:
                 if file.endswith('.json'):
                     json_paths.append(os_path_join(root, file))
-            for folder in dirs:
-                recursive_get_json_paths(os_path_join(root, folder))
+
 
     recursive_get_json_paths(dir)
     return json_paths
 
 def get_all_csv_files(dir: str) -> List[str]:
-    from os import walk as os_walk
     from os.path import join as os_path_join
+    from os import walk as os_walk
+
+
     csv_paths: List[str] = []
 
     def recursive_get_csv_files(directory: str) -> None:
-        for root, dirs, files in os_walk(directory):
+        for root, _, files in os_walk(directory):
             for file in files:
                 if file.endswith('.csv'):
                     csv_paths.append(os_path_join(root, file))
-            for folder in dirs:
-                recursive_get_csv_files(os_path_join(root, folder))
 
     recursive_get_csv_files(dir)
     return csv_paths
@@ -51,8 +58,7 @@ def get_all_csv_files(dir: str) -> List[str]:
 def get_dict_from_json_files(json_files: List[str], is_test=False, logger=None) -> Dict[str, Dict[str, Any]]:
     from json import load as json_load
     from os.path import basename as os_path_basename
-    from os.path import join as os_path_join
-    from concurrent.futures import ThreadPoolExecutor
+    # from concurrent.futures import ThreadPoolExecutor
 
     log_messages = []
     def read_file(json_file):
@@ -65,7 +71,6 @@ def get_dict_from_json_files(json_files: List[str], is_test=False, logger=None) 
             for key in json_structure["tags"]:
                 if 'opcItemPath' in key:
                     new_file_name =  key["opcItemPath"][key["opcItemPath"].rfind("=") + 1:key["opcItemPath"].find(".")]
-                    # logger.log_message(f"{os_path_basename(json_file)[:os_path_basename(json_file).find('.')]} Changed to {new_file_name}", 'NAME_CHANGE')
                     log_messages.append(f"{os_path_basename(json_file)[:os_path_basename(json_file).find('.')]} Changed to {new_file_name}")
                     break
         else:
@@ -74,12 +79,17 @@ def get_dict_from_json_files(json_files: List[str], is_test=False, logger=None) 
         ignition_json[new_file_name] = json_structure
         ignition_json[new_file_name]["name"] = new_file_name
 
+    # ignition_json: Dict[str, Any] = {}
+    # with ThreadPoolExecutor() as executor:
+    #     list(executor.map(read_file, json_files))
 
-    ignition_json: Dict[str, Any] = {}
-    with ThreadPoolExecutor() as executor:
-        list(executor.map(read_file, json_files))
+    ignition_json = {}
+    for json_file in json_files:
+        read_file(json_file)
+
 
     if logger:
+        from os.path import join as os_path_join
         logger.change_log_file(os_path_join('files','logs', 'mitsubishi', 'name_change.log'))
         logger.set_level('NAME_CHANGE')
         for message in log_messages:
@@ -87,7 +97,7 @@ def get_dict_from_json_files(json_files: List[str], is_test=False, logger=None) 
     
     return ignition_json
 
-
+@profile
 def get_dict_of_dfs_from_csv_files(csv_files) -> Dict[str, Any]:
     from pandas import read_csv as pd_read_csv    
     from pandas import DataFrame as pd_DataFrame

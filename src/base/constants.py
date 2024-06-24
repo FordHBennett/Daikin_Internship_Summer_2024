@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from re import compile as re_compile
 
 ADDRESS_PATTERN = re_compile(r'\d+')
