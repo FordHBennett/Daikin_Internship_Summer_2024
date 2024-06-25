@@ -1,19 +1,18 @@
 #!/usr/bin/env python
 
-
-
 import gc
-from memory_profiler import profile
-from base.logging_class import Logger
+# from memory_profiler import profile
+from tag_generator.base.logging_class import Logger
 
 
 
 logger = Logger()
 
-@profile
+# @profile
 def main():
-    from base.file_functions import get_all_json_files, get_all_csv_files
+    from tag_generator.base.file_functions import get_all_json_files, get_all_csv_files
     from os.path import join as os_path_join
+
 
     input_dir: str = os_path_join('files', 'input', 'mitsubishi')
     output_dir: str = os_path_join('files', 'output', 'mitsubishi')
@@ -30,10 +29,10 @@ def main():
         gc.collect()
 
         
-@profile
+# @profile
 def process_files(output_dir, json_files, csv_df):
-    from base.file_functions import  get_dict_from_json_files, write_json_files, write_csv_files
-    from mitsubishi_tag_generator.process_tags import get_generated_ignition_json_and_csv_files
+    from tag_generator.base.file_functions import get_dict_from_json_files, write_json_files, write_csv_files
+    from tag_generator.mitsubishi_tag_generator.process_tags import get_generated_ignition_json_and_csv_files
 
     ignition_json = get_dict_from_json_files(json_files, logger=logger)
     ignition_json, address_csv = get_generated_ignition_json_and_csv_files(csv_df, ignition_json)
@@ -42,28 +41,30 @@ def process_files(output_dir, json_files, csv_df):
     write_csv_files(address_csv, output_dir)
 
 
-@profile
+# @profile
 def generate_output(output_dir, csv_files, json_file):
-    from base.file_functions import get_dict_from_json_files, write_json_files, write_csv_files, get_basename_without_extension, get_dict_of_dfs_from_csv_files
+    from tag_generator.base.file_functions import get_dict_from_json_files, get_basename_without_extension
     ignition_json = get_dict_from_json_files([json_file], logger=logger)
     for csv_file in csv_files:
         if get_basename_without_extension(csv_file) in ignition_json.keys():
-            csv_df = get_dict_of_dfs_from_csv_files([csv_file])  
+            from tag_generator.base.file_functions import get_dict_of_dfs_from_csv_files, write_json_files, write_csv_files
+            from tag_generator.mitsubishi_tag_generator.process_tags import get_generated_ignition_json_and_csv_files
+            
 
-            from mitsubishi_tag_generator.process_tags import get_generated_ignition_json_and_csv_files
-            ignition_json, address_csv = get_generated_ignition_json_and_csv_files(csv_df, ignition_json)
+            # csv_df = 
+            ignition_json, address_csv = get_generated_ignition_json_and_csv_files(get_dict_of_dfs_from_csv_files([csv_file]) , ignition_json)
             write_json_files(ignition_json, output_dir)
             write_csv_files(address_csv, output_dir)
-            del csv_df
-            del address_csv
             break
-    del ignition_json
-    del csv_files
-    gc.collect()
+
 
     
 
 
 
 if __name__ == '__main__':
+    import memory_profiler
+    #profile all the functions
+    gc.enable()
+
     main()

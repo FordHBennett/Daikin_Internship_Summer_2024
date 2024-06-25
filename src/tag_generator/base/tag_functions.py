@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
-from typing import Dict, Any, List, Tuple, Union
+# import re
+# from typing import Dict, Any, List, Tuple, Union
 
-def get_all_dict_keys(json_structure: Any) -> Dict[str, Any]:
+def get_all_dict_keys(json_structure):
     """
     Recursively extracts all keys from a JSON structure.
 
@@ -12,7 +13,7 @@ def get_all_dict_keys(json_structure: Any) -> Dict[str, Any]:
     Returns:
         Dict[str, Any]: A dictionary containing all the extracted keys.
     """
-    def recursive_extract_keys(obj: Any, parent_key: str = '', keys_set: set[str] = None) -> Dict[str, Any]:
+    def recursive_extract_keys(obj, parent_key = '', keys_set = None) :
         if keys_set is None:
             keys_set = set()
 
@@ -38,15 +39,18 @@ def get_all_dict_keys(json_structure: Any) -> Dict[str, Any]:
     return recursive_extract_keys(json_structure)
 
 def remove_invalid_tag_name_characters(tag_name: str) -> str:
-    from base.constants import TAG_NAME_PATTERN
+    # from base.constants import TAG_NAME_PATTERN
+    from tag_generator.base.constants import TAG_NAME_PATTERN
     return TAG_NAME_PATTERN.sub('', tag_name)
 
-def get_tag_builder() -> Dict[str, Any]:
-    from base.constants import TAG_BUILDER_TEMPLATE
+def get_tag_builder():
+    # from base.constants import TAG_BUILDER_TEMPLATE
+    from tag_generator.base.constants import TAG_BUILDER_TEMPLATE
     return TAG_BUILDER_TEMPLATE.copy()
 
-def reset_tag_builder(tag_builder: Dict[str, Any] = {}) -> None:
-    from base.constants import TAG_BUILDER_TEMPLATE
+def reset_tag_builder(tag_builder= {}) -> None:
+    # from base.constants import TAG_BUILDER_TEMPLATE
+    from tag_generator.base.constants import TAG_BUILDER_TEMPLATE
     tag_builder.update(TAG_BUILDER_TEMPLATE)
     
 def find_row_by_tag_name(df, tag_name):
@@ -59,8 +63,9 @@ def extract_kepware_tag_name(opc_item_path: str) -> str:
         return opc_item_path
     return opc_item_path.split('.', 2)[-1]
 
-def extract_area_and_offset(address: str) -> Tuple[str, str]:
-    from base.constants import ADDRESS_PATTERN
+def extract_area_and_offset(address: str):
+    # from base.constants import ADDRESS_PATTERN
+    from tag_generator.base.constants import ADDRESS_PATTERN
     match = ADDRESS_PATTERN.search(address)
     if match:
         first_number_index = match.start()
@@ -73,7 +78,7 @@ def extract_area_and_offset(address: str) -> Tuple[str, str]:
     else :
         exit(f"Could not find any numbers in address {address}")
 
-def get_offset_and_array_size(offset: str) -> Tuple[str, str]:
+def get_offset_and_array_size(offset: str):
     array_size = ''
     if '.' in offset:
         array_size = offset.split('.')[1]
@@ -83,7 +88,8 @@ def get_offset_and_array_size(offset: str) -> Tuple[str, str]:
     return (offset, array_size)
 
 def set_missing_tag_properties(tags, new_tag) -> None:
-    from base.constants import REQUIRED_KEYS
+    # from base.constants import REQUIRED_KEYS
+    from tag_generator.base.constants import REQUIRED_KEYS
     required_keys = REQUIRED_KEYS.copy()
 
     def handle_missing_tags(dummy_tag, new_tag):
@@ -92,10 +98,11 @@ def set_missing_tag_properties(tags, new_tag) -> None:
         if 'tags' in dummy_tag:
             handle_missing_tags(dummy_tag['tags'], new_tag)
         else:
+            remove = required_keys.remove
             for key in required_keys:
                 if (key not in new_tag) and (key in dummy_tag) and (dummy_tag[key] != 'Folder'):
                     new_tag[key] = dummy_tag[key]
-                    required_keys.remove(key)
+                    remove(key)
 
     for dummy_tag in tags:
         if handle_missing_tags(dummy_tag, new_tag):
@@ -106,7 +113,7 @@ def generate_full_path_from_name_parts(name_parts):
     return ('/'.join(name_parts)).rstrip('/')
 
 
-def set_new_tag_properties(tags: Union[Dict[str, Any], List[Dict[str, Any]]], new_tag: Dict[str, Any]) -> None:
+def set_new_tag_properties(tags, new_tag) -> None:
     set_missing_tag_properties(tags, new_tag)
     new_tag.update({
         'enabled': False,

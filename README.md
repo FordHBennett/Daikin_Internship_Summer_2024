@@ -81,7 +81,7 @@
     python -m pip install -e .
     python -c "import mitsubishi_tag_generator"
     python -c "import base"
-    run mitsubishi-tag-generator
+    run-mitsubishi-tag-generator
     ```
 
     **Windows (PowerShell):**
@@ -136,4 +136,7 @@
     ```
 
 
-Profiling: python -m cProfile -o profiles/mitsubishi.prof -m src.mitsubishi_tag_generator.main
+Profiling: 
+python -m cProfile -o files/profiles/mitsubishi.prof -m tag_generator 
+
+mprof run --backend psutil python -m tag_generator

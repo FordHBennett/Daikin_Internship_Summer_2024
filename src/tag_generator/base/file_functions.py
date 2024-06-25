@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 
-import gc
-from typing import List, Dict, Any
-from memory_profiler import profile
+# from typing import List, Dict, Any
+# from memory_profiler import profile
 
 
 def get_basename_without_extension(file_path: str) -> str:
@@ -18,14 +17,14 @@ def get_basename_without_extension(file_path: str) -> str:
     Returns:
         str: The base name of the file without the extension.
     """
-    base_name = os_path_basename(file_path)
-    name, _ = os_path_splitext(base_name)
+
+    name, _ = os_path_splitext(os_path_basename(file_path))
     return name
 
-def get_all_json_files(dir: str) -> List[str]:
+def get_all_json_files(dir: str):
 
     from os import walk as os_walk
-    json_paths: List[str] = []
+    json_paths = []
 
     def recursive_get_json_paths(directory: str) -> None:
         from os.path import join as os_path_join
@@ -39,12 +38,12 @@ def get_all_json_files(dir: str) -> List[str]:
     recursive_get_json_paths(dir)
     return json_paths
 
-def get_all_csv_files(dir: str) -> List[str]:
+def get_all_csv_files(dir: str):
     from os.path import join as os_path_join
     from os import walk as os_walk
 
 
-    csv_paths: List[str] = []
+    csv_paths= []
 
     def recursive_get_csv_files(directory: str) -> None:
         for root, _, files in os_walk(directory):
@@ -55,7 +54,7 @@ def get_all_csv_files(dir: str) -> List[str]:
     recursive_get_csv_files(dir)
     return csv_paths
 
-def get_dict_from_json_files(json_files: List[str], is_test=False, logger=None) -> Dict[str, Dict[str, Any]]:
+def get_dict_from_json_files(json_files, is_test=False, logger=None):
     from json import load as json_load
     from os.path import basename as os_path_basename
     # from concurrent.futures import ThreadPoolExecutor
@@ -97,12 +96,12 @@ def get_dict_from_json_files(json_files: List[str], is_test=False, logger=None) 
     
     return ignition_json
 
-@profile
-def get_dict_of_dfs_from_csv_files(csv_files) -> Dict[str, Any]:
+# @profile
+def get_dict_of_dfs_from_csv_files(csv_files):
     from pandas import read_csv as pd_read_csv    
-    from pandas import DataFrame as pd_DataFrame
+    # from pandas import DataFrame as pd_DataFrame
 
-    csv_df: Dict[str, pd_DataFrame] = {}
+    csv_df = {}
     for csv_file in csv_files:
             df = pd_read_csv(csv_file)
             csv_df[get_basename_without_extension(csv_file)] = df
@@ -110,7 +109,7 @@ def get_dict_of_dfs_from_csv_files(csv_files) -> Dict[str, Any]:
 
 
 def write_json_files(json_data, output_dir):
-    from concurrent.futures import ThreadPoolExecutor
+    # from concurrent.futures import ThreadPoolExecutor
     from json import dump as json_dump
     from os import makedirs as os_makedirs
     from os.path import exists as os_path_exists
@@ -122,27 +121,31 @@ def write_json_files(json_data, output_dir):
         with open(file_path, 'w') as f:
             json_dump(data, f, indent=4)
 
-    with ThreadPoolExecutor() as executor:
-        futures = [
-            executor.submit(write_file, f"{output_dir}/{key}.json", data)
-            for key, data in json_data.items()
-        ]
-        for future in futures:
-            future.result()
+    # with ThreadPoolExecutor() as executor:
+    #     futures = [
+    #         executor.submit(write_file, f"{output_dir}/{key}.json", data)
+    #         for key, data in json_data.items()
+    #     ]
+    #     for future in futures:
+    #         future.result()
+    for key, data in json_data.items():
+        write_file(f"{output_dir}/{key}.json", data)
 
-def write_csv_files(address_csv: Dict[str, Any], dir: str) -> None:
+def write_csv_files(address_csv, dir: str) -> None:
     from os.path import join as os_path_join
     from os import makedirs as os_makedirs
     from os.path import exists as os_path_exists
-    from concurrent.futures import ThreadPoolExecutor
+    # from concurrent.futures import ThreadPoolExecutor
 
     out_dir = f'{dir}/csv'
     if not os_path_exists(out_dir):
         os_makedirs(out_dir)
-    with ThreadPoolExecutor() as executor:
-        futures = [
-            executor.submit(df.to_csv, os_path_join(out_dir, f'{key}.csv'), index=False)
-            for key, df in address_csv.items()
-        ]
-        for future in futures:
-            future.result()
+    # with ThreadPoolExecutor() as executor:
+    #     futures = [
+    #         executor.submit(df.to_csv, os_path_join(out_dir, f'{key}.csv'), index=False)
+    #         for key, df in address_csv.items()
+    #     ]
+    #     for future in futures:
+    #         future.result()
+    for key, df in address_csv.items():
+        df.to_csv(os_path_join(out_dir, f'{key}.csv'), index=False)

@@ -1,11 +1,12 @@
 import unittest 
 import os
-from mitsubishi_tag_generator.process_tags import *
-from base.tag_functions import *
-from base.file_functions import *
+import gc
+from tag_generator.__main__ import *
+from tag_generator.base.file_functions import *
+from tag_generator.mitsubishi_tag_generator.process_tags import *
 import pandas as pd
 from shutil import rmtree
-from base.logging_class import Logger
+# from tag_generator.base.logging_class import Logger
 from deepdiff import DeepDiff
 
 
@@ -21,20 +22,15 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
         csv_files = get_all_csv_files(input_dir)
 
         logger = Logger()
-
         for json_file in json_files:
-            ignition_json = get_dict_from_json_files([json_file], logger=logger)
-            for csv_file in csv_files:
-                dummy_csv_file = get_basename_without_extension(csv_file)
-                if dummy_csv_file in ignition_json.keys():
-                    csv_df = get_dict_of_dfs_from_csv_files([csv_file])
-                    ignition_json, address_csv = get_generated_ignition_json_and_csv_files(csv_df, ignition_json)
-                    write_json_files(ignition_json, output_dir)
-                    write_csv_files(address_csv, output_dir)
+            generate_output(output_dir, csv_files, json_file)
+            gc.collect()
 
         json_files = get_all_json_files(output_dir)
-
         ignition_json = get_dict_from_json_files(json_files, is_test=True, logger=logger)
+
+        address_csv = get_all_csv_files(output_dir)
+        address_csv = get_dict_of_dfs_from_csv_files(address_csv)
 
         expected_output_json_files = get_all_json_files(expected_output_dir)
         expected_ignition_json = get_dict_from_json_files(expected_output_json_files, is_test=True, logger=logger)
