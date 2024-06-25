@@ -138,5 +138,5 @@
 
 Profiling: 
 python -m cProfile -o files/profiles/mitsubishi.prof -m tag_generator 
-
+ 
 mprof run --backend psutil python -m tag_generator

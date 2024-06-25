@@ -32,7 +32,7 @@ class CustomFormatter(logging.Formatter):
         return formatter.format(record)
 
 class Logger:
-    def __init__(self, log_file: str='', level: str = 'INFO', format: str = '%(asctime)s - %(levelname)s - %(message)s', datefmt: str = '%Y-%m-%d %H:%M:%S'):
+    def __init__(self, log_file = r'', level = r'INFO', format = '%(asctime)s - %(levelname)s - %(message)s', datefmt = '%Y-%m-%d %H:%M:%S'):
         self.log_file = log_file
         self.logger = logging.getLogger(log_file if log_file else __name__) 
         self.logger.setLevel(level.upper())
@@ -43,9 +43,9 @@ class Logger:
     def set_format(self):
         console_handler = logging.StreamHandler()
         console_handler.setFormatter(CustomFormatter())
-        self.logger.addHandler(console_handler)
+        # self.logger.addHandler(console_handler)
 
-    def set_file_handler(self, log_file: str, format: str, datefmt: str):
+    def set_file_handler(self, log_file, format, datefmt):
         from os.path import exists as os_path_exists
         from os import makedirs as os_makedirs
         from os.path import dirname as os_path_dirname
@@ -58,7 +58,7 @@ class Logger:
         file_handler.setFormatter(file_formatter)
         self.logger.addHandler(file_handler)
 
-    def log_message(self, message: str, level: str = 'INFO'):
+    def log_message(self, message, level = 'INFO'):
         level = level.upper()
         if level == 'DEBUG':
             self.logger.debug(message)
@@ -80,7 +80,7 @@ class Logger:
         if os_path_exists(self.log_file):
             open(self.log_file, 'w').close()
 
-    def change_log_file(self, log_file: str):
+    def change_log_file(self, log_file):
         # Close and remove all current handlers
         for handler in self.logger.handlers[:]:
             if isinstance(handler, logging.FileHandler):
@@ -89,7 +89,7 @@ class Logger:
         self.log_file = log_file
         self.set_file_handler(log_file, '%(asctime)s - %(levelname)s - %(message)s', '%Y-%m-%d %H:%M:%S')
 
-    def set_level(self, level: str):
+    def set_level(self, level):
         self.logger.setLevel(level.upper())
         for handler in self.logger.handlers:
             handler.setLevel(level.upper())

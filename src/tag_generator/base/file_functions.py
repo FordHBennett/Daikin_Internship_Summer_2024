@@ -4,7 +4,13 @@
 # from memory_profiler import profile
 
 
-def get_basename_without_extension(file_path: str) -> str:
+# import json
+
+
+import csv
+
+
+def get_basename_without_extension(file_path):
     from os.path import basename as os_path_basename
     from os.path import splitext as os_path_splitext
 
@@ -21,51 +27,53 @@ def get_basename_without_extension(file_path: str) -> str:
     name, _ = os_path_splitext(os_path_basename(file_path))
     return name
 
-def get_all_json_files(dir: str):
+def get_all_json_files(dir):
 
     from os import walk as os_walk
     json_paths = []
 
-    def recursive_get_json_paths(directory: str) -> None:
+    def recursive_get_json_paths(directory) -> None:
         from os.path import join as os_path_join
 
         for root, _, files in os_walk(directory):
             for file in files:
                 if file.endswith('.json'):
-                    json_paths.append(os_path_join(root, file))
+                    json_paths.append(os_path_join(root, file).encode('unicode-escape').decode())
 
 
     recursive_get_json_paths(dir)
-    return json_paths
+    return tuple(json_paths)
 
-def get_all_csv_files(dir: str):
+def get_all_csv_files(dir):
     from os.path import join as os_path_join
     from os import walk as os_walk
 
 
     csv_paths= []
 
-    def recursive_get_csv_files(directory: str) -> None:
+    def recursive_get_csv_files(directory) -> None:
         for root, _, files in os_walk(directory):
             for file in files:
                 if file.endswith('.csv'):
-                    csv_paths.append(os_path_join(root, file))
+                    csv_paths.append(os_path_join(root, file).encode('unicode-escape').decode())
 
     recursive_get_csv_files(dir)
-    return csv_paths
+    return tuple(csv_paths)
 
 def get_dict_from_json_files(json_files, is_test=False, logger=None):
     from json import load as json_load
     from os.path import basename as os_path_basename
     # from concurrent.futures import ThreadPoolExecutor
+    # import mmap
+    # import gc
 
     log_messages = []
     def read_file(json_file):
         json_structure = {}
-        with open(json_file, 'r') as f:
+        with open(json_file, 'r', encoding='utf-8') as f:
             json_structure = json_load(f)
         
-        new_file_name = ''
+        new_file_name = r''
         if not is_test:
             for key in json_structure["tags"]:
                 if 'opcItemPath' in key:
@@ -94,17 +102,18 @@ def get_dict_from_json_files(json_files, is_test=False, logger=None):
         for message in log_messages:
             logger.log_message(message, 'NAME_CHANGE')
     
+    # gc.collect()
     return ignition_json
 
 # @profile
 def get_dict_of_dfs_from_csv_files(csv_files):
-    from pandas import read_csv as pd_read_csv    
-    # from pandas import DataFrame as pd_DataFrame
+    from pandas import read_csv as pd_read_csv
+    # import mmap    
 
     csv_df = {}
     for csv_file in csv_files:
-            df = pd_read_csv(csv_file)
-            csv_df[get_basename_without_extension(csv_file)] = df
+        with open(csv_file, 'r') as f:
+            csv_df[get_basename_without_extension(csv_file)] = pd_read_csv(f)
     return csv_df
 
 
@@ -118,8 +127,9 @@ def write_json_files(json_data, output_dir):
     if not os_path_exists(output_dir):
         os_makedirs(output_dir)
     def write_file(file_path, data):
-        with open(file_path, 'w') as f:
+        with open(file_path, 'w', encoding='utf-8') as f:
             json_dump(data, f, indent=4)
+                
 
     # with ThreadPoolExecutor() as executor:
     #     futures = [
@@ -131,10 +141,11 @@ def write_json_files(json_data, output_dir):
     for key, data in json_data.items():
         write_file(f"{output_dir}/{key}.json", data)
 
-def write_csv_files(address_csv, dir: str) -> None:
+def write_csv_files(address_csv, dir) -> None:
     from os.path import join as os_path_join
     from os import makedirs as os_makedirs
     from os.path import exists as os_path_exists
+
     # from concurrent.futures import ThreadPoolExecutor
 
     out_dir = f'{dir}/csv'
