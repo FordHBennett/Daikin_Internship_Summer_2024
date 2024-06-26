@@ -1,14 +1,7 @@
 #!/usr/bin/env python
 
 import gc
-
-from matplotlib.artist import get
-# from memory_profiler import profile
 from tag_generator.base.logging_class import Logger
-# import tracemalloc
-
-from guppy import hpy
-h = hpy()
 
 logger = Logger()
 
@@ -16,26 +9,16 @@ logger = Logger()
 def main():
     from tag_generator.base.file_functions import get_all_files
     from os.path import join as os_path_join
-    # tracemalloc.start()
-    input_dir = os_path_join('files', 'input', 'mitsubishi').encode('unicode-escape').decode()
-    output_dir = os_path_join('files', 'output', 'mitsubishi').encode('unicode-escape').decode()
-   
 
+    input_dir = os_path_join('files', 'input', 'mitsubishi')
+    output_dir = os_path_join('files', 'output', 'mitsubishi')
+   
     json_files = get_all_files(input_dir, '.json')
     csv_files = get_all_files(input_dir, '.csv')
-
-    # gc.collect()
-    #FUTURE PROOF: get_dict_from_json_files will take a single file
-    # csv_df = get_dict_of_dfs_from_csv_files(csv_files)
-    # process_files(output_dir, json_files, csv_df)
 
     for json_file in json_files:
         generate_output(output_dir, csv_files, json_file)
 
-    
-
-
-        
 # @profile
 def process_files(output_dir, json_files, csv_df):
     from tag_generator.base.file_functions import get_dict_from_json_files, write_json_files, write_csv_files
@@ -69,8 +52,6 @@ def generate_output(output_dir, csv_files, json_file):
 
 
 if __name__ == '__main__':
-    # import cProfile
     gc.enable()
-    # cProfile.run('main()', 'profile_stats')
     main()
 
