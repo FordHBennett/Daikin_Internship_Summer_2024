@@ -24,7 +24,6 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
         logger = Logger()
         for json_file in json_files:
             generate_output(output_dir, csv_files, json_file)
-            gc.collect()
 
         json_files = get_all_files(output_dir, '.json')
         ignition_json = get_dict_from_json_files(json_files, is_test=True, logger=logger)
@@ -38,7 +37,7 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
         expected_output_csv_files = get_all_files(expected_output_dir, '.csv')
         expected_address_csv = get_dict_of_dfs_from_csv_files(expected_output_csv_files)
 
-        diff = DeepDiff(expected_ignition_json, ignition_json, ignore_order=True)
+        diff = DeepDiff(expected_ignition_json, ignition_json, ignore_order=True, verbose_level=2)
         if diff:
             self.fail(f"JSON files do not match: {diff}")
 

@@ -86,7 +86,8 @@ def get_dict_of_dfs_from_csv_files(csv_files):
                 # remove all non alphanumeric characters from key
                 new_key = remove_invalid_tag_name_characters(key)
                 df[new_key] = df.pop(key)
-        return csv_df
+    
+    return csv_df
 
 
 def write_json_files(json_data, output_dir):
