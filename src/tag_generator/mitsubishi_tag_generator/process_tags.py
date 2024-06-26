@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from collections import defaultdict
-from html.entities import name2codepoint
 from tag_generator.__main__ import logger 
 from pandas import DataFrame as pd_DataFrame
 
@@ -73,17 +72,17 @@ def process_tag(ingition_json, tag_builder, key, df, tag, tag_name_and_address_l
             process_sub_tag(ingition_json, tag_builder, key, df, tag, tag_name_and_address_list, sub_tag)
     else:
         if 'opcItemPath' in tag:
-                tag_builder.update({
-                    r'row': find_row_by_tag_name(df, extract_kepware_tag_name(tag['opcItemPath']))
-                })
+            tag_builder.update({
+                r'row': find_row_by_tag_name(df, extract_kepware_tag_name(tag['opcItemPath']))
+            })
 
-                
-                if tag_builder['row'] is not None:
-                    update_tag_builder(ingition_json, tag_builder, key)
-                    update_tags(tag_builder, tag,  tag_name_and_address_list)
+            
+            if tag_builder['row'] is not None:
+                update_tag_builder(ingition_json, tag_builder, key)
+                update_tags(tag_builder, tag,  tag_name_and_address_list)
 
-                else:
-                    handle_tag_not_found(tag_builder, key, os_path_join)
+            else:
+                handle_tag_not_found(tag_builder, key, os_path_join)
         else:
             handle_opc_path_not_found(tag, os_path_join)
 
@@ -92,29 +91,26 @@ def process_tag(ingition_json, tag_builder, key, df, tag, tag_name_and_address_l
 def update_tags(tag_builder, current_tag, tag_name_and_address_list):
     convert_tag_builder_to_mitsubishi_format(tag_builder)
     create_new_tag(current_tag, tag_builder)
-    update_tag_builder_wrt_tag_name_and_address_list(tag_builder, tag_name_and_address_list)
+    update_tag_builder_wrt_tag_name_and_address_list(tag_builder, tag_name_and_address_list, current_tag)
 
 
 
-def update_tag_builder_wrt_tag_name_and_address_list(tag_builder, tag_name_and_address_list):
-    if tag_builder['data_type']:
+def update_tag_builder_wrt_tag_name_and_address_list(tag_builder, tag_name_and_address_list, current_tag):
+    if tag_builder['data_type'] and tag_builder['tag_name_path'] :
         tag_name_and_address_list.append({
-            r'tag_name': tag_builder['tag_name_path'],
+            r'tag_name': f'{tag_builder['tag_name_path']}/{current_tag["name"]}',
+            r'address': f"{tag_builder['area']}<{tag_builder['path_data_type']}{tag_builder['array_size']}>{tag_builder['offset']}"
+        })
+    else:
+        tag_name_and_address_list.append({
+            r'tag_name': f'{current_tag["name"]}',
             r'address': f"{tag_builder['area']}<{tag_builder['path_data_type']}{tag_builder['array_size']}>{tag_builder['offset']}"
         })
 
 
 def finalize_address_csv_dict(device_csv, key, tag_name_and_address_list):
-    from pandas import concat as pd_concat
     if tag_name_and_address_list:
-        device_csv[key] = pd_concat([device_csv[key], pd_DataFrame(tag_name_and_address_list)], ignore_index=True)
-
-# def generate_df_from_kepware(ignition_json, tag_builder, key, tag_name_and_address_list, row) -> None:
-#     from tag_generator.base.tag_functions import reset_tag_builder
-#     tag_builder.update({'row': row})
-#     update_tag_builder(ignition_json, tag_builder, key, is_tag_from_csv_flag=True)
-#     update_tags(tag_builder, {}, ignition_json[key]['tags'], tag_name_and_address_list)
-#     reset_tag_builder(tag_builder)
+        device_csv[key] = pd_DataFrame(tag_name_and_address_list)
 
 def update_tag_builder(ignition_json, tag_builder, key, is_tag_from_csv_flag=False) -> None:
     tag_builder.update({
@@ -123,7 +119,7 @@ def update_tag_builder(ignition_json, tag_builder, key, is_tag_from_csv_flag=Fal
             r'device_name': ignition_json[key]['name'],
             r'address': tag_builder['row']['Address'],
             r'data_type': tag_builder['row']['Data Type'],
-        })
+    })
 
 
 def get_generated_ignition_json_and_csv_files(kepware_df, ignition_json):
