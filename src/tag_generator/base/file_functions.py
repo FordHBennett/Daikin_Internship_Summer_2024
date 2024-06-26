@@ -51,7 +51,7 @@ def get_dict_from_json_files(json_files, is_test=False, logger=None):
             for key in json_structure.get("tags", []):
                 if 'opcItemPath' in key:
                     new_file_name = key["opcItemPath"].split('=')[-1].split('.')[0]
-                    log_messages.append(f"{os_path_basename(json_file).split('.')[0]} Changed to {new_file_name}")
+                    log_messages.append(f"{os_path_basename(json_file).split('.')[0]}.json Changed to {new_file_name}.json")
                     break
         else:
             new_file_name = os_path_basename(json_file).split('.')[0]
