@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
 
+from .tag_functions import remove_invalid_tag_name_characters
+
+
 def get_basename_without_extension(file_path):
     from os.path import basename as os_path_basename
     from os.path import splitext as os_path_splitext
@@ -27,7 +30,7 @@ def get_all_files(dir, extension):
         for root, _, files in os.walk(directory):
             for file in files:
                 if file.endswith(extension):
-                    paths.append(os.path.join(root, file).encode('unicode-escape').decode())
+                    paths.append(os.path.join(root, file))
 
     recursive_get_files(dir)
     return tuple(paths)
@@ -69,12 +72,21 @@ def get_dict_from_json_files(json_files, is_test=False, logger=None):
 
 def get_dict_of_dfs_from_csv_files(csv_files):
     from pandas import read_csv as pd_read_csv
+    import os
 
     csv_df = {}
     for csv_file in csv_files:
         with open(csv_file, 'r') as f:
             csv_df[get_basename_without_extension(csv_file)] = pd_read_csv(f)
-    return csv_df
+
+    # only do this is the os is windows
+    if os.name == 'nt':
+        for df in csv_df.values():
+            for key in df.keys():
+                # remove all non alphanumeric characters from key
+                new_key = remove_invalid_tag_name_characters(key)
+                df[new_key] = df.pop(key)
+        return csv_df
 
 
 def write_json_files(json_data, output_dir):
