@@ -39,17 +39,14 @@
 #     return recursive_extract_keys(json_structure)
 
 def remove_invalid_tag_name_characters(tag_name):
-    # from base.constants import TAG_NAME_PATTERN
     from tag_generator.base.constants import TAG_NAME_PATTERN
     return TAG_NAME_PATTERN.sub('', tag_name)
 
 def get_tag_builder():
-    # from base.constants import TAG_BUILDER_TEMPLATE
     from tag_generator.base.constants import TAG_BUILDER_TEMPLATE
     return TAG_BUILDER_TEMPLATE.copy()
 
 def reset_tag_builder(tag_builder= {}) -> None:
-    # from base.constants import TAG_BUILDER_TEMPLATE
     from tag_generator.base.constants import TAG_BUILDER_TEMPLATE
     tag_builder.update(TAG_BUILDER_TEMPLATE)
     
@@ -64,7 +61,6 @@ def extract_kepware_tag_name(opc_item_path):
     return opc_item_path.split('.', 2)[-1]
 
 def extract_area_and_offset(address):
-    # from base.constants import ADDRESS_PATTERN
     from tag_generator.base.constants import ADDRESS_PATTERN
     match = ADDRESS_PATTERN.search(address)
     if match:
@@ -88,7 +84,6 @@ def get_offset_and_array_size(offset):
     return (offset, array_size)
 
 def set_missing_tag_properties(tags, new_tag) -> None:
-    # from base.constants import REQUIRED_KEYS
     from tag_generator.base.constants import REQUIRED_KEYS
     required_keys = REQUIRED_KEYS.copy()
 
@@ -106,7 +101,6 @@ def set_missing_tag_properties(tags, new_tag) -> None:
 
     for dummy_tag in tags:
         if handle_missing_tags(dummy_tag, new_tag):
-            del dummy_tag
             break
 
 

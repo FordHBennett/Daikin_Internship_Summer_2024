@@ -18,24 +18,24 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
         output_dir: str = os.path.join('src','tests','files','output', 'mitsubishi')
         expected_output_dir: str = os.path.join('src','tests','files','expected_output', 'mitsubishi')
     
-        json_files = get_all_json_files(input_dir)
-        csv_files = get_all_csv_files(input_dir)
+        json_files = get_all_files(input_dir, '.json')
+        csv_files = get_all_files(input_dir, '.csv')
 
         logger = Logger()
         for json_file in json_files:
             generate_output(output_dir, csv_files, json_file)
             gc.collect()
 
-        json_files = get_all_json_files(output_dir)
+        json_files = get_all_files(output_dir, '.json')
         ignition_json = get_dict_from_json_files(json_files, is_test=True, logger=logger)
 
-        address_csv = get_all_csv_files(output_dir)
+        address_csv = get_all_files(output_dir, '.csv')
         address_csv = get_dict_of_dfs_from_csv_files(address_csv)
 
-        expected_output_json_files = get_all_json_files(expected_output_dir)
+        expected_output_json_files = get_all_files(expected_output_dir, '.json')
         expected_ignition_json = get_dict_from_json_files(expected_output_json_files, is_test=True, logger=logger)
 
-        expected_output_csv_files = get_all_csv_files(expected_output_dir)
+        expected_output_csv_files = get_all_files(expected_output_dir, '.csv')
         expected_address_csv = get_dict_of_dfs_from_csv_files(expected_output_csv_files)
 
         diff = DeepDiff(expected_ignition_json, ignition_json, ignore_order=True)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from re import compile as re_compile
-# from collections import namedtuple
+
 
 ADDRESS_PATTERN = re_compile(r'\d+')
 TAG_NAME_PATTERN = re_compile(r'[^a-zA-Z0-9-_ .]')
