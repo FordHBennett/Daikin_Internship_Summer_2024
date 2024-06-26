@@ -109,12 +109,12 @@ def finalize_address_csv_dict(device_csv, key, tag_name_and_address_list):
     if tag_name_and_address_list:
         device_csv[key] = pd_concat([device_csv[key], pd_DataFrame(tag_name_and_address_list)], ignore_index=True)
 
-def generate_df_from_kepware(ignition_json, tag_builder, key, tag_name_and_address_list, row) -> None:
-    from tag_generator.base.tag_functions import reset_tag_builder
-    tag_builder.update({'row': row})
-    update_tag_builder(ignition_json, tag_builder, key, is_tag_from_csv_flag=True)
-    update_tags(tag_builder, {}, ignition_json[key]['tags'], tag_name_and_address_list)
-    reset_tag_builder(tag_builder)
+# def generate_df_from_kepware(ignition_json, tag_builder, key, tag_name_and_address_list, row) -> None:
+#     from tag_generator.base.tag_functions import reset_tag_builder
+#     tag_builder.update({'row': row})
+#     update_tag_builder(ignition_json, tag_builder, key, is_tag_from_csv_flag=True)
+#     update_tags(tag_builder, {}, ignition_json[key]['tags'], tag_name_and_address_list)
+#     reset_tag_builder(tag_builder)
 
 def update_tag_builder(ignition_json, tag_builder, key, is_tag_from_csv_flag=False) -> None:
     tag_builder.update({
