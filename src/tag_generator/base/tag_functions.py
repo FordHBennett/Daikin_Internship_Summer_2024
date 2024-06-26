@@ -104,31 +104,49 @@ def set_missing_tag_properties(tags, new_tag) -> None:
             break
 
 
-def generate_full_path_from_name_parts(name_parts):
-    return ('/'.join(name_parts)).rstrip('/')
+# def generate_full_path_from_name_parts(name_parts):
+#     return ('/'.join(name_parts)).rstrip('/')
 
 
-def set_new_tag_properties(tags, new_tag) -> None:
-    set_missing_tag_properties(tags, new_tag)
-    new_tag.update({
-        r'enabled': False,
-        r'valueSource': r'opc',
-        r'tagGroup': r'default' # Remove once this in production
-    })
+# def set_new_tag_properties(tags, new_tag) -> None:
+#     set_missing_tag_properties(tags, new_tag)
+#     new_tag.update({
+#         r'enabled': False,
+#         r'valueSource': r'opc',
+#         r'tagGroup': r'default' # Remove once this in production
+#     })
 
-def set_existing_tag_properties(current_tag, new_tag):
-    new_tag[r'tagGroup'] = r'default' # Remove once this in production
-    new_tag[r'tagType'] = current_tag[r'tagType']
-    for key in (r'historyProvider', r'historicalDeadband', r'historicalDeadbandStyle'):
-        if key in current_tag:
-            new_tag[key] = current_tag[key]
-    new_tag[r'enabled'] = True
+# def set_existing_tag_properties(current_tag, new_tag):
+#     new_tag[r'tagGroup'] = r'default' # Remove once this in production
+#     new_tag[r'tagType'] = current_tag[r'tagType']
+#     for key in (r'historyProvider', r'historicalDeadband', r'historicalDeadbandStyle'):
+#         if key in current_tag:
+#             new_tag[key] = current_tag[key]
+#     new_tag[r'enabled'] = True
 
-def set_tag_properties(tags={}, new_tag={}, current_tag={}):
-    if tags:
-        set_new_tag_properties(tags, new_tag)
-    else:
-        set_existing_tag_properties(current_tag, new_tag)
+# def set_tag_properties(tags=None, new_tag=None, current_tag=None):
+    # if tags:
+    #     set_missing_tag_properties(tags, new_tag)
+    #     new_tag.update({
+    #         r'enabled': False,
+    #         r'valueSource': r'opc',
+    #         r'tagGroup': r'default' # Remove once this in production
+    #     })
+    # else:
+    #     new_tag[r'tagGroup'] = r'default' # Remove once this in production
+    #     new_tag[r'tagType'] = current_tag[r'tagType']
+    #     for key in (r'historyProvider', r'historicalDeadband', r'historicalDeadbandStyle'):
+    #         if key in current_tag:
+    #             new_tag[key] = current_tag[key]
+    #     new_tag[r'enabled'] = True
+    # new_tag[r'tagGroup'] = r'default' # Remove once this in production
+    # new_tag[r'tagType'] = current_tag[r'tagType']
+    # for key in (r'historyProvider', r'historicalDeadband', r'historicalDeadbandStyle'):
+    #     if key in current_tag:
+    #         new_tag[key] = current_tag[key]
+    # new_tag[r'enabled'] = True
+
+    
 
 def build_tag_hierarchy(tags, name_parts):
     dummy_tags = tags

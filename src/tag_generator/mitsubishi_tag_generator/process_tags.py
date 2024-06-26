@@ -43,37 +43,16 @@ def convert_tag_builder_to_mitsubishi_format(tag_builder) -> None:
     })
 
 
-def create_new_tag(tags, current_tag, tag_builder) -> None:
-    from tag_generator.base.tag_functions import set_tag_properties
-    # tag_builder.update({
-    #     r'tag_name': name_parts[-1],
-    #     r'tag_name_path': generate_full_path_from_name_parts(name_parts)
-    # })
+def create_new_tag(current_tag, tag_builder) -> None:
 
-    new_tag = {
+    current_tag.update({
         r"name": current_tag['name'],
         r"opcItemPath": f"ns=1;s=[{tag_builder['device_name']}]{tag_builder['area']}<{tag_builder['path_data_type']}{tag_builder['array_size']}>{tag_builder['offset']}",
         r"opcServer": 'Ignition OPC UA Server',
         r"dataType": tag_builder['data_type'],
-        r'valueSource': 'opc'
-    }
-
-    if tag_builder['is_tag_from_csv_flag']:
-        set_tag_properties(tags=tags, new_tag=new_tag)
-    else:
-        set_tag_properties(new_tag=new_tag, current_tag=current_tag)
-    
-    current_tag.update(new_tag)
-
-
-# def process_tag_name(tags, tag_builder, current_tag=None) -> None:
-#     from tag_generator.base.tag_functions import build_tag_hierarchy, remove_invalid_tag_name_characters
-#     if current_tag is None:
-#         current_tag = {}
-
-    
-#     create_new_tag(tags, current_tag, tag_builder)
-    
+        r'valueSource': 'opc',
+        r'tagGroup': 'default'
+    })
 
 
 
@@ -101,7 +80,7 @@ def process_tag(ingition_json, tag_builder, key, df, tag, tag_name_and_address_l
                 
                 if tag_builder['row'] is not None:
                     update_tag_builder(ingition_json, tag_builder, key)
-                    update_tags(tag_builder, tag, ingition_json[key]['tags'], tag_name_and_address_list)
+                    update_tags(tag_builder, tag,  tag_name_and_address_list)
 
                 else:
                     handle_tag_not_found(tag_builder, key, os_path_join)
@@ -110,10 +89,9 @@ def process_tag(ingition_json, tag_builder, key, df, tag, tag_name_and_address_l
 
     reset_tag_builder(tag_builder)
 
-def update_tags(tag_builder, current_tag, tags, tag_name_and_address_list):
+def update_tags(tag_builder, current_tag, tag_name_and_address_list):
     convert_tag_builder_to_mitsubishi_format(tag_builder)
-    # process_tag_name(tags, tag_builder, current_tag=current_tag)
-    create_new_tag(tags, current_tag, tag_builder)
+    create_new_tag(current_tag, tag_builder)
     update_tag_builder_wrt_tag_name_and_address_list(tag_builder, tag_name_and_address_list)
 
 
@@ -125,13 +103,13 @@ def update_tag_builder_wrt_tag_name_and_address_list(tag_builder, tag_name_and_a
             r'address': f"{tag_builder['area']}<{tag_builder['path_data_type']}{tag_builder['array_size']}>{tag_builder['offset']}"
         })
 
+
 def finalize_address_csv_dict(device_csv, key, tag_name_and_address_list):
     from pandas import concat as pd_concat
     if tag_name_and_address_list:
         device_csv[key] = pd_concat([device_csv[key], pd_DataFrame(tag_name_and_address_list)], ignore_index=True)
 
 def generate_df_from_kepware(ignition_json, tag_builder, key, tag_name_and_address_list, row) -> None:
-
     from tag_generator.base.tag_functions import reset_tag_builder
     tag_builder.update({'row': row})
     update_tag_builder(ignition_json, tag_builder, key, is_tag_from_csv_flag=True)

@@ -33,6 +33,9 @@ def get_all_files(dir, extension):
                     paths.append(os.path.join(root, file))
 
     recursive_get_files(dir)
+
+    if not paths:
+        raise FileNotFoundError(f"No files found with extension {extension} in {dir}")
     return tuple(paths)
 
 def get_dict_from_json_files(json_files, is_test=False, logger=None):

@@ -33,8 +33,7 @@
                     "name": "PHS_PLC_Heartbeat",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -62,8 +61,7 @@
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server",
-                    "dataType": "String",
-                    "enabled": true
+                    "dataType": "String"
                 },
                 {
                     "valueSource": "opc",
@@ -74,8 +72,7 @@
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server",
-                    "dataType": "String",
-                    "enabled": true
+                    "dataType": "String"
                 },
                 {
                     "valueSource": "opc",
@@ -104,8 +101,7 @@
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server",
-                    "dataType": "String",
-                    "enabled": true
+                    "dataType": "String"
                 },
                 {
                     "valueSource": "expr",
@@ -149,8 +145,7 @@
             "name": "PHS_PLC_Heartbeat",
             "tagGroup": "default",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "enabled": true
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -178,8 +173,7 @@
             "tagGroup": "default",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server",
-            "dataType": "String",
-            "enabled": true
+            "dataType": "String"
         },
         {
             "valueSource": "opc",
@@ -190,8 +184,7 @@
             "tagGroup": "default",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server",
-            "dataType": "String",
-            "enabled": true
+            "dataType": "String"
         },
         {
             "valueSource": "opc",
@@ -220,8 +213,7 @@
             "tagGroup": "default",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server",
-            "dataType": "String",
-            "enabled": true
+            "dataType": "String"
         },
         {
             "valueSource": "expr",

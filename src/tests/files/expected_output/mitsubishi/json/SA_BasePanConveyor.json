@@ -15,8 +15,7 @@
             "name": "REVISION",
             "tagGroup": "default",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "enabled": true
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -29,8 +28,7 @@
             "historyEnabled": true,
             "tagGroup": "default",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "enabled": true
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "memory",
@@ -57,8 +55,7 @@
             "name": "PHS_PLC_Heartbeat",
             "tagGroup": "default",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "enabled": true
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "memory",
@@ -80,8 +77,7 @@
             "historyEnabled": true,
             "tagGroup": "default",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "enabled": true
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "name": "RECIPE_RESPONSE",
@@ -94,8 +90,7 @@
                     "name": "LOCATOR_Y_POSITION",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -104,8 +99,7 @@
                     "name": "COMPRESSOR_DIAMETER",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -114,8 +108,7 @@
                     "name": "COMPRESSOR_WEIGHT",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -124,8 +117,7 @@
                     "name": "ROBOT_SET_DOWN_1_PR",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -134,8 +126,7 @@
                     "name": "COMPRESSOR_HEIGHT",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -148,8 +139,7 @@
                     "historyEnabled": true,
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -158,8 +148,7 @@
                     "name": "RECIPE_NUMBER",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -168,8 +157,7 @@
                     "name": "PAYLOAD_NUMBER",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -182,8 +170,7 @@
                     "historyEnabled": true,
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -192,8 +179,7 @@
                     "name": "UNIT_TYPE",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -202,8 +188,7 @@
                     "name": "ROBOT_PICKUP_1_PR",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -216,8 +201,7 @@
                     "historyEnabled": true,
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -226,8 +210,7 @@
                     "name": "LOCATOR_X_POSITION",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -240,8 +223,7 @@
                     "historyEnabled": true,
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 }
             ]
         },
@@ -305,8 +287,7 @@
             "historyEnabled": true,
             "tagGroup": "default",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "enabled": true
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "name": "PARTS_MATCH_RESPONSE",
@@ -324,8 +305,7 @@
                     "historyProvider": "IGN_DB_FIT",
                     "name": "message",
                     "historyEnabled": true,
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -338,8 +318,7 @@
                     "historyEnabled": true,
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -352,8 +331,7 @@
                     "historyEnabled": true,
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 }
             ]
         },
@@ -370,8 +348,7 @@
             "name": "CONFIRM",
             "tagGroup": "default",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "enabled": true
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "name": "RESULTS",
@@ -384,8 +361,7 @@
                     "name": "returnCode",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -394,8 +370,7 @@
                     "name": "message",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -404,8 +379,7 @@
                     "name": "PHS_OK",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -414,8 +388,7 @@
                     "name": "CycleTime",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -424,8 +397,7 @@
                     "name": "ProcessingResult",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
@@ -434,8 +406,7 @@
                     "name": "NGCode",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
-                    "opcServer": "Ignition OPC UA Server",
-                    "enabled": true
+                    "opcServer": "Ignition OPC UA Server"
                 }
             ]
         },
@@ -450,8 +421,7 @@
             "historyEnabled": true,
             "tagGroup": "default",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "enabled": true
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "expr",

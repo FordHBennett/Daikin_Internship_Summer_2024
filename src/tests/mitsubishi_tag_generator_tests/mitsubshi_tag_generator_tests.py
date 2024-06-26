@@ -1,12 +1,10 @@
 import unittest 
 import os
-import gc
 from tag_generator.__main__ import *
 from tag_generator.base.file_functions import *
 from tag_generator.mitsubishi_tag_generator.process_tags import *
 import pandas as pd
-from shutil import rmtree
-# from tag_generator.base.logging_class import Logger
+
 from deepdiff import DeepDiff
 
 
@@ -48,9 +46,7 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
             else:
                 self.fail(f"Missing expected CSV for key: {key}")
 
-
-        # rmtree(output_dir)
-
+        
 
 
         
