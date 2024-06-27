@@ -7,7 +7,7 @@ logger = Logger()
 
 # @profile
 def main():
-    from tag_generator.base.file_functions import get_all_files
+    from tag_generator.base.file_functions import get_all_files, merge_all_json_files
     from os.path import join as os_path_join
 
     input_dir = os_path_join('files', 'input', 'mitsubishi')
@@ -18,6 +18,8 @@ def main():
 
     for json_file in json_files:
         generate_output(output_dir, csv_files, json_file)
+
+    merge_all_json_files(json_files, output_dir)
 
 # @profile
 def process_files(output_dir, json_files, csv_df):
