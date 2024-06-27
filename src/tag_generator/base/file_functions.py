@@ -123,20 +123,3 @@ def write_csv_files(address_csv, dir) -> None:
     for key, df in address_csv.items():
         df.to_csv(os_path_join(out_dir, f'{key}.csv'), index=False)
 
-
-def merge_all_json_files(json_files, output_dir):
-    from json import load as json_load
-    from json import dump as json_dump
-    from os.path import join as os_path_join
-    from os import makedirs as os_makedirs
-
-    merged_json = {}
-    for json_file in json_files:
-        with open(json_file, 'r', encoding='utf-8') as f:
-            json_structure = json_load(f)
-
-        merged_json.update(json_structure)
-
-    os_makedirs(output_dir, exist_ok=True)
-    with open(os_path_join(output_dir,'json', 'merged.json'), 'w', encoding='utf-8') as f:
-        json_dump(merged_json, f, indent=4)
