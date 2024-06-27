@@ -28,7 +28,6 @@ TAG_BUILDER_TEMPLATE = {
     r"offset": None,
     r"array_size": None,
     r"row": None,
-    r"device_name": None,
     r"kepware_tag_name": None,
     r"is_tag_from_csv_flag": False
 }

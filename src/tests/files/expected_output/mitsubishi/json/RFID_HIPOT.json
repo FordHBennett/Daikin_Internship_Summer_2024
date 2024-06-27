@@ -4,7 +4,7 @@
     "tags": [
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<Int32>204",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32>204",
             "dataType": "Int4",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -34,7 +34,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<String2>69",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<String2>69",
             "dataType": "String",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -47,7 +47,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<Int16>41",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>41",
             "dataType": "Int2",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -60,7 +60,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<Int32>205",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32>205",
             "dataType": "Int4",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -73,7 +73,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<Int16>203",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>203",
             "dataType": "Int2",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -86,7 +86,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<Int16>208",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>208",
             "dataType": "Int2",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -99,7 +99,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<Int32>214",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32>214",
             "dataType": "Int4",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -112,7 +112,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<Int32>212",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32>212",
             "dataType": "Int4",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -125,7 +125,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<Int16>209",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>209",
             "dataType": "Int2",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -152,7 +152,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<Int32>211",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32>211",
             "dataType": "Int4",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -165,7 +165,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<Int16>40",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>40",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
             "tagGroup": "default",
@@ -184,7 +184,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<String10>59",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<String10>59",
             "dataType": "String",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -197,7 +197,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<Int32>210",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32>210",
             "dataType": "Int4",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -210,7 +210,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<String2>200",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<String2>200",
             "dataType": "String",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -223,7 +223,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<Int16>206",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>206",
             "dataType": "Int2",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -236,7 +236,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<Int16>5",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>5",
             "dataType": "Int2",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -249,7 +249,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<String10>78",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<String10>78",
             "dataType": "String",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -262,7 +262,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<String8>83",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<String8>83",
             "dataType": "String",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -275,7 +275,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<Int32[10]>215",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32[10]>215",
             "dataType": "String",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -299,7 +299,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<Int16>207",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>207",
             "dataType": "Int2",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -312,7 +312,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<Int32>213",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32>213",
             "dataType": "Int4",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -325,7 +325,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<String6>87",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<String6>87",
             "dataType": "String",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -349,7 +349,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[RFID_HIPOT]R<String4>201",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<String4>201",
             "dataType": "String",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,

@@ -43,14 +43,13 @@ def convert_tag_builder_to_mitsubishi_format(tag_builder) -> None:
 
 
 def create_new_tag(current_tag, tag_builder) -> None:
-
     current_tag.update({
         r"name": current_tag['name'],
-        r"opcItemPath": f"ns=1;s=[{tag_builder['device_name']}]{tag_builder['area']}<{tag_builder['path_data_type']}{tag_builder['array_size']}>{tag_builder['offset']}",
-        r"opcServer": 'Ignition OPC UA Server',
+        r"opcItemPath": f"ns=1;s=[{current_tag['opcItemPath'].split('=')[-1].split('.')[0]}]{tag_builder['area']}<{tag_builder['path_data_type']}{tag_builder['array_size']}>{tag_builder['offset']}",
+        r"opcServer": r'Ignition OPC UA Server',
         r"dataType": tag_builder['data_type'],
-        r'valueSource': 'opc',
-        r'tagGroup': 'default'
+        r'valueSource': r'opc',
+        r'tagGroup': r'default'
     })
 
 
@@ -75,10 +74,9 @@ def process_tag(ingition_json, tag_builder, key, df, tag, tag_name_and_address_l
             tag_builder.update({
                 r'row': find_row_by_tag_name(df, extract_kepware_tag_name(tag['opcItemPath']))
             })
-
             
             if tag_builder['row'] is not None:
-                update_tag_builder(ingition_json, tag_builder, key)
+                update_tag_builder(tag_builder)
                 update_tags(tag_builder, tag,  tag_name_and_address_list)
 
             else:
@@ -112,11 +110,9 @@ def finalize_address_csv_dict(device_csv, key, tag_name_and_address_list):
     if tag_name_and_address_list:
         device_csv[key] = pd_DataFrame(tag_name_and_address_list)
 
-def update_tag_builder(ignition_json, tag_builder, key, is_tag_from_csv_flag=False) -> None:
+def update_tag_builder(tag_builder) -> None:
     tag_builder.update({
             r'kepware_tag_name': tag_builder['row']['Tag Name'],
-            r'is_tag_from_csv_flag': is_tag_from_csv_flag,
-            r'device_name': ignition_json[key]['name'],
             r'address': tag_builder['row']['Address'],
             r'data_type': tag_builder['row']['Data Type'],
     })

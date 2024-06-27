@@ -24,7 +24,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[KAISHI_CONV]R<Int16>1",
+            "opcItemPath": "ns=1;s=[MA_KaishiConveyor]R<Int16>1",
             "dataType": "Int2",
             "name": "PHS_PLC_Heartbeat",
             "tagGroup": "default",
@@ -40,7 +40,7 @@
                     "enabled": false
                 }
             ],
-            "opcItemPath": "ns=1;s=[KAISHI_CONV]R<Int16>0",
+            "opcItemPath": "ns=1;s=[MA_KaishiConveyor]R<Int16>0",
             "dataType": "Int2",
             "name": "PLC_PHS_Heartbeat",
             "tagGroup": "default",
@@ -50,7 +50,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[KAISHI_CONV]R<Int16[13]>50",
+            "opcItemPath": "ns=1;s=[MA_KaishiConveyor]R<Int16[13]>50",
             "historyProvider": "IGN_DB_FIT",
             "name": "KaishiCVA_Running",
             "historyEnabled": true,
@@ -61,7 +61,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[KAISHI_CONV]R<Int16[14]>50",
+            "opcItemPath": "ns=1;s=[MA_KaishiConveyor]R<Int16[14]>50",
             "historyProvider": "IGN_DB_FIT",
             "name": "KaishiCVB_Running",
             "historyEnabled": true,
@@ -90,7 +90,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[KAISHI_CONV]R<Int16[15]>50",
+            "opcItemPath": "ns=1;s=[MA_KaishiConveyor]R<Int16[15]>50",
             "historyProvider": "IGN_DB_FIT",
             "name": "KaishiCVC_Running",
             "historyEnabled": true,
