@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 
+from math import log
 from .tag_functions import remove_invalid_tag_name_characters
 
 
@@ -54,13 +55,12 @@ def get_dict_from_json_files(json_files, is_test=False, logger=None):
             for key in json_structure.get("tags", []):
                 if 'opcItemPath' in key:
                     new_file_name = key["opcItemPath"].split('=')[-1].split('.')[0]
-                    log_messages.append(f"{os_path_basename(json_file).split('.')[0]}.json Changed to {new_file_name}.json")
                     break
+            log_messages.append(f"{os_path_basename(json_file)} Changed to {json_structure['name']}.json")
         else:
             new_file_name = os_path_basename(json_file).split('.')[0]
 
         ignition_json[new_file_name] = json_structure
-        # ignition_json[new_file_name]["name"] = new_file_name
 
     for json_file in json_files:
         read_file(json_file)
