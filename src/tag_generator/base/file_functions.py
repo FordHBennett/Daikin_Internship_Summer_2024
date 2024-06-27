@@ -60,7 +60,7 @@ def get_dict_from_json_files(json_files, is_test=False, logger=None):
             new_file_name = os_path_basename(json_file).split('.')[0]
 
         ignition_json[new_file_name] = json_structure
-        ignition_json[new_file_name]["name"] = new_file_name
+        # ignition_json[new_file_name]["name"] = new_file_name
 
     for json_file in json_files:
         read_file(json_file)
@@ -107,7 +107,7 @@ def write_json_files(json_data, output_dir):
                 
 
     for key, data in json_data.items():
-        write_file(f"{output_dir}/{key}.json", data)
+        write_file(f"{output_dir}/{json_data[key]['name']}.json", data)
 
 def write_csv_files(address_csv, dir) -> None:
     from os.path import join as os_path_join

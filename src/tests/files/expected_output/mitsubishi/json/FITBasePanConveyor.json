@@ -1,5 +1,5 @@
 {
-    "name": "SA_BasePanConveyor",
+    "name": "FITBasePanConveyor",
     "tagType": "Folder",
     "tags": [
         {
@@ -10,7 +10,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<String2>867",
+            "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<String2>867",
             "dataType": "String",
             "name": "REVISION",
             "tagGroup": "default",
@@ -19,7 +19,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<String10>876",
+            "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<String10>876",
             "dataType": "String",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -50,7 +50,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1",
+            "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<Int16>1",
             "dataType": "Int2",
             "name": "PHS_PLC_Heartbeat",
             "tagGroup": "default",
@@ -68,7 +68,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<String10>857",
+            "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<String10>857",
             "dataType": "String",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -85,7 +85,7 @@
             "tags": [
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1053",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<Int16>1053",
                     "dataType": "Int2",
                     "name": "LOCATOR_Y_POSITION",
                     "tagGroup": "default",
@@ -94,7 +94,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1055",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<Int32>1055",
                     "dataType": "Int4",
                     "name": "COMPRESSOR_DIAMETER",
                     "tagGroup": "default",
@@ -103,7 +103,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1056",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<Int32>1056",
                     "dataType": "Int4",
                     "name": "COMPRESSOR_WEIGHT",
                     "tagGroup": "default",
@@ -112,7 +112,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1059",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<Int32>1059",
                     "dataType": "Int4",
                     "name": "ROBOT_SET_DOWN_1_PR",
                     "tagGroup": "default",
@@ -121,7 +121,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1054",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<Int32>1054",
                     "dataType": "Int4",
                     "name": "COMPRESSOR_HEIGHT",
                     "tagGroup": "default",
@@ -130,7 +130,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>821",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<Int16>821",
                     "dataType": "Int2",
                     "historyProvider": "IGN_DB_FIT",
                     "historicalDeadband": 0.5,
@@ -143,7 +143,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1038",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<Int32>1038",
                     "dataType": "Int4",
                     "name": "RECIPE_NUMBER",
                     "tagGroup": "default",
@@ -152,7 +152,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1057",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<Int32>1057",
                     "dataType": "Int4",
                     "name": "PAYLOAD_NUMBER",
                     "tagGroup": "default",
@@ -161,7 +161,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<String30>823",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<String30>823",
                     "dataType": "String",
                     "historyProvider": "IGN_DB_FIT",
                     "historicalDeadband": 0.5,
@@ -174,7 +174,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<String10>1039",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<String10>1039",
                     "dataType": "String",
                     "name": "UNIT_TYPE",
                     "tagGroup": "default",
@@ -183,7 +183,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1058",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<Int32>1058",
                     "dataType": "Int4",
                     "name": "ROBOT_PICKUP_1_PR",
                     "tagGroup": "default",
@@ -192,7 +192,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>822",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<Int16>822",
                     "dataType": "Int2",
                     "historyProvider": "IGN_DB_FIT",
                     "historicalDeadband": 0.5,
@@ -205,7 +205,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1052",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<Int16>1052",
                     "dataType": "Int2",
                     "name": "LOCATOR_X_POSITION",
                     "tagGroup": "default",
@@ -214,7 +214,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<String16>1044",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<String16>1044",
                     "dataType": "String",
                     "historyProvider": "IGN_DB_FIT",
                     "historicalDeadband": 0.5,
@@ -264,7 +264,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>802",
+            "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<Int16>802",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
             "tagGroup": "default",
@@ -278,7 +278,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>801",
+            "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<Int16>801",
             "dataType": "Int2",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
@@ -295,7 +295,7 @@
             "tags": [
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<String30>806",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<String30>806",
                     "historicalDeadband": 0.5,
                     "historicalDeadbandStyle": "Discrete",
                     "tagGroup": "default",
@@ -309,7 +309,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>804",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<Int16>804",
                     "dataType": "Int2",
                     "historyProvider": "IGN_DB_FIT",
                     "historicalDeadband": 0.5,
@@ -322,7 +322,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>805",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<Int16>805",
                     "dataType": "Int2",
                     "historyProvider": "IGN_DB_FIT",
                     "historicalDeadband": 0.5,
@@ -343,7 +343,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>800",
+            "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<Int16>800",
             "dataType": "Int2",
             "name": "CONFIRM",
             "tagGroup": "default",
@@ -356,7 +356,7 @@
             "tags": [
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>805",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<Int16>805",
                     "dataType": "Int2",
                     "name": "returnCode",
                     "tagGroup": "default",
@@ -365,7 +365,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<String30>806",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<String30>806",
                     "dataType": "String",
                     "name": "message",
                     "tagGroup": "default",
@@ -374,7 +374,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>804",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<Int16>804",
                     "dataType": "Int2",
                     "name": "PHS_OK",
                     "tagGroup": "default",
@@ -383,7 +383,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<String2>562",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<String2>562",
                     "dataType": "String",
                     "name": "CycleTime",
                     "tagGroup": "default",
@@ -392,7 +392,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<String2>959",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<String2>959",
                     "dataType": "String",
                     "name": "ProcessingResult",
                     "tagGroup": "default",
@@ -401,7 +401,7 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<String4>960",
+                    "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<String4>960",
                     "dataType": "String",
                     "name": "NGCode",
                     "tagGroup": "default",
@@ -412,7 +412,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<String40>949",
+            "opcItemPath": "ns=1;s=[FITBasePanConveyor]R<String40>949",
             "dataType": "String",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.01,

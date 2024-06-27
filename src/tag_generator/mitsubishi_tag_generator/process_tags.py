@@ -132,7 +132,8 @@ def get_generated_ignition_json_and_csv_files(kepware_df, ignition_json):
             tag_name_and_address_list = []
             for tag in ignition_json[key]['tags']:
                 process_tag(ignition_json, tag_builder, key, df, tag, tag_name_and_address_list=tag_name_and_address_list)
-
+            
+            key = ignition_json[key]['name']
             finalize_address_csv_dict(address_csv_dict, key, tag_name_and_address_list)
 
     return (ignition_json, address_csv_dict)
