@@ -44,7 +44,7 @@ def create_new_connected_tag(current_tag) -> None:
     current_tag.update({
         r"opcItemPath": f'ns=1;s=[{current_tag['opcItemPath'].split('=')[-1].split('.')[0]}][Diagnostics]/Connected',
         r"opcServer": r'Ignition OPC UA Server',
-        r"dataType": r'Bool',
+        r"dataType": r'String',
         r'valueSource': r'opc',
         r'tagGroup': r'default' # renove once prodcution
     })
