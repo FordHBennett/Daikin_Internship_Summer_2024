@@ -247,7 +247,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "nsu=ThingWorx Kepware Server;s=SA_BasePanConveyor.SA_BasePanConveyor._System._NoError",
+            "opcItemPath": "ns=1;s=[SA_BasePanConveyor][Diagnostics]/Connected",
             "alarms": [
                 {
                     "activePipeline": "FIT_Main/NoCommNotifications",
@@ -258,9 +258,10 @@
                 }
             ],
             "name": "IsConnected",
-            "tagGroup": "AFP01_Normal",
+            "tagGroup": "default",
             "tagType": "AtomicTag",
-            "opcServer": "FIT_Kepware"
+            "opcServer": "Ignition OPC UA Server",
+            "dataType": "Bool"
         },
         {
             "valueSource": "opc",

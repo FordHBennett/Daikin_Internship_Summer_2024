@@ -239,7 +239,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "nsu=ThingWorx Kepware Server;s=MA_RE1.MA_RE1._System._NoError",
+            "opcItemPath": "ns=1;s=[MA_RE1][Diagnostics]/Connected",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
             "alarms": [
@@ -252,13 +252,13 @@
                     "CustomEmailSubject": "FIT PLC Disconnected Alarm"
                 }
             ],
-            "tagGroup": "AFP01_Normal",
+            "tagGroup": "default",
             "tagType": "AtomicTag",
-            "dataType": "Int4",
+            "dataType": "Bool",
             "historyProvider": "IGN_DB_FIT",
             "name": "IsConnected",
             "historyEnabled": true,
-            "opcServer": "FIT_Kepware"
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",

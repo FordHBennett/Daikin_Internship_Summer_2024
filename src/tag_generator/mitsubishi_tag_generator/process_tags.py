@@ -40,7 +40,14 @@ def convert_tag_builder_to_mitsubishi_format(tag_builder) -> None:
         r'array_size': array_size,
         
     })
-
+def create_new_connected_tag(current_tag) -> None:
+    current_tag.update({
+        r"opcItemPath": f'ns=1;s=[{current_tag['opcItemPath'].split('=')[-1].split('.')[0]}][Diagnostics]/Connected',
+        r"opcServer": r'Ignition OPC UA Server',
+        r"dataType": r'Bool',
+        r'valueSource': r'opc',
+        r'tagGroup': r'default' # renove once prodcution
+    })
 
 def create_new_tag(current_tag, tag_builder) -> None:
     current_tag.update({
@@ -49,7 +56,7 @@ def create_new_tag(current_tag, tag_builder) -> None:
         r"opcServer": r'Ignition OPC UA Server',
         r"dataType": tag_builder['data_type'],
         r'valueSource': r'opc',
-        r'tagGroup': r'default'
+        r'tagGroup': r'default' # renove once prodcution 
     })
 
 
@@ -74,13 +81,11 @@ def process_tag(ingition_json, tag_builder, key, df, tag, tag_name_and_address_l
             tag_builder.update({
                 r'row': find_row_by_tag_name(df, extract_kepware_tag_name(tag['opcItemPath']))
             })
-            
             if tag_builder['row'] is not None:
                 update_tag_builder(tag_builder)
                 update_tags(tag_builder, tag,  tag_name_and_address_list)
-
             else:
-                handle_tag_not_found(tag_builder, key, os_path_join)
+                create_new_connected_tag(tag)
         else:
             handle_opc_path_not_found(tag, os_path_join)
 

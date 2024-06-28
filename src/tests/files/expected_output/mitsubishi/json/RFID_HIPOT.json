@@ -17,7 +17,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "nsu=ThingWorx Kepware Server;s=MA_HiPot.MA_HiPot._System._NoError",
+            "opcItemPath": "ns=1;s=[MA_HiPot][Diagnostics]/Connected",
             "alarms": [
                 {
                     "ackPipeline": "FIT_Main/NoCommNotifications",
@@ -30,7 +30,9 @@
             ],
             "name": "IsConnected",
             "tagType": "AtomicTag",
-            "opcServer": "FIT_Kepware"
+            "opcServer": "Ignition OPC UA Server",
+            "dataType": "Bool",
+            "tagGroup": "default"
         },
         {
             "valueSource": "opc",
