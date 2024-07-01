@@ -27,28 +27,35 @@ def convert_tag_builder_to_mitsubishi_format(tag_builder) -> None:
     data_type, path_data_type = convert_data_type(tag_builder['data_type'])
     area, offset = extract_area_and_offset(tag_builder['address'])
     area, path_data_type = update_area_and_path_data_type(area, path_data_type)
-    offset, array_size = get_offset_and_array_size(offset)
+    # offset, array_size = get_offset_and_array_size(offset)
 
-    if array_size:
-        data_type = r'String'
-    if r'String' not in path_data_type and array_size:
-        array_size = f"[{array_size}]"
-
-    tag_builder.update({
-        r'data_type': data_type,
-        r'path_data_type': path_data_type,
-        r'area': area,
-        r'offset': offset,
-        r'array_size': array_size,
-        
-    })
+    # if array_size:
+    #     data_type = r'String'
+    if r'String' in path_data_type:
+        offset, array_size = get_offset_and_array_size(offset)
+        # array_size = f"[{array_size}]"
+        tag_builder.update({
+            r'data_type': data_type,
+            r'path_data_type': path_data_type,
+            r'area': area,
+            r'offset': offset,
+            r'array_size': array_size,    
+        })
+    else:
+        tag_builder.update({
+            r'data_type': data_type,
+            r'path_data_type': path_data_type,
+            r'area': area,
+            r'offset': offset,
+            r'array_size': ''
+        })
 def create_new_connected_tag(current_tag) -> None:
     current_tag.update({
         r"opcItemPath": f'ns=1;s=[{current_tag['opcItemPath'].split('=')[-1].split('.')[0]}][Diagnostics]/Connected',
         r"opcServer": r'Ignition OPC UA Server',
         r"dataType": r'String',
         r'valueSource': r'opc',
-        r'tagGroup': r'default' # renove once prodcution
+        # r'tagGroup': r'default' # renove once prodcution
     })
 
 def create_new_tag(current_tag, tag_builder) -> None:
@@ -58,7 +65,7 @@ def create_new_tag(current_tag, tag_builder) -> None:
         r"opcServer": r'Ignition OPC UA Server',
         r"dataType": tag_builder['data_type'],
         r'valueSource': r'opc',
-        r'tagGroup': r'default' # renove once prodcution 
+        # r'tagGroup': r'default' # renove once prodcution 
     })
 
 
