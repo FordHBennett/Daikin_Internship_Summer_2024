@@ -94,8 +94,8 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1055",
-                    "dataType": "Int4",
+                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1055",
+                    "dataType": "Int2",
                     "name": "COMPRESSOR_DIAMETER",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
@@ -103,8 +103,8 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1056",
-                    "dataType": "Int4",
+                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1056",
+                    "dataType": "Int2",
                     "name": "COMPRESSOR_WEIGHT",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
@@ -112,8 +112,8 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1059",
-                    "dataType": "Int4",
+                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1059",
+                    "dataType": "Int2",
                     "name": "ROBOT_SET_DOWN_1_PR",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
@@ -121,8 +121,8 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1054",
-                    "dataType": "Int4",
+                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1054",
+                    "dataType": "Int2",
                     "name": "COMPRESSOR_HEIGHT",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
@@ -143,8 +143,8 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1038",
-                    "dataType": "Int4",
+                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1038",
+                    "dataType": "Int2",
                     "name": "RECIPE_NUMBER",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
@@ -152,8 +152,8 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1057",
-                    "dataType": "Int4",
+                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1057",
+                    "dataType": "Int2",
                     "name": "PAYLOAD_NUMBER",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
@@ -183,8 +183,8 @@
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1058",
-                    "dataType": "Int4",
+                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1058",
+                    "dataType": "Int2",
                     "name": "ROBOT_PICKUP_1_PR",
                     "tagGroup": "default",
                     "tagType": "AtomicTag",
@@ -261,7 +261,7 @@
             "tagGroup": "default",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server",
-            "dataType": "Bool"
+            "dataType": "String"
         },
         {
             "valueSource": "opc",

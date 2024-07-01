@@ -4,8 +4,8 @@
     "tags": [
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32>204",
-            "dataType": "Int4",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>204",
+            "dataType": "Int2",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
@@ -31,7 +31,7 @@
             "name": "IsConnected",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server",
-            "dataType": "Bool",
+            "dataType": "String",
             "tagGroup": "default"
         },
         {
@@ -62,8 +62,8 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32>205",
-            "dataType": "Int4",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>205",
+            "dataType": "Int2",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
@@ -101,8 +101,8 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32>214",
-            "dataType": "Int4",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>214",
+            "dataType": "Int2",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
@@ -114,8 +114,8 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32>212",
-            "dataType": "Int4",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>212",
+            "dataType": "Int2",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
@@ -154,8 +154,8 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32>211",
-            "dataType": "Int4",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>211",
+            "dataType": "Int2",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
@@ -199,8 +199,8 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32>210",
-            "dataType": "Int4",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>210",
+            "dataType": "Int2",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
@@ -277,8 +277,8 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32[10]>215",
-            "dataType": "String",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>215.10",
+            "dataType": "Int2",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
@@ -314,8 +314,8 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int32>213",
-            "dataType": "Int4",
+            "opcItemPath": "ns=1;s=[MA_HiPot]R<Int16>213",
+            "dataType": "Int2",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",

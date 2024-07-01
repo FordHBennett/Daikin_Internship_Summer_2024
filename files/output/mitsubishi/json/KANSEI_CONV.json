@@ -49,7 +49,7 @@
             "tagGroup": "default",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server",
-            "dataType": "Bool"
+            "dataType": "String"
         }
     ]
 }
