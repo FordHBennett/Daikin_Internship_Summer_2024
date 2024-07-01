@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 from collections import defaultdict
+
+from matplotlib.pylab import f
 from tag_generator.__main__ import logger 
 from pandas import DataFrame as pd_DataFrame
 
@@ -154,3 +156,21 @@ def handle_opc_path_not_found(tag, os_path_join):
     logger.change_log_file(os_path_join('files','logs', 'mitsubishi', 'info.log'))
     logger.set_level('INFO')
     logger.log_message(f'Could not find opcItemPath or dataType in tag {tag['name']} so just leaving it as is', 'INFO')
+
+
+import os 
+
+filePath = "C:"
+basePath = "[default]Imported Tags"
+
+# find the dir "files/output" starting from filePath
+def import_tags_recursively(path):
+    for root, dirs, files in os.walk(path):
+        for dir in dirs:
+            print(os.path.join(root, dir))
+
+import_tags_recursively(filePath)
+                    
+
+ 
+ 
