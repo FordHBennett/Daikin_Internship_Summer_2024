@@ -2,6 +2,17 @@
 
 from re import compile as re_compile
 
+"""
+This module contains constants used in the tag generator.
+
+- ADDRESS_PATTERN: A regular expression pattern used to match numerical addresses.
+- TAG_NAME_PATTERN: A regular expression pattern used to match valid tag names.
+- DATA_TYPE_MAPPINGS: A dictionary mapping data types to their corresponding OPC UA data types.
+- REQUIRED_KEYS: A list of keys that are required in a tag builder template.
+- TAG_BUILDER_TEMPLATE: A dictionary representing a template for building tags.
+"""
+
+
 
 ADDRESS_PATTERN = re_compile(r'\d+')
 TAG_NAME_PATTERN = re_compile(r'[^a-zA-Z0-9-_ .]')
@@ -31,4 +42,3 @@ TAG_BUILDER_TEMPLATE = {
     r"kepware_tag_name": None,
     r"is_tag_from_csv_flag": False
 }
-

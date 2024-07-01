@@ -27,12 +27,30 @@ class CustomFormatter(logging.Formatter):
     }
 
     def format(self, record):
-        log_fmt = self.FORMATS.get(record.levelno)
-        formatter = logging.Formatter(log_fmt, datefmt='%Y-%m-%d %H:%M:%S')
-        return formatter.format(record)
+            """
+            Formats the log record using the specified log format.
+
+            Args:
+                record (logging.LogRecord): The log record to be formatted.
+
+            Returns:
+                str: The formatted log record.
+            """
+            log_fmt = self.FORMATS.get(record.levelno)
+            formatter = logging.Formatter(log_fmt, datefmt='%Y-%m-%d %H:%M:%S')
+            return formatter.format(record)
 
 class Logger:
-    def __init__(self, log_file = r'', level = r'INFO', format = '%(asctime)s - %(levelname)s - %(message)s', datefmt = '%Y-%m-%d %H:%M:%S'):
+    def __init__(self, log_file='', level='INFO', format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S'):
+        """
+        Initialize the LoggingClass object.
+
+        Args:
+            log_file (str): The path to the log file. If not provided, the logger name (__name__) will be used.
+            level (str): The log level. Default is 'INFO'.
+            format (str): The log message format. Default is '%(asctime)s - %(levelname)s - %(message)s'.
+            datefmt (str): The log message date format. Default is '%Y-%m-%d %H:%M:%S'.
+        """
         self.log_file = log_file
         self.logger = logging.getLogger(log_file if log_file else __name__) 
         self.logger.setLevel(level.upper())
@@ -41,11 +59,32 @@ class Logger:
             self.set_file_handler(log_file, format, datefmt)
 
     def set_format(self):
-        console_handler = logging.StreamHandler()
-        console_handler.setFormatter(CustomFormatter())
-        # self.logger.addHandler(console_handler)
+            """
+            Sets the format for the logging output.
+
+            This method creates a console handler and sets a custom formatter for the logging output.
+
+            Parameters:
+                None
+
+            Returns:
+                None
+            """
+            console_handler = logging.StreamHandler()
+            console_handler.setFormatter(CustomFormatter())
 
     def set_file_handler(self, log_file, format, datefmt):
+        """
+        Sets up a file handler for logging.
+
+        Args:
+            log_file (str): The path to the log file.
+            format (str): The format string for log messages.
+            datefmt (str): The format string for log timestamps.
+
+        Returns:
+            None
+        """
         from os.path import exists as os_path_exists
         from os import makedirs as os_makedirs
         from os.path import dirname as os_path_dirname
@@ -58,7 +97,17 @@ class Logger:
         file_handler.setFormatter(file_formatter)
         self.logger.addHandler(file_handler)
 
-    def log_message(self, message, level = 'INFO'):
+    def log_message(self, message, level='INFO'):
+        """
+        Logs a message with the specified log level.
+
+        Parameters:
+            message (str): The message to be logged.
+            level (str, optional): The log level. Defaults to 'INFO'.
+
+        Returns:
+            None
+        """
         level = level.upper()
         if level == 'DEBUG':
             self.logger.debug(message)
@@ -76,11 +125,25 @@ class Logger:
             self.logger.info(message)
     
     def clear(self):
-        from os.path import exists as os_path_exists
-        if os_path_exists(self.log_file):
-            open(self.log_file, 'w').close()
+            """
+            Clears the contents of the log file.
+
+            If the log file exists, it will be opened and truncated to remove all its contents.
+            """
+            from os.path import exists as os_path_exists
+            if os_path_exists(self.log_file):
+                open(self.log_file, 'w').close()
 
     def change_log_file(self, log_file):
+        """
+        Changes the log file and updates the file handler.
+
+        Args:
+            log_file (str): The path to the new log file.
+
+        Returns:
+            None
+        """
         # Close and remove all current handlers
         for handler in self.logger.handlers[:]:
             if isinstance(handler, logging.FileHandler):
@@ -90,8 +153,18 @@ class Logger:
         self.set_file_handler(log_file, '%(asctime)s - %(levelname)s - %(message)s', '%Y-%m-%d %H:%M:%S')
 
     def set_level(self, level):
-        self.logger.setLevel(level.upper())
-        for handler in self.logger.handlers:
-            handler.setLevel(level.upper())
+            """
+            Set the logging level for the logger and all its handlers.
+
+            Args:
+                level (str): The desired logging level. It should be one of the following:
+                             'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'.
+
+            Returns:
+                None
+            """
+            self.logger.setLevel(level.upper())
+            for handler in self.logger.handlers:
+                handler.setLevel(level.upper())
 
         
