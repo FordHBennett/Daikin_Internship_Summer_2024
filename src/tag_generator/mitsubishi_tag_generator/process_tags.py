@@ -53,7 +53,7 @@ def create_new_connected_tag(current_tag) -> None:
         r"opcServer": r'Ignition OPC UA Server',
         r"dataType": r'String',
         r'valueSource': r'opc',
-        r'tagGroup': r'default' # renove once prodcution
+        # r'tagGroup': r'default' # renove once prodcution
     })
 
 def create_new_tag(current_tag, tag_builder) -> None:
@@ -63,7 +63,7 @@ def create_new_tag(current_tag, tag_builder) -> None:
         r"opcServer": r'Ignition OPC UA Server',
         r"dataType": tag_builder['data_type'],
         r'valueSource': r'opc',
-        r'tagGroup': r'default' # renove once prodcution 
+        # r'tagGroup': r'default' # renove once prodcution 
     })
 
 
