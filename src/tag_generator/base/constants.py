@@ -12,7 +12,7 @@ DATA_TYPE_MAPPINGS = {
     r'Word': ('Int2', 'Int16'),
     r'Integer': ('Int4', 'Int32'),
     r'Int4': ('Int4', 'Int32'),
-    r'BCD': ('Int2', 'Int16'),
+    r'BCD': ('Int4', 'Int16'),
     r'Boolean': ('Boolean', 'Bool')
 }
 
