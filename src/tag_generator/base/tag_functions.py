@@ -55,15 +55,15 @@ def find_row_by_tag_name(df, tag_name):
     return row.iloc[0] if not row.empty else None
 
 
-def extract_kepware_tag_name(opc_item_path):
+def extract_kepware_path(opc_item_path):
     """
-    Extracts the Kepware tag name from the given OPC item path.
+    Extracts the Kepware path from the given OPC item path.
 
     Args:
         opc_item_path (str): The OPC item path.
 
     Returns:
-        str: The extracted Kepware tag name.
+        str: The extracted Kepware path.
     """
     if '.' not in opc_item_path:
         return opc_item_path
@@ -92,6 +92,8 @@ def extract_area_and_offset(address):
             offset = str(int(address[first_number_index:].lstrip('0') or '0', 16))
         else:
             offset = address[first_number_index:].lstrip('0') or '0'
+            if offset.find('.') == 0:
+                offset = '0' + offset
         return area, offset
     else:
         exit(f"Could not find any numbers in address {address}")

@@ -100,11 +100,13 @@
 - **OSX/Linux:**
     To run all base tests:
     ```sh
-        python -m unittest discover src/tests/base_tests "*_tests.py" -v 
+        python -m unittest discover src/tests/base/file_functions "*_tests.py" -v 
+        python -m unittest discover src/tests/base/tag_functions "*_tests.py" -v 
+
     ```
     To run all mitsubishi_tag_generator tests:
     ```sh
-        python -m unittest discover src/tests/mitsubishi_tag_generator_tests "*_tests.py" -v 
+        python -m unittest discover src/tests/mitsubishi_tag_generator "*_tests.py" -v 
     ```
     To run profiler:
     ```sh
@@ -113,11 +115,11 @@
 - **Windows(PowerShell):**
     To run all base tests:
     ```pwsh
-        python.exe -m unittest discover src\tests\base_tests "*_tests.py" -v 
+        python.exe -m unittest discover src\tests\base "*_tests.py" -v 
     ```
     To run all mitsubishi_tag_generator tests:
     ```pwsh
-        python.exe -m unittest discover src\tests\mitsubishi_tag_generator_tests "*_tests.py" -v 
+        python.exe -m unittest discover src\tests\mitsubishi_tag_generator "*_tests.py" -v 
     ```
 
 ## Uninstall the Package

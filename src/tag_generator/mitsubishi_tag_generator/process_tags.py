@@ -156,7 +156,7 @@ def process_tag(ingition_json, tag_builder, key, df, tag, tag_name_and_address_l
         None
     """
     from os.path import join as os_path_join
-    from tag_generator.base.tag_functions import find_row_by_tag_name, extract_kepware_tag_name, reset_tag_builder
+    from tag_generator.base.tag_functions import find_row_by_tag_name, extract_kepware_path, reset_tag_builder
 
     if 'tags' in tag:
         for sub_tag in tag['tags']:
@@ -164,7 +164,7 @@ def process_tag(ingition_json, tag_builder, key, df, tag, tag_name_and_address_l
     else:
         if 'opcItemPath' in tag:
             tag_builder.update({
-                r'row': find_row_by_tag_name(df, extract_kepware_tag_name(tag['opcItemPath']))
+                r'row': find_row_by_tag_name(df, extract_kepware_path(tag['opcItemPath']))
             })
             if tag_builder['row'] is not None:
                 update_tag_builder(tag_builder)

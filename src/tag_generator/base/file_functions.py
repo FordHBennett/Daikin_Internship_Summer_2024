@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 
-
-import json
-from math import log
 from .tag_functions import remove_invalid_tag_name_characters
 
 
@@ -118,8 +115,12 @@ def get_dict_of_dfs_from_csv_files(csv_files):
 
     csv_df = {}
     for csv_file in csv_files:
-        with open(csv_file, 'r') as f:
-            csv_df[get_basename_without_extension(csv_file)] = pd_read_csv(f)
+        try:
+            with open(csv_file, 'r') as f:
+                csv_df[get_basename_without_extension(csv_file)] = pd_read_csv(f)
+        except Exception as e:
+            print(f"Error reading file: {csv_file}")
+            print(e)
 
     # Remove invalid characters from tag names if running on Windows
     if os.name == 'nt':
@@ -149,8 +150,12 @@ def write_json_files(json_data, output_dir):
     
     os_makedirs(output_dir, exist_ok=True)
     def write_file(file_path, data):
-        with open(file_path, 'w', encoding='utf-8') as f:
-            json_dump(data, f, indent=4)
+        try:
+            with open(file_path, 'w', encoding='utf-8') as f:
+                json_dump(data, f, indent=4)
+        except Exception as e:
+            print(f"Error writing file: {file_path}")
+            print(e)
                 
 
     for key, data in json_data.items():
@@ -175,5 +180,9 @@ def write_csv_files(address_csv, dir) -> None:
     os_makedirs(out_dir, exist_ok=True)
 
     for key, df in address_csv.items():
-        df.to_csv(os_path_join(out_dir, f'{key}.csv'), index=False)
+        try:
+            df.to_csv(os_path_join(out_dir, f'{key}.csv'), index=False)
+        except Exception as e:
+            print(f"Error writing file: {key}.csv")
+            print(e)
 
