@@ -1,8 +1,0 @@
-Metadata-Version: 2.1
-Name: mitsubishi_tag_generator
-Version: 0.1
-Summary: Ignition to PLC Tag Generation
-Home-page: https://github.com/FordHBennett/Daikin_Internship_Summer_2024
-Author: Ford Hideo Bennett
-Requires-Dist: pandas
-Requires-Dist: numpy
