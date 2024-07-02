@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-from .tag_functions import remove_invalid_tag_name_characters
-
 
 def get_basename_without_extension(file_path):
     from os.path import basename as os_path_basename

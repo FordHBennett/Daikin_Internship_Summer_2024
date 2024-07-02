@@ -12,7 +12,7 @@ setup(
     zip_safe=False,
     entry_points={
         'console_scripts': [
-            'run-mitsubishi-tag-generator=tag_generator.__main__:main',
+            'run-mitsubishi-tag-generator=tag_generator.__init__:main',
         ],
     },
 )

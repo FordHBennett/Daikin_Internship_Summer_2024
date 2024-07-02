@@ -88,8 +88,6 @@
     .venv\Scripts\activate
     python.exe -m pip install --upgrade pip
     python.exe -m pip install -e .
-    python.exe -c "import mitsubishi_tag_generator"
-    python.exe -c "import base"
     run-mitsubishi-tag-generator.exe
     ```
 
