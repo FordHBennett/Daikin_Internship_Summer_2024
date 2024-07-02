@@ -18,4 +18,5 @@ Build/*
 /profiles
 /files/profiles
 /files/output
+/files/logs
 /src/mitsubishi_tag_generator.egg-info
