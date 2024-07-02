@@ -13,7 +13,7 @@
             "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<String2>867",
             "dataType": "String",
             "name": "REVISION",
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -26,7 +26,7 @@
             "historicalDeadbandStyle": "Discrete",
             "name": "SERIALNO",
             "historyEnabled": true,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -53,7 +53,7 @@
             "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1",
             "dataType": "Int2",
             "name": "PHS_PLC_Heartbeat",
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -75,7 +75,7 @@
             "historicalDeadbandStyle": "Discrete",
             "name": "MODELNO",
             "historyEnabled": true,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -88,43 +88,43 @@
                     "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1053",
                     "dataType": "Int2",
                     "name": "LOCATOR_Y_POSITION",
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1055",
+                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1055",
                     "dataType": "Int4",
                     "name": "COMPRESSOR_DIAMETER",
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1056",
+                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1056",
                     "dataType": "Int4",
                     "name": "COMPRESSOR_WEIGHT",
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1059",
+                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1059",
                     "dataType": "Int4",
                     "name": "ROBOT_SET_DOWN_1_PR",
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1054",
+                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1054",
                     "dataType": "Int4",
                     "name": "COMPRESSOR_HEIGHT",
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 },
@@ -137,25 +137,25 @@
                     "historicalDeadbandStyle": "Discrete",
                     "name": "PHS_OK",
                     "historyEnabled": true,
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1038",
+                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1038",
                     "dataType": "Int4",
                     "name": "RECIPE_NUMBER",
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1057",
+                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1057",
                     "dataType": "Int4",
                     "name": "PAYLOAD_NUMBER",
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 },
@@ -168,7 +168,7 @@
                     "historicalDeadbandStyle": "Discrete",
                     "name": "message",
                     "historyEnabled": true,
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 },
@@ -177,16 +177,16 @@
                     "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<String10>1039",
                     "dataType": "String",
                     "name": "UNIT_TYPE",
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 },
                 {
                     "valueSource": "opc",
-                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int32>1058",
+                    "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1058",
                     "dataType": "Int4",
                     "name": "ROBOT_PICKUP_1_PR",
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 },
@@ -199,7 +199,7 @@
                     "historicalDeadbandStyle": "Discrete",
                     "name": "returnCode",
                     "historyEnabled": true,
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 },
@@ -208,7 +208,7 @@
                     "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>1052",
                     "dataType": "Int2",
                     "name": "LOCATOR_X_POSITION",
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 },
@@ -221,7 +221,7 @@
                     "historicalDeadbandStyle": "Discrete",
                     "name": "BASEPAN_NUMBER",
                     "historyEnabled": true,
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 }
@@ -247,7 +247,7 @@
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "nsu=ThingWorx Kepware Server;s=SA_BasePanConveyor.SA_BasePanConveyor._System._NoError",
+            "opcItemPath": "ns=1;s=[SA_BasePanConveyor][Diagnostics]/Connected",
             "alarms": [
                 {
                     "activePipeline": "FIT_Main/NoCommNotifications",
@@ -260,14 +260,15 @@
             "name": "IsConnected",
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "FIT_Kepware"
+            "opcServer": "Ignition OPC UA Server",
+            "dataType": "String"
         },
         {
             "valueSource": "opc",
             "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>802",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "enabled": true,
             "dataType": "Int2",
@@ -285,7 +286,7 @@
             "historicalDeadbandStyle": "Discrete",
             "name": "REQUEST_PARTS_MATCH",
             "historyEnabled": true,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -298,7 +299,7 @@
                     "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<String30>806",
                     "historicalDeadband": 0.5,
                     "historicalDeadbandStyle": "Discrete",
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "readOnly": true,
                     "dataType": "String",
@@ -316,7 +317,7 @@
                     "historicalDeadbandStyle": "Discrete",
                     "name": "PHS_OK",
                     "historyEnabled": true,
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 },
@@ -329,7 +330,7 @@
                     "historicalDeadbandStyle": "Discrete",
                     "name": "returnCode",
                     "historyEnabled": true,
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 }
@@ -346,7 +347,7 @@
             "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>800",
             "dataType": "Int2",
             "name": "CONFIRM",
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -359,7 +360,7 @@
                     "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>805",
                     "dataType": "Int2",
                     "name": "returnCode",
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 },
@@ -368,7 +369,7 @@
                     "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<String30>806",
                     "dataType": "String",
                     "name": "message",
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 },
@@ -377,7 +378,7 @@
                     "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<Int16>804",
                     "dataType": "Int2",
                     "name": "PHS_OK",
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 },
@@ -386,7 +387,7 @@
                     "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<String2>562",
                     "dataType": "String",
                     "name": "CycleTime",
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 },
@@ -395,7 +396,7 @@
                     "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<String2>959",
                     "dataType": "String",
                     "name": "ProcessingResult",
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 },
@@ -404,7 +405,7 @@
                     "opcItemPath": "ns=1;s=[SA_BasePanConveyor]R<String4>960",
                     "dataType": "String",
                     "name": "NGCode",
-                    "tagGroup": "default",
+                    "tagGroup": "AFP01_Normal",
                     "tagType": "AtomicTag",
                     "opcServer": "Ignition OPC UA Server"
                 }
@@ -419,7 +420,7 @@
             "historicalDeadbandStyle": "Discrete",
             "name": "PARTBARCODE",
             "historyEnabled": true,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },

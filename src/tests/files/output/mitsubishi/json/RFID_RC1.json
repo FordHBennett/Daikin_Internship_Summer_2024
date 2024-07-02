@@ -11,7 +11,7 @@
             "historicalDeadbandStyle": "Discrete",
             "name": "LINE_NAME",
             "historyEnabled": true,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -24,7 +24,7 @@
             "historicalDeadbandStyle": "Discrete",
             "name": "INITIAL_UNIT_PRES",
             "historyEnabled": false,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -37,20 +37,20 @@
             "historicalDeadbandStyle": "Discrete",
             "name": "RECLAIM_PROC_COMPL_PRES",
             "historyEnabled": false,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[MA_RE1]R<Int32[2]>209",
-            "dataType": "String",
+            "opcItemPath": "ns=1;s=[MA_RE1]R<Int16>209.02",
+            "dataType": "Int4",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
             "name": "TREND_DATA_FN",
             "historyEnabled": false,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -63,7 +63,7 @@
             "historicalDeadbandStyle": "Discrete",
             "name": "MODEL_NAME",
             "historyEnabled": true,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -76,7 +76,7 @@
             "historicalDeadbandStyle": "Discrete",
             "name": "PROCESSING_RESULT",
             "historyEnabled": false,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -99,7 +99,7 @@
             "opcItemPath": "ns=1;s=[MA_RE1]R<Int16>40",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "eventScripts": [
                 {
@@ -119,8 +119,7 @@
             "dataType": "Int2",
             "name": "PHS_PLC_Heartbeat",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "tagGroup": "default"
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -131,7 +130,7 @@
             "historicalDeadbandStyle": "Discrete",
             "name": "SN",
             "historyEnabled": true,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -144,7 +143,7 @@
             "historicalDeadbandStyle": "Discrete",
             "name": "RECLAIM_PROC_TIME",
             "historyEnabled": false,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -157,7 +156,7 @@
             "historicalDeadbandStyle": "Discrete",
             "name": "returnCode",
             "historyEnabled": true,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -181,7 +180,7 @@
             "historicalDeadbandStyle": "Discrete",
             "name": "REVISION",
             "historyEnabled": true,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -194,7 +193,7 @@
             "historicalDeadbandStyle": "Discrete",
             "name": "CYCLE_TIME",
             "historyEnabled": false,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -207,7 +206,7 @@
             "historicalDeadbandStyle": "Discrete",
             "name": "REQUEST_TO_PHS",
             "historyEnabled": true,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -220,26 +219,26 @@
             "historicalDeadbandStyle": "Discrete",
             "name": "NG_CODE",
             "historyEnabled": true,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[MA_RE1]R<Int32>205",
+            "opcItemPath": "ns=1;s=[MA_RE1]R<Int16>205",
             "dataType": "Int4",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
             "name": "AMBIENT_MOISTURE",
             "historyEnabled": false,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "nsu=ThingWorx Kepware Server;s=MA_RE1.MA_RE1._System._NoError",
+            "opcItemPath": "ns=1;s=[MA_RE1][Diagnostics]/Connected",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
             "alarms": [
@@ -254,22 +253,22 @@
             ],
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "dataType": "Int4",
+            "dataType": "String",
             "historyProvider": "IGN_DB_FIT",
             "name": "IsConnected",
             "historyEnabled": true,
-            "opcServer": "FIT_Kepware"
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[MA_RE1]R<Int32>204",
+            "opcItemPath": "ns=1;s=[MA_RE1]R<Int16>204",
             "dataType": "Int4",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
             "name": "AMBIENT_TEMP",
             "historyEnabled": false,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -282,7 +281,7 @@
             "historicalDeadbandStyle": "Discrete",
             "name": "PALLET_NO",
             "historyEnabled": true,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         }

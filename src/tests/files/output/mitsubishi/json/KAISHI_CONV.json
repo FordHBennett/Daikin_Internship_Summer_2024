@@ -27,7 +27,7 @@
             "opcItemPath": "ns=1;s=[MA_KaishiConveyor]R<Int16>1",
             "dataType": "Int2",
             "name": "PHS_PLC_Heartbeat",
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -43,36 +43,36 @@
             "opcItemPath": "ns=1;s=[MA_KaishiConveyor]R<Int16>0",
             "dataType": "Int2",
             "name": "PLC_PHS_Heartbeat",
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "enabled": true,
             "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[MA_KaishiConveyor]R<Int16[13]>50",
+            "opcItemPath": "ns=1;s=[MA_KaishiConveyor]R<Int16>50.13",
             "historyProvider": "IGN_DB_FIT",
             "name": "KaishiCVA_Running",
             "historyEnabled": true,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server",
-            "dataType": "String"
+            "dataType": "Int2"
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[MA_KaishiConveyor]R<Int16[14]>50",
+            "opcItemPath": "ns=1;s=[MA_KaishiConveyor]R<Int16>50.14",
             "historyProvider": "IGN_DB_FIT",
             "name": "KaishiCVB_Running",
             "historyEnabled": true,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server",
-            "dataType": "String"
+            "dataType": "Int2"
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "nsu=ThingWorx Kepware Server;s=MA_KaishiConveyor.MA_KaishiConveyor._System._NoError",
+            "opcItemPath": "ns=1;s=[MA_KaishiConveyor][Diagnostics]/Connected",
             "alarms": [
                 {
                     "activePipeline": "FIT_Main/NoCommNotifications",
@@ -86,18 +86,19 @@
             "name": "IsConnected",
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "FIT_Kepware"
+            "opcServer": "Ignition OPC UA Server",
+            "dataType": "String"
         },
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[MA_KaishiConveyor]R<Int16[15]>50",
+            "opcItemPath": "ns=1;s=[MA_KaishiConveyor]R<Int16>50.15",
             "historyProvider": "IGN_DB_FIT",
             "name": "KaishiCVC_Running",
             "historyEnabled": true,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server",
-            "dataType": "String"
+            "dataType": "Int2"
         },
         {
             "valueSource": "expr",

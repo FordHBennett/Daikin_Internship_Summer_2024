@@ -5,7 +5,6 @@ from tag_generator.base.logging_class import Logger
 
 logger = Logger()
 
-# @profile
 def main():
     from tag_generator.base.file_functions import get_all_files
     from os.path import join as os_path_join
@@ -20,8 +19,18 @@ def main():
         generate_output(output_dir, csv_files, json_file)
 
 
-# @profile
 def process_files(output_dir, json_files, csv_df):
+    """
+    Process the JSON and CSV files to generate ignition JSON and CSV files.
+
+    Args:
+        output_dir (str): The directory where the generated files will be saved.
+        json_files (list): A list of JSON file paths.
+        csv_df (pandas.DataFrame): The CSV data.
+
+    Returns:
+        None
+    """
     from tag_generator.base.file_functions import get_dict_from_json_files, write_json_files, write_csv_files
     from tag_generator.mitsubishi_tag_generator.process_tags import get_generated_ignition_json_and_csv_files
 
@@ -32,8 +41,18 @@ def process_files(output_dir, json_files, csv_df):
     write_csv_files(address_csv, output_dir)
 
 
-# @profile
 def generate_output(output_dir, csv_files, json_file):
+    """
+    Process the JSON and CSV files to generate ignition JSON and CSV files.
+
+    Args:
+        output_dir (str): The directory where the output files will be saved.
+        csv_files (list): A list of CSV file paths.
+        json_file (str): The path to the JSON file.
+
+    Returns:
+        None
+    """
     from tag_generator.base.file_functions import get_dict_from_json_files, get_basename_without_extension
     ignition_json = get_dict_from_json_files(tuple([json_file]), logger=logger)
     for csv_file in csv_files:
@@ -44,7 +63,6 @@ def generate_output(output_dir, csv_files, json_file):
             ignition_json, address_csv = get_generated_ignition_json_and_csv_files(get_dict_of_dfs_from_csv_files(tuple([csv_file])) , ignition_json)
             write_json_files(ignition_json, output_dir)
             write_csv_files(address_csv, output_dir)
-
             break
 
 

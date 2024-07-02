@@ -27,7 +27,7 @@
             "opcItemPath": "ns=1;s=[MA_KaishiConveyor]R<Int16>1",
             "dataType": "Int2",
             "name": "PHS_PLC_Heartbeat",
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -43,7 +43,7 @@
             "opcItemPath": "ns=1;s=[MA_KaishiConveyor]R<Int16>0",
             "dataType": "Int2",
             "name": "PLC_PHS_Heartbeat",
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "enabled": true,
             "opcServer": "Ignition OPC UA Server"
@@ -54,7 +54,7 @@
             "historyProvider": "IGN_DB_FIT",
             "name": "KaishiCVA_Running",
             "historyEnabled": true,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "Int2"
@@ -65,7 +65,7 @@
             "historyProvider": "IGN_DB_FIT",
             "name": "KaishiCVB_Running",
             "historyEnabled": true,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "Int2"
@@ -84,7 +84,7 @@
                 }
             ],
             "name": "IsConnected",
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "String"
@@ -95,7 +95,7 @@
             "historyProvider": "IGN_DB_FIT",
             "name": "KaishiCVC_Running",
             "historyEnabled": true,
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "Int2"

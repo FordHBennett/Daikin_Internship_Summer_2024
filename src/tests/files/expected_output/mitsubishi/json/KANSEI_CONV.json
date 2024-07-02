@@ -7,7 +7,7 @@
             "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>1",
             "dataType": "Int2",
             "name": "PHS_PLC_Heartbeat",
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -16,7 +16,7 @@
             "opcItemPath": "ns=1;s=[MA_KanseiConveyor]R<Int16>0",
             "dataType": "Int2",
             "name": "PLC_PHS_Heartbeat",
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         },
@@ -46,7 +46,7 @@
                 }
             ],
             "name": "IsConnected",
-            "tagGroup": "default",
+            "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server",
             "dataType": "String"
