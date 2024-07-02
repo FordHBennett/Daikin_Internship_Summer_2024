@@ -1,6 +1,0 @@
-tag_name,address
-PHS_PLC_Heartbeat,R<Int16>1
-PLC_PHS_Heartbeat,R<Int16>0
-KaishiCVA_Running,R<Int16>50.13
-KaishiCVB_Running,R<Int16>50.14
-KaishiCVC_Running,R<Int16>50.15
