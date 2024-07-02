@@ -1,10 +1,5 @@
 #!/usr/bin/env python
 
-from collections import defaultdict
-from tag_generator import logger 
-from pandas import DataFrame as pd_DataFrame
-
-
 def convert_data_type(data_type):
     """
     Converts the given data type to its corresponding data type mapping.
@@ -50,13 +45,14 @@ def convert_tag_builder_to_mitsubishi_format(tag_builder) -> None:
     Returns:
         None
     """
-    from tag_generator.base.tag_functions import extract_area_and_offset, get_offset_and_array_size
+    # from tag_generator.base.tag_functions import extract_area_and_offset, get_offset_and_array_size
+    import tag_generator.base.tag_functions as tag_functions
     data_type, path_data_type = convert_data_type(tag_builder['data_type'])
-    area, offset = extract_area_and_offset(tag_builder['address'])
+    area, offset = tag_functions.extract_area_and_offset(tag_builder['address'])
     area, path_data_type = update_area_and_path_data_type(area, path_data_type)
 
     if r'String' in path_data_type:
-        offset, array_size = get_offset_and_array_size(offset)
+        offset, array_size = tag_functions.get_offset_and_array_size(offset)
         tag_builder.update({
             r'data_type': data_type,
             r'path_data_type': path_data_type,
@@ -154,7 +150,8 @@ def process_tag(ingition_json, tag_builder, key, df, tag, tag_name_and_address_l
         None
     """
     from os.path import join as os_path_join
-    from tag_generator.base.tag_functions import find_row_by_tag_name, extract_kepware_path, reset_tag_builder
+    # from tag_generator.base.tag_functions import find_row_by_tag_name, extract_kepware_path, reset_tag_builder
+    import tag_generator.base.tag_functions as tag_functions
 
     if 'tags' in tag:
         for sub_tag in tag['tags']:
@@ -162,7 +159,7 @@ def process_tag(ingition_json, tag_builder, key, df, tag, tag_name_and_address_l
     else:
         if 'opcItemPath' in tag:
             tag_builder.update({
-                r'row': find_row_by_tag_name(df, extract_kepware_path(tag['opcItemPath']))
+                r'row': tag_functions.find_row_by_tag_name(df, tag_functions.extract_kepware_path(tag['opcItemPath']))
             })
             if tag_builder['row'] is not None:
                 update_tag_builder(tag_builder)
@@ -174,7 +171,7 @@ def process_tag(ingition_json, tag_builder, key, df, tag, tag_name_and_address_l
         else:
             handle_opc_path_not_found(tag, key, os_path_join)
 
-    reset_tag_builder(tag_builder)
+    tag_functions.reset_tag_builder(tag_builder)
 
 def update_tags(tag_builder, current_tag, tag_name_and_address_list):
     """
@@ -232,6 +229,7 @@ def finalize_address_csv_dict(device_csv, key, tag_name_and_address_list):
     Returns:
         None
     """
+    from pandas import DataFrame as pd_DataFrame
     if tag_name_and_address_list:
         device_csv[key] = pd_DataFrame(tag_name_and_address_list)
 
@@ -264,8 +262,10 @@ def get_generated_ignition_json_and_csv_files(kepware_df, ignition_json):
         tuple: A tuple containing the generated Ignition JSON and a dictionary of address CSV files.
     """
     from tag_generator.base.constants import TAG_BUILDER_TEMPLATE
+    import pandas as pd
+    from collections import defaultdict
 
-    address_csv_dict = defaultdict(pd_DataFrame)
+    address_csv_dict = defaultdict(pd.DataFrame)
     tag_builder = TAG_BUILDER_TEMPLATE.copy()
     for key, df in kepware_df.items():
         if key in ignition_json:
@@ -289,6 +289,7 @@ def log_missing_key_critical(os_path_join, key):
     Returns:
         None
     """
+    from tag_generator import logger 
     logger.change_log_file(os_path_join('files','logs', 'mitsubishi', 'critical.log'))
     logger.set_level('CRITICAL')
     logger.log_message(f"Could not find {key}.json in ignition JSON so skipping it", 'CRITICAL')
@@ -306,6 +307,7 @@ def handle_tag_not_found(tag_builder, key, os_path_join):
     Returns:
         None
     """
+    from tag_generator import logger 
     logger.change_log_file(os_path_join('files','logs', 'mitsubishi', 'info.log'))
     logger.set_level('INFO')
     logger.log_message(f"Could not find tag {tag_builder['kepware_tag_name']} in CSV file {key}.csv so just leaving it as is", 'INFO')
@@ -324,6 +326,7 @@ def handle_opc_path_not_found(tag, device_name, os_path_join):
     Raises:
         None
     """
+    from tag_generator import logger 
     logger.change_log_file(os_path_join('files','logs', 'mitsubishi', 'info.log'))
     logger.set_level('INFO')
     logger.log_message(f"Could not find opcItemPath or dataType in tag {tag['name']} in the file {device_name}.json so just leaving it as is", 'INFO')

@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-from re import compile as re_compile
-
 """
 This module contains constants used in the tag generator.
 
@@ -12,10 +10,11 @@ This module contains constants used in the tag generator.
 - TAG_BUILDER_TEMPLATE: A dictionary representing a template for building tags.
 """
 
+import re
 
 
-ADDRESS_PATTERN = re_compile(r'\d+')
-TAG_NAME_PATTERN = re_compile(r'[^a-zA-Z0-9-_ .]')
+ADDRESS_PATTERN = re.compile(r'\d+')
+TAG_NAME_PATTERN = re.compile(r'[^a-zA-Z0-9-_ .]')
 
 DATA_TYPE_MAPPINGS = {
     r'Short': ('Int2', 'Int16'),

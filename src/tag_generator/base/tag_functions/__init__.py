@@ -116,3 +116,50 @@ def get_offset_and_array_size(offset):
 
     return (offset, array_size)
 
+def process_files(output_dir, json_files, csv_df):
+    """
+    Process the JSON and CSV files to generate ignition JSON and CSV files.
+
+    Args:
+        output_dir (str): The directory where the generated files will be saved.
+        json_files (list): A list of JSON file paths.
+        csv_df (pandas.DataFrame): The CSV data.
+
+    Returns:
+        None
+    """
+    from tag_generator.base import file_functions
+    import tag_generator.mitsubishi_tag_generator as mitsubishi_tag_generator
+    from tag_generator import logger
+
+    ignition_json = file_functions.get_dict_from_json_files(json_files, logger=logger)
+    ignition_json, address_csv = mitsubishi_tag_generator(csv_df, ignition_json)
+
+    file_functions.write_json_files(ignition_json, output_dir)
+    file_functions.write_csv_files(address_csv, output_dir)
+
+
+def generate_output(output_dir, csv_files, json_file):
+    """
+    Process the JSON and CSV files to generate ignition JSON and CSV files.
+
+    Args:
+        output_dir (str): The directory where the output files will be saved.
+        csv_files (list): A list of CSV file paths.
+        json_file (str): The path to the JSON file.
+
+    Returns:
+        None
+    """
+    import tag_generator.base.file_functions as file_functions
+    import tag_generator.mitsubishi_tag_generator as mitsubishi_tag_generator
+    from tag_generator import logger
+    ignition_json = file_functions.get_dict_from_json_files(tuple([json_file]), logger=logger)
+    for csv_file in csv_files:
+        if file_functions.get_basename_without_extension(csv_file) in ignition_json.keys():
+            ignition_json, address_csv = mitsubishi_tag_generator.get_generated_ignition_json_and_csv_files(file_functions.get_dict_of_dfs_from_csv_files(tuple([csv_file])) , ignition_json)
+            file_functions.write_json_files(ignition_json, output_dir)
+            file_functions.write_csv_files(address_csv, output_dir)
+            break
+
+

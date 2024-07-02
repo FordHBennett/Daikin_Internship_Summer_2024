@@ -19,3 +19,4 @@ Build/*
 /files/output
 /files/logs
 /src/mitsubishi_tag_generator.egg-info
+/src/tests/files/output

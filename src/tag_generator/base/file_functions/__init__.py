@@ -2,8 +2,7 @@
 
 
 def get_basename_without_extension(file_path):
-    from os.path import basename as os_path_basename
-    from os.path import splitext as os_path_splitext
+    import os.path
 
     """
     Returns the base name of a file path without the file extension.
@@ -15,7 +14,7 @@ def get_basename_without_extension(file_path):
         str: The base name of the file without the extension.
     """
 
-    name, _ = os_path_splitext(os_path_basename(file_path))
+    name, _ = os.path.splitext(os.path.basename(file_path))
     return name
 
 
@@ -63,15 +62,15 @@ def get_dict_from_json_files(json_files, is_test=False, logger=None):
         dict: A dictionary containing the contents of the JSON files, with the file names as keys.
 
     """
-    from json import load as json_load
-    from os.path import basename as os_path_basename, join as os_path_join
+    import json
+    import os.path 
 
     log_messages = []
     ignition_json = {}
 
     def read_file(json_file):
         with open(json_file, 'r', encoding='utf-8') as f:
-            json_structure = json_load(f)
+            json_structure = json.load(f)
 
         new_file_name = ''
         if not is_test:
@@ -79,10 +78,10 @@ def get_dict_from_json_files(json_files, is_test=False, logger=None):
                 if 'opcItemPath' in key:
                     new_file_name = key["opcItemPath"].split('=')[-1].split('.')[0]
                     break
-            log_messages.append(f"{os_path_basename(json_file)} Changed to {json_structure['name']}.json")
+            log_messages.append(f"{os.path.basename(json_file)} Changed to {json_structure['name']}.json")
             json_file = get_basename_without_extension(json_file)
         else:
-            new_file_name = os_path_basename(json_file).split('.')[0]
+            new_file_name = os.path.basename(json_file).split('.')[0]
 
         ignition_json[new_file_name] = json_structure
 
@@ -90,7 +89,7 @@ def get_dict_from_json_files(json_files, is_test=False, logger=None):
         read_file(json_file)
 
     if logger:
-        logger.change_log_file(os_path_join('files', 'logs', 'mitsubishi', 'name_change.log'))
+        logger.change_log_file(os.path.join('files', 'logs', 'mitsubishi', 'name_change.log'))
         logger.set_level('NAME_CHANGE')
         for message in log_messages:
             logger.log_message(message, 'NAME_CHANGE')
@@ -108,30 +107,31 @@ def get_dict_of_dfs_from_csv_files(csv_files):
     dict: A dictionary where the keys are the base names of the CSV files without the file extension,
           and the values are pandas DataFrames containing the data from the CSV files.
     """
-    from pandas import read_csv as pd_read_csv
+
+    import pandas as pd
     import os
 
     csv_df = {}
     for csv_file in csv_files:
         try:
             with open(csv_file, 'r') as f:
-                csv_df[get_basename_without_extension(csv_file)] = pd_read_csv(f)
+                csv_df[get_basename_without_extension(csv_file)] = pd.read_csv(f)
         except Exception as e:
             print(f"Error reading file: {csv_file}")
             print(e)
 
     # Remove invalid characters from tag names if running on Windows
     if os.name == 'nt':
-        from .tag_name import remove_invalid_tag_name_characters
+        import tag_generator.base.constants as constants
         for df in csv_df.values():
             for key in df.keys():
-                new_key = remove_invalid_tag_name_characters(key)
+                new_key = constants.TAG_NAME_PATTERN.sub('', key)
                 df[new_key] = df.pop(key)
     
     return csv_df
 
 
-def write_json_files(json_data, output_dir):
+def write_json_files(json_data, output_dir) -> None:
     """
     Write JSON files to the the subdirectory json in the specified output directory.
 
@@ -185,17 +185,21 @@ def write_csv_files(address_csv, dir) -> None:
             print(f"Error writing file: {key}.csv")
             print(e)
 
-def remove_log_dir():
-    import os
+def remove_log_dir() -> None:
     try:
-        os.removedirs(os.path.join('files', 'logs'))
+        import os
+        import shutil
+        shutil.rmtree(os.path.join('files', 'logs'))
     except:
         pass
 
-def remove_output_dir():
-    import os
+def remove_output_dir() -> None:
+
     try:
-        os.removedirs(os.path.join('files', 'output'))
-    except:
+        # recursively remove the output directory  
+        import os 
+        import shutil
+        shutil.rmtree(os.path.join('files', 'output'))
+    except Exception:
         pass
             
