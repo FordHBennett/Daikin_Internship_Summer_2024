@@ -1,4 +1,3 @@
-**/output_files/*
 .DS_Store
 # Compiled python modules.
 *.pyc
@@ -7,7 +6,6 @@
 /dist/
 
 # Python egg metadata, regenerated from source files by setuptools.
-src/*/*.egg-info*
 Build/*
 
 .*/*
@@ -19,4 +17,5 @@ Build/*
 
 /profiles
 /files/profiles
+/files/output
 /src/mitsubishi_tag_generator.egg-info

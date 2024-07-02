@@ -1,4 +1,3 @@
-from tag_generator.__main__ import main
+from tag_generator.__init__ import main as __init__
 
-if __name__ == '__main__':
-    main()
+__init__()

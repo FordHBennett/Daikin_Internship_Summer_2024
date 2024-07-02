@@ -70,4 +70,4 @@ def generate_output(output_dir, csv_files, json_file):
 
     
 
-main()
+# main()
