@@ -122,6 +122,7 @@ def get_dict_of_dfs_from_csv_files(csv_files):
 
     # Remove invalid characters from tag names if running on Windows
     if os.name == 'nt':
+        from .tag_name import remove_invalid_tag_name_characters
         for df in csv_df.values():
             for key in df.keys():
                 new_key = remove_invalid_tag_name_characters(key)

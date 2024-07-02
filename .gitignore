@@ -10,7 +10,6 @@ Build/*
 
 .*/*
 
-*.txt
 *.log
 /tmp
 .zshrc

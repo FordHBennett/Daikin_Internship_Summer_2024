@@ -127,5 +127,9 @@
 
 Profiling: 
 python -m cProfile -o files/profiles/mitsubishi.prof -m tag_generator 
+snakeviz files/profiles/mitsubishi.prof
  
 mprof run --backend psutil python -m tag_generator
+
+
+Note: If your tags are not appearing as expected for a large tag import, the Designer's memory allocation may need to be increased. Access your Gateway and navigate to the Config > Gateway Settings > Designer Memory to adjust memory limitations. The default size is 1.0 GB, with available dropdown options from MB128 to 4.0 GB.
