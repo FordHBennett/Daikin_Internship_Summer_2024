@@ -1,14 +1,13 @@
 import unittest 
-import os
+import os.path
 from tag_generator.base.file_functions import *
 from deepdiff import DeepDiff
 from unittest.mock import MagicMock
-import pandas as pd
 
 class Test_File_Functions(unittest.TestCase):
     def test_get_basename_without_extension(self):
         file_path = 'test_file.txt'
-        self.assertEqual(get_basename_without_extension(file_path), 'test_file')
+        self.assertEqual(get_basename_without_extension(file_path, os.path), 'test_file')
 
     def test_get_all_files(self):
         dir = os.path.join('src','tests','files','input', 'mitsubishi')
@@ -23,7 +22,7 @@ class Test_File_Functions(unittest.TestCase):
             os.path.join('src', 'tests', 'files', 'input', 'mitsubishi', 'json', 'RFID_RC1_tags.json')
         )
         
-        output = get_all_files(dir, extension)
+        output = get_all_files(dir, extension, os)
 
         diff = DeepDiff(expected_output, output, ignore_order=True, verbose_level=2)
         if diff:
@@ -499,7 +498,8 @@ class Test_File_Functions(unittest.TestCase):
         }
 
         # Call the function and get the actual output
-        actual_output = get_dict_from_json_files(json_files, is_test=True, logger=logger_mock)
+        import json
+        actual_output = get_dict_from_json_files(json_files, os.path, json, is_test=True, logger=logger_mock)
 
         # Compare the actual output with the expected output
         diff = DeepDiff(expected_output, actual_output, ignore_order=True, verbose_level=2)

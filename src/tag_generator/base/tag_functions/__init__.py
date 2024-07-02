@@ -1,44 +1,8 @@
 #!/usr/bin/env python
 
-def remove_invalid_tag_name_characters(tag_name):
-    """
-    Removes invalid characters from a tag name.
 
-    Args:
-        tag_name (str): The tag name to remove invalid characters from.
-
-    Returns:
-        str: The tag name with invalid characters removed.
-    """
-    from tag_generator.base.constants import TAG_NAME_PATTERN
-    return TAG_NAME_PATTERN.sub('', tag_name)
-
-def get_tag_builder():
-    """
-    Returns a copy of the TAG_BUILDER_TEMPLATE.
-
-    This function retrieves the TAG_BUILDER_TEMPLATE from the tag_generator.base.constants module
-    and returns a copy of it.
-
-    Returns:
-        dict: A copy of the TAG_BUILDER_TEMPLATE.
-
-    """
-    from tag_generator.base.constants import TAG_BUILDER_TEMPLATE
-    return TAG_BUILDER_TEMPLATE.copy()
-
-def reset_tag_builder(tag_builder= {}) -> None:
-    """
-    Resets the tag builder dictionary to its initial state.
-
-    Parameters:
-    - tag_builder (dict): The tag builder dictionary to be reset. Defaults to an empty dictionary.
-
-    Returns:
-    - None
-    """
-    from tag_generator.base.constants import TAG_BUILDER_TEMPLATE
-    tag_builder.update(TAG_BUILDER_TEMPLATE)
+def reset_tag_builder(tag_builder, contants) -> None:
+    tag_builder.update(contants.TAG_BUILDER_TEMPLATE)
     
 def find_row_by_tag_name(df, tag_name):
     """
@@ -55,7 +19,7 @@ def find_row_by_tag_name(df, tag_name):
     return row.iloc[0] if not row.empty else None
 
 
-def extract_kepware_path(opc_item_path):
+def extract_kepware_path(opc_item_path) -> str:
     """
     Extracts the Kepware path from the given OPC item path.
 
@@ -69,12 +33,13 @@ def extract_kepware_path(opc_item_path):
         return opc_item_path
     return opc_item_path.split('.', 2)[-1]
 
-def extract_area_and_offset(address):
+def extract_area_and_offset(address, constants) -> tuple:
     """
     Extracts the area and offset from the given address.
 
     Args:
         address (str): The address from which to extract the area and offset.
+        constants (module): The constants module.
 
     Returns:
         tuple: A tuple containing the extracted area and offset.
@@ -83,8 +48,8 @@ def extract_area_and_offset(address):
         SystemExit: If no numbers are found in the address.
 
     """
-    from tag_generator.base.constants import ADDRESS_PATTERN
-    match = ADDRESS_PATTERN.search(address)
+
+    match = constants.ADDRESS_PATTERN.search(address)
     if match:
         first_number_index = match.start()
         area = address[:first_number_index]
@@ -94,11 +59,11 @@ def extract_area_and_offset(address):
             offset = address[first_number_index:].lstrip('0') or '0'
             if offset.find('.') == 0:
                 offset = '0' + offset
-        return area, offset
+        return (area, offset)
     else:
         exit(f"Could not find any numbers in address {address}")
 
-def get_offset_and_array_size(offset):
+def get_offset_and_array_size(offset) -> tuple:
     """
     Splits the given offset into offset and array size.
 
@@ -116,50 +81,50 @@ def get_offset_and_array_size(offset):
 
     return (offset, array_size)
 
-def process_files(output_dir, json_files, csv_df):
+def convert_data_type(data_type, constants) -> tuple:
     """
-    Process the JSON and CSV files to generate ignition JSON and CSV files.
+    Converts the given data type to its corresponding mapping in the constants.DATA_TYPE_MAPPINGS dictionary.
 
     Args:
-        output_dir (str): The directory where the generated files will be saved.
-        json_files (list): A list of JSON file paths.
-        csv_df (pandas.DataFrame): The CSV data.
+        data_type (str): The data type to be converted.
+        constants (module): The module containing the DATA_TYPE_MAPPINGS dictionary.
+
+    Returns:
+        tuple: A tuple containing the converted data type and an empty string if no mapping is found.
+
+    """
+    return constants.DATA_TYPE_MAPPINGS.get(data_type, (data_type, ''))
+
+def create_new_connected_tag(current_tag) -> None:
+    """
+    Creates a new connected tag based on the current tag.
+
+    Args:
+        current_tag: The current tag to create a connected tag from.
 
     Returns:
         None
     """
-    from tag_generator.base import file_functions
-    import tag_generator.mitsubishi_tag_generator as mitsubishi_tag_generator
-    from tag_generator import logger
+    current_tag.update({
+        r"opcItemPath": f'ns=1;s=[{current_tag['opcItemPath'].split('=')[-1].split('.')[0]}][Diagnostics]/Connected',
+        r"opcServer": r'Ignition OPC UA Server',
+        r"dataType": r'String',
+        r'valueSource': r'opc',
+        # r'tagGroup': r'default' # remove once production
+    })
 
-    ignition_json = file_functions.get_dict_from_json_files(json_files, logger=logger)
-    ignition_json, address_csv = mitsubishi_tag_generator(csv_df, ignition_json)
-
-    file_functions.write_json_files(ignition_json, output_dir)
-    file_functions.write_csv_files(address_csv, output_dir)
-
-
-def generate_output(output_dir, csv_files, json_file):
+def update_tag_builder(tag_builder) -> None:
     """
-    Process the JSON and CSV files to generate ignition JSON and CSV files.
+    Updates the tag_builder dictionary with the values from the 'row' dictionary.
 
     Args:
-        output_dir (str): The directory where the output files will be saved.
-        csv_files (list): A list of CSV file paths.
-        json_file (str): The path to the JSON file.
+        tag_builder (dict): The tag_builder dictionary to be updated.
 
     Returns:
         None
     """
-    import tag_generator.base.file_functions as file_functions
-    import tag_generator.mitsubishi_tag_generator as mitsubishi_tag_generator
-    from tag_generator import logger
-    ignition_json = file_functions.get_dict_from_json_files(tuple([json_file]), logger=logger)
-    for csv_file in csv_files:
-        if file_functions.get_basename_without_extension(csv_file) in ignition_json.keys():
-            ignition_json, address_csv = mitsubishi_tag_generator.get_generated_ignition_json_and_csv_files(file_functions.get_dict_of_dfs_from_csv_files(tuple([csv_file])) , ignition_json)
-            file_functions.write_json_files(ignition_json, output_dir)
-            file_functions.write_csv_files(address_csv, output_dir)
-            break
-
-
+    tag_builder.update({
+        r'kepware_tag_name': tag_builder['row']['Tag Name'],
+        r'address': tag_builder['row']['Address'],
+        r'data_type': tag_builder['row']['Data Type'],
+    })

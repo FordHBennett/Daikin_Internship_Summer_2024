@@ -12,5 +12,6 @@ class Test_Tag_Functions(unittest.TestCase):
         self.assertEqual(extract_kepware_path("nsu\u003dThingWorx Kepware Server;s\u003dMA_PD1.MA_PD1.TestResult.TestResult_TrendDataFN"), 'TestResult.TestResult_TrendDataFN')
 
     def test_extract_area_and_offset(self):
-        self.assertEqual(extract_area_and_offset('M0.0'), ('M', '0.0'))
-        self.assertEqual(extract_area_and_offset('DB1.DBD0'), ('DB', '1.DBD0'))
+        import tag_generator.base.constants as constants
+        self.assertEqual(extract_area_and_offset('M0.0',constants), ('M', '0.0'))
+        self.assertEqual(extract_area_and_offset('DB1.DBD0',constants), ('DB', '1.DBD0'))
