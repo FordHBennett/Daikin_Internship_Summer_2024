@@ -1,3 +1,0 @@
-tag_name,address
-PHS_PLC_Heartbeat,R<Int16>1
-PLC_PHS_Heartbeat,R<Int16>0
