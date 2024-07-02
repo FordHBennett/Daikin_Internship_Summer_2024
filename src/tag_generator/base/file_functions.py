@@ -186,3 +186,17 @@ def write_csv_files(address_csv, dir) -> None:
             print(f"Error writing file: {key}.csv")
             print(e)
 
+def remove_log_dir():
+    import os
+    try:
+        os.removedirs(os.path.join('files', 'logs'))
+    except:
+        pass
+
+def remove_output_dir():
+    import os
+    try:
+        os.removedirs(os.path.join('files', 'output'))
+    except:
+        pass
+            

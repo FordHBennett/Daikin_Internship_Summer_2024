@@ -171,8 +171,10 @@ def process_tag(ingition_json, tag_builder, key, df, tag, tag_name_and_address_l
                 update_tags(tag_builder, tag,  tag_name_and_address_list)
             else:
                 create_new_connected_tag(tag)
+        elif tag['valueSource'] == 'expr':
+            pass
         else:
-            handle_opc_path_not_found(tag, os_path_join)
+            handle_opc_path_not_found(tag, key, os_path_join)
 
     reset_tag_builder(tag_builder)
 
@@ -310,7 +312,7 @@ def handle_tag_not_found(tag_builder, key, os_path_join):
     logger.set_level('INFO')
     logger.log_message(f"Could not find tag {tag_builder['kepware_tag_name']} in CSV file {key}.csv so just leaving it as is", 'INFO')
 
-def handle_opc_path_not_found(tag, os_path_join):
+def handle_opc_path_not_found(tag, device_name, os_path_join):
     """
     Handles the case when the opcItemPath or dataType is not found in the given tag.
 
@@ -326,4 +328,4 @@ def handle_opc_path_not_found(tag, os_path_join):
     """
     logger.change_log_file(os_path_join('files','logs', 'mitsubishi', 'info.log'))
     logger.set_level('INFO')
-    logger.log_message(f"Could not find opcItemPath or dataType in tag {tag['name']} so just leaving it as is", 'INFO')
+    logger.log_message(f"Could not find opcItemPath or dataType in tag {tag['name']} in the file {device_name}.json so just leaving it as is", 'INFO')

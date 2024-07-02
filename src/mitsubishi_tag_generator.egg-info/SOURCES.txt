@@ -16,3 +16,6 @@ src/tag_generator/base/logging_class.py
 src/tag_generator/base/tag_functions.py
 src/tag_generator/mitsubishi_tag_generator/__init__.py
 src/tag_generator/mitsubishi_tag_generator/process_tags.py
+src/tests/__init__.py
+src/tests/mitsubishi_tag_generator/__init__.py
+src/tests/mitsubishi_tag_generator/mitsubshi_tag_generator_tests.py

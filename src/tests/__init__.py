@@ -1,0 +1,8 @@
+from tests.base.file_functions.file_functions_tests import Test_File_Functions
+from tests.base.tag_funcitons.tag_functions_tests import Test_Tag_Functions
+from tests.mitsubishi_tag_generator.mitsubshi_tag_generator_tests import Test_Mitsubishi_Tag_Generator
+import unittest
+
+file_functions_tests = unittest.TestLoader().loadTestsFromTestCase(Test_File_Functions)
+tag_functions_tests = unittest.TestLoader().loadTestsFromTestCase(Test_Tag_Functions)
+mitsubishi_tag_generator_tests = unittest.TestLoader().loadTestsFromTestCase(Test_Mitsubishi_Tag_Generator)

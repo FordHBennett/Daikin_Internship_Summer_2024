@@ -6,8 +6,11 @@ from tag_generator.base.logging_class import Logger
 logger = Logger()
 
 def main():
-    from tag_generator.base.file_functions import get_all_files
+    from tag_generator.base.file_functions import get_all_files, remove_log_dir, remove_output_dir
     from os.path import join as os_path_join
+
+    remove_output_dir()
+    remove_log_dir()
 
     input_dir = os_path_join('files', 'input', 'mitsubishi')
     output_dir = os_path_join('files', 'output', 'mitsubishi')

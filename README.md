@@ -79,8 +79,6 @@
     source .venv/bin/activate
     python -m pip install --upgrade pip
     python -m pip install -e .
-    python -c "import mitsubishi_tag_generator"
-    python -c "import base"
     run-mitsubishi-tag-generator
     ```
 
@@ -98,29 +96,20 @@
 ## Testing
 
 - **OSX/Linux:**
-    To run all base tests:
+    To run all tests:
     ```sh
-        python -m unittest discover src/tests/base/file_functions "*_tests.py" -v 
-        python -m unittest discover src/tests/base/tag_functions "*_tests.py" -v 
-
-    ```
-    To run all mitsubishi_tag_generator tests:
-    ```sh
-        python -m unittest discover src/tests/mitsubishi_tag_generator "*_tests.py" -v 
+         python -m unittest src.tests -v
     ```
     To run profiler:
     ```sh
         python -m cProfile -m src.mitsubishi_tag_generator.main > tmp/tmp.prof
     ```
 - **Windows(PowerShell):**
-    To run all base tests:
+    To run all tests:
     ```pwsh
-        python.exe -m unittest discover src\tests\base "*_tests.py" -v 
+        python.exe -m unittest src.tests -v
     ```
-    To run all mitsubishi_tag_generator tests:
-    ```pwsh
-        python.exe -m unittest discover src\tests\mitsubishi_tag_generator "*_tests.py" -v 
-    ```
+
 
 ## Uninstall the Package
 1. Uninstall the Package:
