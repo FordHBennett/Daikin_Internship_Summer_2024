@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-
+import tag_generator.base.constants as constants
+from collections import defaultdict
 
 def process_tag(
         ingition_json, 
@@ -254,9 +255,6 @@ def get_generated_ignition_json_and_csv_files(
     Returns:
         tuple: A tuple containing the generated Ignition JSON and a dictionary of generated CSV files.
     """
-
-    import tag_generator.base.constants as constants
-    from collections import defaultdict
 
     address_csv_dict = defaultdict(pd.DataFrame)
     tag_builder = constants.TAG_BUILDER_TEMPLATE.copy()

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 
-def get_basename_without_extension(file_path, path):
+def get_basename_without_extension(file_path, path)  -> str:
     """
     Returns the base name of a file path without the file extension.
 
@@ -16,7 +16,7 @@ def get_basename_without_extension(file_path, path):
     return name
 
 
-def get_all_files(dir, extension, os):
+def get_all_files(dir, extension, os) -> tuple:
     """
     Recursively retrieves all files with a specific extension in a given directory.
 
