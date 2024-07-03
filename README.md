@@ -31,7 +31,7 @@
     source .venv/bin/activate
     python -m pip install --upgrade pip
     python -m pip install .
-    run-mitsubishi-tag-generator
+    run-tag-generator
     ```
 
     **Windows (PowerShell in Administrator Mode):**
@@ -44,7 +44,7 @@
     .venv\Scripts\activate
     python.exe -m pip install --upgrade pip
     python.exe -m pip install .
-    run-mitsubishi-tag-generator.exe
+    run-tag-generator.exe
     ```
 
     **Windows (Command Prompt):**
@@ -79,7 +79,7 @@
     source .venv/bin/activate
     python -m pip install --upgrade pip
     python -m pip install -e .
-    run-mitsubishi-tag-generator
+    run-tag-generator
     ```
 
     **Windows (PowerShell):**
@@ -88,7 +88,8 @@
     .venv\Scripts\activate
     python.exe -m pip install --upgrade pip
     python.exe -m pip install -e .
-    run-mitsubishi-tag-generator.exe
+
+    run-tag-generator.exe
     ```
 
 ## Testing
@@ -114,22 +115,18 @@
     **MacOS/Linux:**
     ```sh
     rm -rf .venv/
-    python -m pip uninstall run-mitsubishi-tag-generator
+    python -m pip uninstall run-tag-generator
     source deactivate or deactivate
     ```
 
     **Windows(PowerShell):**
     ```pwsh
-    python.exe -m pip uninstall run-mitsubishi-tag-generator
+    python.exe -m pip uninstall run-tag-generator
     deactivate
     ```
 
 
 Profiling: 
 python -m cProfile -o files/profiles/mitsubishi.prof -m tag_generator 
-snakeviz files/profiles/mitsubishi.prof
  
 mprof run --backend psutil python -m tag_generator
-
-
-Note: If your tags are not appearing as expected for a large tag import, the Designer's memory allocation may need to be increased. Access your Gateway and navigate to the Config > Gateway Settings > Designer Memory to adjust memory limitations. The default size is 1.0 GB, with available dropdown options from MB128 to 4.0 GB.

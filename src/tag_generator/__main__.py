@@ -1,9 +1,5 @@
 # from . import main
 
-
-
-
-
 if __name__ == '__main__':
     import tag_generator.base.file_functions as file_functions
     import os
