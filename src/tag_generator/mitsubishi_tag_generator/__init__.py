@@ -92,22 +92,23 @@ def process_tag(
                 path)
     else:
         if 'opcItemPath' in tag:
-            tag_builder.update({
-                r'row': tag_functions.find_row_by_tag_name(df, tag_functions.extract_kepware_path(tag['opcItemPath']))
-            })
-            if tag_builder['row'] is not None:
-                tag_functions.update_tag_builder(tag_builder)
-                update_tags(
-                    tag_builder, 
-                    tag,  
-                    tag_name_and_address_list, 
-                    tag_functions, 
-                    constants)
-                
-            elif '_NoError' in tag['opcItemPath']:
-                tag_functions.create_new_connected_tag(tag)
-            else:
-                logger.handle_tag_not_found(tag_builder, key, path.join)
+            if('nsu=ThingWorx Kepware Server' in tag['opcItemPath'] or 'nsu=2' in tag['opcItemPath']):
+                tag_builder.update({
+                    r'row': tag_functions.find_row_by_tag_name(df, tag_functions.extract_kepware_path(tag['opcItemPath']))
+                })
+                if tag_builder['row'] is not None:
+                    tag_functions.update_tag_builder(tag_builder)
+                    update_tags(
+                        tag_builder, 
+                        tag,  
+                        tag_name_and_address_list, 
+                        tag_functions, 
+                        constants)
+                    
+                elif '_NoError' in tag['opcItemPath']:
+                    tag_functions.create_new_connected_tag(tag)
+                else:
+                    logger.handle_tag_not_found(tag_builder, key, path.join)
         elif tag['valueSource'] == 'expr':
             pass
         else:
