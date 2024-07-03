@@ -13,8 +13,8 @@ from deepdiff import DeepDiff
 class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
 
     def test_get_generated_ignition_json_and_csv_files(self):
-        file_functions.remove_output_dir(os.path)
-        file_functions.remove_log_dir(os.path)
+        file_functions.clean_files_dir(os.path)
+
         
         input_dir: str = os.path.join('src','tests','files','input', 'mitsubishi')
         output_dir: str = os.path.join('src','tests','files','output', 'mitsubishi')

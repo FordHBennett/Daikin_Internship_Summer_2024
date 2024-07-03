@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import tag_generator.base.constants as constants
 from collections import defaultdict
-
+import tag_generator.base.tag_functions as tag_functions
 def process_tag(
         ingition_json, 
         tag_builder, 
@@ -28,9 +28,6 @@ def process_tag(
     Returns:
         None
     """
-
-    
-    import tag_generator.base.tag_functions as tag_functions
 
     if 'tags' in tag:
         def process_sub_tag(
@@ -78,41 +75,36 @@ def process_tag(
                 logger, 
                 path)
             
-        for sub_tag in tag['tags']:
-            process_sub_tag(
-                ingition_json, 
-                tag_builder, 
-                key, 
-                df, 
-                tag, 
-                tag_name_and_address_list, 
-                sub_tag, 
-                constants, 
-                logger, 
-                path)
+        list(map(lambda sub_tag: process_sub_tag(
+            ingition_json, 
+            tag_builder, 
+            key, 
+            df, 
+            tag, 
+            tag_name_and_address_list, 
+            sub_tag, 
+            constants, 
+            logger, 
+            path), tag['tags']))
     else:
-        if 'opcItemPath' in tag:
-            if('nsu=ThingWorx Kepware Server' in tag['opcItemPath'] or 'nsu=2' in tag['opcItemPath']):
-                tag_builder.update({
-                    r'row': tag_functions.find_row_by_tag_name(df, tag_functions.extract_kepware_path(tag['opcItemPath']))
-                })
-                if tag_builder['row'] is not None:
-                    tag_functions.update_tag_builder(tag_builder)
-                    update_tags(
-                        tag_builder, 
-                        tag,  
-                        tag_name_and_address_list, 
-                        tag_functions, 
-                        constants)
-                    
-                elif '_NoError' in tag['opcItemPath']:
-                    tag_functions.create_new_connected_tag(tag)
-                else:
-                    logger.handle_tag_not_found(tag_builder, key, path.join)
-        elif tag['valueSource'] == 'expr':
+        if tag['valueSource'] == 'expr':
             pass
         else:
-            logger.handle_opc_path_not_found(tag, key, path.join)
+            try:
+                opc_item_path = tag['opcItemPath']
+                if opc_item_path.startswith('nsu=ThingWorx') or opc_item_path.startswith('nsu=2'):
+                    if opc_item_path.endswith('_NoError'):
+                        tag_functions.create_new_connected_tag(tag)
+                    else:
+                        kepware_path = tag_functions.extract_kepware_path(opc_item_path)
+                        row = tag_functions.find_row_by_tag_name(df, kepware_path)
+                        tag_builder['row'] = row
+                        tag_functions.update_tag_builder(tag_builder)
+                        update_tags(tag_builder, tag, tag_name_and_address_list, tag_functions, constants)
+                else:
+                    logger.handle_opc_path_not_found(tag, key, path.join)
+            except KeyError:
+                logger.handle_opc_path_not_found(tag, key, path.join)
 
     tag_functions.reset_tag_builder(tag_builder, constants)
 
@@ -173,7 +165,7 @@ def update_tags(
         area, offset = tag_functions.extract_area_and_offset(tag_builder['address'], constants)
         area, path_data_type = update_area_and_path_data_type(area, path_data_type)
 
-        if r'String' in path_data_type:
+        if 'String' == path_data_type:
             offset, array_size = tag_functions.get_offset_and_array_size(offset)
             tag_builder.update({
                 r'data_type': data_type,
@@ -260,26 +252,22 @@ def get_generated_ignition_json_and_csv_files(
     address_csv_dict = defaultdict(pd.DataFrame)
     tag_builder = constants.TAG_BUILDER_TEMPLATE.copy()
     for key, df in kepware_df.items():
+        tag_name_and_address_list = []
         if key in ignition_json:
-            tag_name_and_address_list = []
-            for tag in ignition_json[key]['tags']:
-                process_tag(
-                    ignition_json, 
-                    tag_builder, 
-                    key, 
-                    df, 
-                    tag, 
-                    tag_name_and_address_list, 
-                    constants, 
-                    logger, 
-                    path)
+            list(map(lambda tag: process_tag(
+                ignition_json, 
+                tag_builder, 
+                key, 
+                df, 
+                tag, 
+                tag_name_and_address_list, 
+                constants, 
+                logger, 
+                path), ignition_json[key]['tags']))
             
-            key = ignition_json[key]['name']
-
             if tag_name_and_address_list:
-                address_csv_dict[key] = pd.DataFrame(tag_name_and_address_list)
+                address_csv_dict[ignition_json[key]['name']] = pd.DataFrame(tag_name_and_address_list)
         else:
-
             logger.log_missing_key_critical(key)
 
     return (ignition_json, address_csv_dict)

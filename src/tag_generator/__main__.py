@@ -12,14 +12,13 @@ if __name__ == '__main__':
 
     path = os.path
 
-    file_functions.remove_output_dir(path)
-    file_functions.remove_log_dir(path)
+    file_functions.clean_files_dir(path)
 
-    input_dir = path.join('files', 'input', 'mitsubishi')
-    output_dir = path.join('files', 'output', 'mitsubishi')
+    input_dir:path = path.join('files', 'input', 'mitsubishi')
+    output_dir:path = path.join('files', 'output', 'mitsubishi')
    
-    json_files = file_functions.get_all_files(input_dir, '.json', os)
-    csv_files = file_functions.get_all_files(input_dir, '.csv', os)
+    json_files:tuple = file_functions.get_all_files(input_dir, '.json', os)
+    csv_files:tuple = file_functions.get_all_files(input_dir, '.csv', os)
 
 
     def generate_output(output_dir, csv_files, json_file) -> None:
@@ -42,7 +41,6 @@ if __name__ == '__main__':
             csv_basename:str = file_functions.get_basename_without_extension(csv_file, path)
 
             if (csv_basename == json_key):
-
                 ignition_json, address_csv = mitsubishi_tag_generator.get_generated_ignition_json_and_csv_files(
                     file_functions.get_dict_of_dfs_from_csv_files((csv_file,), os, pd),
                     ignition_json,
@@ -51,14 +49,12 @@ if __name__ == '__main__':
                     logger=logger
                 )
                 
-                # Write the output files
                 file_functions.write_json_files(ignition_json, output_dir, os, json)
                 file_functions.write_csv_files(address_csv, output_dir, os)
                 csv_files.remove(csv_file) 
                 break
 
 
-    for json_file in json_files:
-        generate_output(output_dir, csv_files, json_file)
+    list(map(lambda json_file: generate_output(output_dir, csv_files, json_file), json_files))
 
 

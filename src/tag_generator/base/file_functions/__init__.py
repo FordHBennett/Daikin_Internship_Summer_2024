@@ -12,8 +12,7 @@ def get_basename_without_extension(file_path, path)  -> str:
         str: The base name of the file without the extension.
     """
 
-    name, _ = path.splitext(path.basename(file_path))
-    return name
+    return path.splitext(path.basename(file_path))[0]
 
 
 def get_all_files(dir, extension, os) -> tuple:
@@ -32,19 +31,13 @@ def get_all_files(dir, extension, os) -> tuple:
         FileNotFoundError: If no files are found with the specified extension in the given directory.
     """
 
-    paths = []
-
-    def recursive_get_files(directory):
-        for root, _, files in os.walk(directory):
-            for file in files:
-                if file.endswith(extension):
-                    paths.append(os.path.join(root, file))
-
-    recursive_get_files(dir)
+    paths:tuple = tuple(os.path.join(root, file)
+             for root, _, files in os.walk(dir)
+             for file in files if file.endswith(extension))
 
     if not paths:
         raise FileNotFoundError(f"No files found with extension {extension} in {dir}")
-    return tuple(paths)
+    return paths
 
 def get_dict_from_json_files(
         json_files, 
@@ -115,7 +108,7 @@ def get_dict_from_json_files(
 
     return ignition_json
 
-def get_dict_of_dfs_from_csv_files(csv_files, os, pd):
+def get_dict_of_dfs_from_csv_files(csv_files, os, pd) -> dict:
     """
     Reads CSV files and returns a dictionary of pandas DataFrames.
 
@@ -127,23 +120,33 @@ def get_dict_of_dfs_from_csv_files(csv_files, os, pd):
           and the values are pandas DataFrames containing the data from the CSV files.
     """
 
-    csv_df = {}
-    for csv_file in csv_files:
-        try:
-            with open(csv_file, 'r') as f:
-                csv_df[get_basename_without_extension(csv_file, os.path)] = pd.read_csv(f)
-        except Exception as e:
-            print(f"Error reading file: {csv_file}")
-            print(e)
+    csv_df = dict(
+                map(
+                    lambda csv_file: (
+                            get_basename_without_extension(csv_file, os.path), 
+                            pd.read_csv(csv_file)
+                        ), 
+                        csv_files
+                )
+            )
 
     # Remove invalid characters from tag names if running on Windows
     if os.name == 'nt':
         import tag_generator.base.constants as constants
+        def get_all_keys(dictionary)-> set:
+            keys:set = set()
+            for key, value in dictionary.items():
+                keys.add(key)
+                if isinstance(value, dict):
+                    keys.update(get_all_keys(value))
+            return keys
+
         for df in csv_df.values():
-            for key in df.keys():
+            all_keys:set = get_all_keys(df)
+            for key in all_keys:
                 new_key = constants.TAG_NAME_PATTERN.sub('', key)
                 df[new_key] = df.pop(key)
-    
+        
     return csv_df
 
 
@@ -165,8 +168,6 @@ def write_json_files(
         None
     """
 
-
-
     output_dir = f'{output_dir}/json'
     
     os.makedirs(output_dir, exist_ok=True)
@@ -179,8 +180,10 @@ def write_json_files(
             print(e)
                 
 
-    for key, data in json_data.items():
-        write_file(f"{output_dir}/{json_data[key]['name']}.json", data)
+    map(lambda item: write_file(
+            f"{output_dir}/{item[1]['name']}.json", 
+            item[1]), 
+            json_data.items())
 
 def write_csv_files(address_csv, dir, os) -> None:
     """
@@ -193,8 +196,6 @@ def write_csv_files(address_csv, dir, os) -> None:
     Returns:
         None
     """
-    # from os.path import join as os_path_join
-    # from os import makedirs as os_makedirs
 
     out_dir = f'{dir}/csv'
 
@@ -207,19 +208,11 @@ def write_csv_files(address_csv, dir, os) -> None:
             print(f"Error writing file: {key}.csv")
             print(e)
 
-def remove_log_dir(path) -> None:
+
+import shutil
+def clean_files_dir(path) -> None:
     try:
-        import shutil
         shutil.rmtree(path.join('files', 'logs'))
-    except:
-        pass
-
-def remove_output_dir(path) -> None:
-
-    try:
-        # recursively remove the output directory  
-        import shutil
         shutil.rmtree(path.join('files', 'output'))
     except Exception:
         pass
-            

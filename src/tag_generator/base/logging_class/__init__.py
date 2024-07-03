@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import logging
+import os
 
 # Define a custom logging level
 NAME_CHANGE = 35
@@ -87,12 +88,8 @@ class Logger:
         Returns:
             None
         """
-        from os.path import exists as os_path_exists
-        from os import makedirs as os_makedirs
-        from os.path import dirname as os_path_dirname
 
-        if not os_path_exists(os_path_dirname(log_file)):
-            os_makedirs(os_path_dirname(log_file))
+        if not os.path.exists(os.path.dirname(log_file)): os.makedirs(os.path.dirname(log_file))
 
         file_handler = logging.FileHandler(log_file)
         file_formatter = logging.Formatter(format, datefmt)
@@ -111,30 +108,26 @@ class Logger:
             None
         """
         level = level.upper()
-        if level == 'DEBUG':
-            self.logger.debug(message)
-        elif level == 'INFO':
-            self.logger.info(message)
-        elif level == 'WARNING':
-            self.logger.warning(message)
-        elif level == 'ERROR':
-            self.logger.error(message)
-        elif level == 'CRITICAL':
-            self.logger.critical(message)
-        elif level == 'NAME_CHANGE':
-            self.logger.log(NAME_CHANGE, message)
-        else:
-            self.logger.info(message)
+        log_level = level.upper()
+        log_switch = {
+            'DEBUG': self.logger.debug,
+            'INFO': self.logger.info,
+            'WARNING': self.logger.warning,
+            'ERROR': self.logger.error,
+            'CRITICAL': self.logger.critical,
+            'NAME_CHANGE': lambda msg: self.logger.log(NAME_CHANGE, msg),
+        }
+        log_switch.get(log_level, self.logger.info)(message)
     
     def clear(self):
-            """
-            Clears the contents of the log file.
+        """
+        Clears the contents of the log file.
 
-            If the log file exists, it will be opened and truncated to remove all its contents.
-            """
-            from os.path import exists as os_path_exists
-            if os_path_exists(self.log_file):
-                open(self.log_file, 'w').close()
+        If the log file exists, it will be opened and truncated to remove all its contents.
+        """
+
+        if os.path.exists(self.log_file):
+            open(self.log_file, 'w').close()
 
     def change_log_file(self, log_file):
         """
@@ -166,12 +159,10 @@ class Logger:
                 None
             """
             self.logger.setLevel(level.upper())
-            for handler in self.logger.handlers:
-                handler.setLevel(level.upper())
+            map(lambda handler: handler.setLevel(level.upper()), self.logger.handlers)
 
     def log_missing_key_critical(self, key) -> None:
 
-        import os.path
         self.change_log_file(os.path.join('files','logs', 'mitsubishi', 'critical.log'))
         self.set_level('CRITICAL')
         self.log_message(f"Could not find {key}.json in ignition JSON so skipping it", 'CRITICAL')
