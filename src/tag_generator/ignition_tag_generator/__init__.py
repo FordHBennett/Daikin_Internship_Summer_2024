@@ -184,14 +184,14 @@ def update_tag_builder_wrt_tag_name_and_address_list(tag_builder, tag_name_and_a
         if tag_builder['kepware_tag_name'].find('.') != -1:
             name_parts = tag_builder['kepware_tag_name'].split('.')
             name = name_parts[0]
-            for i in range(1, len(name_parts)):
-                if i<(len(name_parts[i]) -1):
-                    name = f"{name}/{name_parts[i]}" 
 
-                
+            # Iterate up to the second-to-last element
+            for i in range(1, len(name_parts) - 1):
+                name = f"{name}/{name_parts[i]}" 
+
             tag_name_and_address_list.append({
-                r'tag_name': f'{name}/{current_tag["name"]}',
-                r'address': f"{tag_builder['address']}"
+                'tag_name': f"{name}/{current_tag['name']}",
+                'address': f"{tag_builder['address']}"
             })
         # tag_name_and_address_list.append({
         #     r'tag_name': f'{current_tag["name"]}',
