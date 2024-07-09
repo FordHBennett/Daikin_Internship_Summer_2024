@@ -1,6 +1,3 @@
-from matplotlib.pylab import f
-
-
 if __name__ == '__main__':
     import tag_generator.base.file_functions as file_functions
     import os.path as path
@@ -61,7 +58,7 @@ if __name__ == '__main__':
 
                 raise ValueError(error_str)
 
-    # list(map(lambda json_file: generate_output(output_dir, csv_files, json_file, 'mitsubishi'), json_files))
+    list(map(lambda json_file: generate_output(output_dir, csv_files, json_file, 'mitsubishi'), json_files))
 
     input_dir:path = path.join('files', 'input', 'cj')
     output_dir:path = path.join('files', 'output', 'cj')

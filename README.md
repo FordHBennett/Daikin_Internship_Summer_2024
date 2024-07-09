@@ -36,7 +36,7 @@
 
     **Windows (PowerShell in Administrator Mode):**
     ```pwsh
-    ./tag_generator.exe
+    powershell.exe .\tag_generator.exe
     ```
     or
     ```pwsh
