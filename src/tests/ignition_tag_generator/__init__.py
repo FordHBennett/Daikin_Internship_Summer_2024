@@ -12,7 +12,7 @@ from deepdiff import DeepDiff
 class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
 
     def test_get_generated_ignition_json_and_csv_files(self):
-        file_functions.clean_files_dir(os.path)
+        file_functions.clean_files_dir()
 
         
         input_dir: str = os.path.join('src','tests','files','input', 'mitsubishi')
@@ -24,7 +24,7 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
 
         logger = Logger()
 
-        
+            
         def generate_output(output_dir, csv_files, json_file, device) -> None:
             """
             Process the JSON and CSV files to generate ignition JSON and CSV files.
@@ -67,10 +67,12 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
 
                     raise ValueError(error_str)
 
+        list(map(lambda json_file: generate_output(output_dir, csv_files, json_file, 'mitsubishi'), json_files))
+
 
                 
-        for json_file in json_files:
-            generate_output(output_dir, csv_files, json_file, 'mitsubishi')
+        # for json_file in json_files:
+        #     generate_output(output_dir, csv_files, json_file, 'mitsubishi')
 
         json_files = file_functions.get_all_files(output_dir, '.json')
         ignition_json = file_functions.get_dict_from_json_files(json_files,is_test=True, logger=logger)

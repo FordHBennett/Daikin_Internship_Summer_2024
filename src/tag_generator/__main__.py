@@ -7,7 +7,7 @@ if __name__ == '__main__':
     from tag_generator import logger
 
 
-    file_functions.clean_files_dir(path)
+    file_functions.clean_files_dir()
 
     input_dir:path = path.join('files', 'input', 'mitsubishi')
     output_dir:path = path.join('files', 'output', 'mitsubishi')

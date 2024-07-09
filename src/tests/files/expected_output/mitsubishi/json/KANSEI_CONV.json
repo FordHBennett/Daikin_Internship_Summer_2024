@@ -9,8 +9,7 @@
             "name": "PHS_PLC_Heartbeat",
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -19,8 +18,7 @@
             "name": "PLC_PHS_Heartbeat",
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "expr",

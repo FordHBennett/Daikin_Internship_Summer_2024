@@ -29,8 +29,7 @@
             "name": "PHS_PLC_Heartbeat",
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -47,8 +46,7 @@
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
             "enabled": true,
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -58,9 +56,7 @@
             "historyEnabled": true,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "dataType": "Int2",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -70,9 +66,7 @@
             "historyEnabled": true,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "dataType": "Int2",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -101,9 +95,7 @@
             "historyEnabled": true,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "dataType": "Int2",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "expr",

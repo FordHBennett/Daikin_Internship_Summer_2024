@@ -204,7 +204,7 @@ def write_csv_files(address_csv:dict, dir:os.path) -> None:
             print(e)
 
 
-def clean_files_dir(path: os.path) -> None:
+def clean_files_dir() -> None:
     """
     Clean the files directory by removing the 'logs' and 'output' subdirectories.
 
@@ -216,7 +216,7 @@ def clean_files_dir(path: os.path) -> None:
     """
     try:
         import shutil
-        shutil.rmtree(path.join('files', 'logs'))
-        shutil.rmtree(path.join('files', 'output'))
+        shutil.rmtree(os.path.join('files', 'logs'))
+        shutil.rmtree(os.path.join('files', 'output'))
     except Exception:
         pass

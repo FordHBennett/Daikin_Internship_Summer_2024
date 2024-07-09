@@ -48,8 +48,7 @@
             "historyEnabled": true,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -62,8 +61,7 @@
             "historyEnabled": false,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "expr",
@@ -88,8 +86,7 @@
             "historyEnabled": true,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -97,8 +94,7 @@
             "dataType": "Int2",
             "name": "PHS_PLC_Heartbeat",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -111,8 +107,7 @@
             "historyEnabled": true,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -125,8 +120,7 @@
             "historyEnabled": true,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -139,8 +133,7 @@
             "historyEnabled": false,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -153,8 +146,7 @@
             "historyEnabled": true,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "memory",
@@ -178,8 +170,7 @@
             "historyEnabled": false,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -192,8 +183,7 @@
             "historyEnabled": true,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -206,8 +196,7 @@
             "historyEnabled": false,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -220,8 +209,7 @@
             "historyEnabled": false,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "expr",
@@ -248,13 +236,12 @@
             "historyEnabled": false,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
             "opcItemPath": "ns=1;s=[MA_LC1]R<Int16>203",
-            "dataType": "Int2",
+            "dataType": "Int4",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
             "historicalDeadbandStyle": "Discrete",
@@ -262,8 +249,7 @@
             "historyEnabled": false,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -282,8 +268,7 @@
             "historyProvider": "IGN_DB_FIT",
             "name": "PHS_OK",
             "historyEnabled": true,
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -296,8 +281,7 @@
             "historyEnabled": false,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -310,8 +294,7 @@
             "historyEnabled": true,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -324,8 +307,7 @@
             "historyEnabled": true,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         },
         {
             "valueSource": "opc",
@@ -338,8 +320,7 @@
             "historyEnabled": true,
             "tagGroup": "AFP01_Normal",
             "tagType": "AtomicTag",
-            "opcServer": "Ignition OPC UA Server",
-            "readOnly": false
+            "opcServer": "Ignition OPC UA Server"
         }
     ]
 }
