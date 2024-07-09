@@ -497,7 +497,7 @@ class Test_File_Functions(unittest.TestCase):
             }
         }
 
-        actual_output = get_dict_from_json_files(json_files, is_test=True, logger=logger_mock)
+        actual_output = get_dict_from_json_files(json_files)
 
         # Compare the actual output with the expected output
         diff = DeepDiff(expected_output, actual_output, ignore_order=True, verbose_level=2)
