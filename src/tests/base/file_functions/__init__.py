@@ -7,12 +7,12 @@ from unittest.mock import MagicMock
 class Test_File_Functions(unittest.TestCase):
     def test_get_basename_without_extension(self):
         file_path = 'test_file.txt'
-        self.assertEqual(get_basename_without_extension(file_path, os.path), 'test_file')
+        self.assertEqual(get_basename_without_extension(file_path), 'test_file')
 
     def test_get_all_files(self):
         dir = os.path.join('src','tests','files','input', 'mitsubishi')
         extension = '.json'
-        expected_output = (
+        expected_output = [
             os.path.join('src', 'tests', 'files', 'input', 'mitsubishi', 'json', 'FITBasePanConveyor.json'),
             os.path.join('src', 'tests', 'files', 'input', 'mitsubishi', 'json', 'Kaishi_Conv_tags.json'),
             os.path.join('src', 'tests', 'files', 'input', 'mitsubishi', 'json', 'Kansei_Conv_tags.json'),
@@ -20,9 +20,9 @@ class Test_File_Functions(unittest.TestCase):
             os.path.join('src', 'tests', 'files', 'input', 'mitsubishi', 'json', 'RFID_LT1_tags.json'),
             os.path.join('src', 'tests', 'files', 'input', 'mitsubishi', 'json', 'RFID_PD1_tags.json'),
             os.path.join('src', 'tests', 'files', 'input', 'mitsubishi', 'json', 'RFID_RC1_tags.json')
-        )
+        ]
         
-        output = get_all_files(dir, extension, os)
+        output = get_all_files(dir, extension)
 
         diff = DeepDiff(expected_output, output, ignore_order=True, verbose_level=2)
         if diff:
@@ -497,9 +497,7 @@ class Test_File_Functions(unittest.TestCase):
             }
         }
 
-        # Call the function and get the actual output
-        import json
-        actual_output = get_dict_from_json_files(json_files, os.path, json, is_test=True, logger=logger_mock)
+        actual_output = get_dict_from_json_files(json_files, is_test=True, logger=logger_mock)
 
         # Compare the actual output with the expected output
         diff = DeepDiff(expected_output, actual_output, ignore_order=True, verbose_level=2)

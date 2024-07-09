@@ -19,11 +19,16 @@ TAG_NAME_PATTERN = re.compile(r'[^a-zA-Z0-9-_ .]')
 DATA_TYPE_MAPPINGS = {
     r'Short': ('Int2', 'Int16'),
     r'Int2': ('Int2', 'Int16'),
-    r'Word': ('Int2', 'Int16'),
+    r'Word': ('Int4', 'Int16'),
     r'Integer': ('Int4', 'Int32'),
     r'Int4': ('Int4', 'Int32'),
     r'BCD': ('Int4', 'Int16'),
     r'Boolean': ('Boolean', 'Bool')
+}
+
+READ_WRITE_MAPPINGS = {
+    r'RO' :  True,
+    r'R/W' : False
 }
 
 REQUIRED_KEYS = [r'tagGroup', r'dataType', r'tagType', r'historyProvider', r'historicalDeadband', r'historicalDeadbandStyle']
@@ -39,5 +44,5 @@ TAG_BUILDER_TEMPLATE = {
     r"array_size": None,
     r"row": None,
     r"kepware_tag_name": None,
-    r"is_tag_from_csv_flag": False
+    r"readOnly": None
 }

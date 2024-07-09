@@ -1,68 +1,63 @@
 #!/usr/bin/env python
-
-
-def get_basename_without_extension(file_path, path)  -> str:
+import os
+import json
+def get_basename_without_extension(file_path:os.path)  -> str:
     """
     Returns the base name of a file path without the file extension.
 
     Args:
-        file_path (str): The path of the file.
+        file_path (os.path): The path of the file.
 
     Returns:
         str: The base name of the file without the extension.
     """
 
-    return path.splitext(path.basename(file_path))[0]
+    return os.path.splitext(os.path.basename(file_path))[0]
 
 
-def get_all_files(dir, extension, os) -> tuple:
+def get_all_files(dir: os.path, extension: str) -> list:
     """
-    Recursively retrieves all files with a specific extension in a given directory.
+    Get a list of all files with a specific extension in a directory and its subdirectories.
 
     Args:
-        dir (str): The directory to search for files.
-        extension (str): The file extension to filter files.
-        os (module): The os module.
+        dir (os.path): The directory to search for files.
+        extension (str): The file extension to filter by.
 
     Returns:
-        tuple: A tuple containing the paths of all files found.
+        list: A list of file paths that match the given extension.
 
     Raises:
-        FileNotFoundError: If no files are found with the specified extension in the given directory.
+        FileNotFoundError: If no files are found with the given extension in the specified directory.
     """
 
-    paths:tuple = tuple(os.path.join(root, file)
-             for root, _, files in os.walk(dir)
-             for file in files if file.endswith(extension))
+    paths: list = list(
+        os.path.join(root, file)
+        for root, _, files in os.walk(dir)
+        for file in files if file.endswith(extension)
+    )
 
     if not paths:
         raise FileNotFoundError(f"No files found with extension {extension} in {dir}")
     return paths
 
 def get_dict_from_json_files(
-        json_files, 
-        path, 
-        json, 
-        is_test=False, 
-        logger=None):
+    json_files:list, 
+    is_test:bool=False, 
+    logger:object=None,
+    device:str=None) -> dict:
     """
-    Reads a list of JSON files and returns a dictionary containing the contents of the files. 
-    Changes the name of the JSON file to the name of the tag in the JSON file.
-    Logs the changes made to the file names.
+    Reads a list of JSON files and returns a dictionary containing the contents of each file.
 
     Args:
-        json_files (list): A list of JSON file paths.
-        path (os.path): The os.path module.
-        json (json): The json module.
+        json_files (list): A list of paths to JSON files.
         is_test (bool, optional): Indicates whether the function is being used for testing purposes. Defaults to False.
-        logger (Logger, optional): An instance of a logger object for logging purposes. Defaults to None.
+        logger (object, optional): An optional logger object for logging messages. Defaults to None.
+        device (str, optional): An optional device identifier. Defaults to None.
 
     Returns:
-        dict: A dictionary containing the contents of the JSON files, with the file names as keys.
+        dict: A dictionary containing the contents of each JSON file, with the file names as keys.
 
     """
-
-
     log_messages = []
     ignition_json = {}
 
@@ -90,10 +85,10 @@ def get_dict_from_json_files(
                 if 'opcItemPath' in key:
                     new_file_name = key["opcItemPath"].split('=')[-1].split('.')[0]
                     break
-            log_messages.append(f"{path.basename(json_file)} Changed to {json_structure['name']}.json")
-            json_file = get_basename_without_extension(json_file, path)
+            log_messages.append(f"{os.path.basename(json_file)} Changed to {json_structure['name']}.json")
+            json_file = get_basename_without_extension(json_file)
         else:
-            new_file_name = path.basename(json_file).split('.')[0]
+            new_file_name = os.path.basename(json_file).split('.')[0]
 
         ignition_json[new_file_name] = json_structure
 
@@ -101,40 +96,50 @@ def get_dict_from_json_files(
         read_file(json_file)
 
     if logger:
-        logger.change_log_file(path.join('files', 'logs', 'mitsubishi', 'name_change.log'))
-        logger.set_level('NAME_CHANGE')
         for message in log_messages:
-            logger.log_message(message, 'NAME_CHANGE')
+            logger.log_message(message, device, 'NAME_CHANGE')
 
     return ignition_json
 
-def get_dict_of_dfs_from_csv_files(csv_files, os, pd) -> dict:
+def get_dict_of_dfs_from_csv_files(csv_files:list, read_csv) -> dict:
     """
-    Reads CSV files and returns a dictionary of pandas DataFrames.
+    Reads multiple CSV files and returns a dictionary of pandas DataFrames.
 
-    Parameters:
-    csv_files (list): A list of file paths to the CSV files.
+    Args:
+        csv_files (list): A list of file paths to the CSV files.
+        read_csv (function): A function to read a CSV file and return a pandas DataFrame.
 
     Returns:
-    dict: A dictionary where the keys are the base names of the CSV files without the file extension,
-          and the values are pandas DataFrames containing the data from the CSV files.
-    """
+        dict: A dictionary where the keys are the base names of the CSV files without the extension,
+              and the values are the corresponding pandas DataFrames.
 
+    """
     csv_df = dict(
-                map(
-                    lambda csv_file: (
-                            get_basename_without_extension(csv_file, os.path), 
-                            pd.read_csv(csv_file)
-                        ), 
-                        csv_files
-                )
-            )
+        map(
+            lambda csv_file: (
+                get_basename_without_extension(csv_file), 
+                read_csv(csv_file)
+            ), 
+            csv_files
+        )
+    )
 
     # Remove invalid characters from tag names if running on Windows
     if os.name == 'nt':
         import tag_generator.base.constants as constants
-        def get_all_keys(dictionary)-> set:
-            keys:set = set()
+
+        def get_all_keys(dictionary:dict) -> set:
+            """
+            Recursively retrieves all keys from a nested dictionary.
+
+            Args:
+                dictionary (dict): The dictionary to retrieve keys from.
+
+            Returns:
+                set: A set of all keys in the dictionary.
+
+            """
+            keys = set()
             for key, value in dictionary.items():
                 keys.add(key)
                 if isinstance(value, dict):
@@ -142,7 +147,7 @@ def get_dict_of_dfs_from_csv_files(csv_files, os, pd) -> dict:
             return keys
 
         for df in csv_df.values():
-            all_keys:set = get_all_keys(df)
+            all_keys = get_all_keys(df)
             for key in all_keys:
                 new_key = constants.TAG_NAME_PATTERN.sub('', key)
                 df[new_key] = df.pop(key)
@@ -150,24 +155,17 @@ def get_dict_of_dfs_from_csv_files(csv_files, os, pd) -> dict:
     return csv_df
 
 
-def write_json_files(
-    json_data, 
-    output_dir, 
-    os, 
-    json) -> None:
+def write_json_files(json_data: dict, output_dir: os.path) -> None:
     """
-    Write JSON files to the the subdirectory json in the specified output directory.
+    Write JSON files from the given JSON data to the specified output directory.
 
     Args:
-        json_data (dict): A dictionary containing the JSON data to be written.
-        output_dir (str): The directory where the JSON files will be written.
-        os (module): The os module.
-        json (module): The json module.
+        json_data (dict): The JSON data to be written to files.
+        output_dir (os.path): The output directory where the JSON files will be saved.
 
     Returns:
         None
     """
-
     output_dir = f'{output_dir}/json'
     
     os.makedirs(output_dir, exist_ok=True)
@@ -178,20 +176,17 @@ def write_json_files(
         except Exception as e:
             print(f"Error writing file: {file_path}")
             print(e)
-                
+            
 
-    map(lambda item: write_file(
-            f"{output_dir}/{item[1]['name']}.json", 
-            item[1]), 
-            json_data.items())
+    list(map(lambda item: write_file(f"{os.path.join(output_dir, item[1]['name'])}.json", item[1]), json_data.items()))
 
-def write_csv_files(address_csv, dir, os) -> None:
+def write_csv_files(address_csv:dict, dir:os.path) -> None:
     """
     Write DataFrame objects to CSV files in the subdirectory csv in the specified directory.
 
     Args:
         address_csv (dict): A dictionary containing DataFrame objects as values, where the keys represent the file names.
-        dir (str): The directory path where the CSV files will be saved.
+        dir (os.path): The directory path where the CSV files will be saved.
 
     Returns:
         None
@@ -209,9 +204,18 @@ def write_csv_files(address_csv, dir, os) -> None:
             print(e)
 
 
-import shutil
-def clean_files_dir(path) -> None:
+def clean_files_dir(path: os.path) -> None:
+    """
+    Clean the files directory by removing the 'logs' and 'output' subdirectories.
+
+    Args:
+        path (os.path): The base path of the files directory.
+
+    Returns:
+        None
+    """
     try:
+        import shutil
         shutil.rmtree(path.join('files', 'logs'))
         shutil.rmtree(path.join('files', 'output'))
     except Exception:

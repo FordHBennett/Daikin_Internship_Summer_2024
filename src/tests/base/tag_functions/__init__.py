@@ -13,5 +13,5 @@ class Test_Tag_Functions(unittest.TestCase):
 
     def test_extract_area_and_offset(self):
         import tag_generator.base.constants as constants
-        self.assertEqual(extract_area_and_offset('M0.0',constants), ('M', '0.0'))
-        self.assertEqual(extract_area_and_offset('DB1.DBD0',constants), ('DB', '1.DBD0'))
+        self.assertEqual(extract_area_and_offset('M0.0',constants.ADDRESS_PATTERN), ('M', '0.0'))
+        self.assertEqual(extract_area_and_offset('DB1.DBD0',constants.ADDRESS_PATTERN), ('DB', '1.DBD0'))

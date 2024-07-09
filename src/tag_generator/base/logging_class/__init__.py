@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import logging
-import os
+import os.path 
 
 # Define a custom logging level
 NAME_CHANGE = 35
@@ -61,6 +61,7 @@ class Logger:
         if log_file:
             self.set_file_handler(log_file, format, datefmt)
 
+
     def set_format(self):
             """
             Sets the format for the logging output.
@@ -96,28 +97,45 @@ class Logger:
         file_handler.setFormatter(file_formatter)
         self.logger.addHandler(file_handler)
 
-    def log_message(self, message, level='INFO'):
+    def log_message(self, message, device, level='INFO'):
         """
         Logs a message with the specified log level.
 
         Parameters:
             message (str): The message to be logged.
+            device (str): The device associated with the log message.
             level (str, optional): The log level. Defaults to 'INFO'.
 
         Returns:
             None
         """
         level = level.upper()
-        log_level = level.upper()
-        log_switch = {
-            'DEBUG': self.logger.debug,
-            'INFO': self.logger.info,
-            'WARNING': self.logger.warning,
-            'ERROR': self.logger.error,
-            'CRITICAL': self.logger.critical,
-            'NAME_CHANGE': lambda msg: self.logger.log(NAME_CHANGE, msg),
+        self.log_switch = {
+            'DEBUG': {
+                'level': self.logger.debug, 
+                'color': '\x1b[38;21m', 
+                'path': os.path.join('files', 'logs', device, 'debug.log')
+            },
+            'INFO': {'level': self.logger.info, 'color': '\x1b[32;21m', 'path': os.path.join('files', 'logs', device, 'info.log')},
+            'WARNING': {'level': self.logger.warning, 'color': '\x1b[33;21m', 'path': os.path.join('files', 'logs', device, 'warning.log')},
+            'ERROR': {'level': self.logger.error, 'color': '\x1b[31;21m', 'path': os.path.join('files', 'logs', device, 'error.log')},
+            'CRITICAL': {'level': self.logger.critical, 'color': '\x1b[31;1m', 'path': os.path.join('files', 'logs', device, 'critical.log')},
+            'NAME_CHANGE': {'level': lambda msg: self.logger.log(NAME_CHANGE, msg), 'color': '\x1b[35;21m', 'path': os.path.join('files', 'logs', device, 'name_change.log')}
         }
-        log_switch.get(log_level, self.logger.info)(message)
+        info_dict = self.log_switch.get(level)
+
+        if info_dict is None:
+            raise ValueError(f"Invalid log level: {level}")
+
+        # Change the log file
+        self.change_log_file(info_dict['path'])
+
+        # Set the log level
+        self.set_level(level)
+
+        # Log the message
+        info_dict['level'](message)
+
     
     def clear(self):
         """
@@ -161,23 +179,14 @@ class Logger:
             self.logger.setLevel(level.upper())
             map(lambda handler: handler.setLevel(level.upper()), self.logger.handlers)
 
-    def log_missing_key_critical(self, key) -> None:
-
-        self.change_log_file(os.path.join('files','logs', 'mitsubishi', 'critical.log'))
-        self.set_level('CRITICAL')
-        self.log_message(f"Could not find {key}.json in ignition JSON so skipping it", 'CRITICAL')
+    def log_missing_key_critical(self, key, device) -> None:
+        self.log_message(f"Could not find {key}.json in ignition JSON so skipping it", device, 'CRITICAL')
 
 
-    def handle_tag_not_found(self, tag_builder, key, os_path_join) -> None:
+    def handle_tag_not_found(self, tag_builder, key, device) -> None:
+        self.log_message(f"Could not find tag {tag_builder['kepware_tag_name']} in CSV file {key}.csv so just leaving it as is", device, 'INFO')
 
-        self.change_log_file(os_path_join('files','logs', 'mitsubishi', 'info.log'))
-        self.set_level('INFO')
-        self.log_message(f"Could not find tag {tag_builder['kepware_tag_name']} in CSV file {key}.csv so just leaving it as is", 'INFO')
-
-    def handle_opc_path_not_found(self, tag, device_name, os_path_join) -> None:
-
-        self.change_log_file(os_path_join('files','logs', 'mitsubishi', 'info.log'))
-        self.set_level('INFO')
-        self.log_message(f"Could not find opcItemPath or dataType in tag {tag['name']} in the file {device_name}.json so just leaving it as is", 'INFO')
+    def handle_opc_path_not_found(self, tag, device_name, device) -> None:
+        self.log_message(f"Could not find opcItemPath or dataType in tag {tag['name']} in the file {device_name}.json so just leaving it as is", device, 'INFO')
 
         

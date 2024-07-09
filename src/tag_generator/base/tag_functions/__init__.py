@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 
-def reset_tag_builder(tag_builder, contants) -> None:
-    tag_builder.update(contants.TAG_BUILDER_TEMPLATE)
+def reset_tag_builder(tag_builder, TAG_BUILDER_TEMPLATE) -> None:
+    tag_builder.update(TAG_BUILDER_TEMPLATE)
     
 def find_row_by_tag_name(df, tag_name):
     """
@@ -33,13 +33,12 @@ def extract_kepware_path(opc_item_path) -> str:
         return opc_item_path
     return opc_item_path.split('.', 2)[-1]
 
-def extract_area_and_offset(address, constants) -> tuple:
+def extract_area_and_offset(address, ADDRESS_PATTERN) -> tuple:
     """
     Extracts the area and offset from the given address.
 
     Args:
         address (str): The address from which to extract the area and offset.
-        constants (module): The constants module.
 
     Returns:
         tuple: A tuple containing the extracted area and offset.
@@ -49,7 +48,7 @@ def extract_area_and_offset(address, constants) -> tuple:
 
     """
 
-    match = constants.ADDRESS_PATTERN.search(address)
+    match = ADDRESS_PATTERN.search(address)
     if match:
         first_number_index = match.start()
         area = address[:first_number_index]
@@ -81,19 +80,19 @@ def get_offset_and_array_size(offset) -> tuple:
 
     return (offset, array_size)
 
-def convert_data_type(data_type, constants) -> tuple:
+def convert_data_type(data_type, DATA_TYPE_MAPPINGS) -> tuple:
     """
-    Converts the given data type to its corresponding mapping in the constants.DATA_TYPE_MAPPINGS dictionary.
+    Converts the given data type to its corresponding mapping in the DATA_TYPE_MAPPINGS dictionary.
 
     Args:
         data_type (str): The data type to be converted.
-        constants (module): The module containing the DATA_TYPE_MAPPINGS dictionary.
+        DATA_TYPE_MAPPINGS (dict): A dictionary mapping data types to their corresponding OPC UA data types.
 
     Returns:
         tuple: A tuple containing the converted data type and an empty string if no mapping is found.
 
     """
-    return constants.DATA_TYPE_MAPPINGS.get(data_type, (data_type, ''))
+    return DATA_TYPE_MAPPINGS.get(data_type, (data_type, ''))
 
 def create_new_connected_tag(current_tag) -> None:
     """
@@ -126,5 +125,5 @@ def update_tag_builder(tag_builder) -> None:
     tag_builder.update({
         r'kepware_tag_name': tag_builder['row']['Tag Name'],
         r'address': tag_builder['row']['Address'],
-        r'data_type': tag_builder['row']['Data Type'],
+        r'data_type': tag_builder['row']['Data Type']
     })
