@@ -58,46 +58,63 @@ def get_dict_from_json_files(
         dict: A dictionary containing the contents of each JSON file, with the file names as keys.
 
     """
-    log_messages = []
+    # log_messages = []
     ignition_json = {}
+    # found_device_name_flag = False
+    # def read_file(json_file) -> None:
+    #     """
+    #     Reads a JSON file and returns its contents as a dictionary.
 
-    def read_file(json_file) -> dict:
-        """
-        Reads a JSON file and returns its contents as a dictionary.
+    #     Args:
+    #         json_file (str): The path to the JSON file.
 
-        Args:
-            json_file (str): The path to the JSON file.
+    #     Returns:
+            
 
-        Returns:
-            dict: The contents of the JSON file as a dictionary.
+    #     Raises:
+    #         FileNotFoundError: If the specified JSON file does not exist.
+    #         JSONDecodeError: If the JSON file is not valid and cannot be decoded.
 
-        Raises:
-            FileNotFoundError: If the specified JSON file does not exist.
-            JSONDecodeError: If the JSON file is not valid and cannot be decoded.
+    #     """
+    #     with open(json_file, 'r', encoding='utf-8') as f:
+    #         json_structure = json.load(f)
 
-        """
-        with open(json_file, 'r', encoding='utf-8') as f:
-            json_structure = json.load(f)
+        
+    #     get_new_file_name(json_file, json_structure['tags'], json_structure)
 
-        new_file_name = ''
-        if not is_test:
-            for key in json_structure.get("tags", []):
-                if 'opcItemPath' in key:
-                    new_file_name = key["opcItemPath"].split('=')[-1].split('.')[0]
-                    break
-            log_messages.append(f"{os.path.basename(json_file)} Changed to {json_structure['name']}.json")
-            json_file = get_basename_without_extension(json_file)
-        else:
-            new_file_name = os.path.basename(json_file).split('.')[0]
+    # def get_new_file_name(json_file, tags, json_structure):
+    #     new_file_name = ''
+    #     nonlocal found_device_name_flag
+    #     if not is_test:
+    #         for tag in tags:
+    #             if found_device_name_flag:
+    #                 return
+    #             if ('opcItemPath' in tag and ("ns=2;s=" in tag['opcItemPath'] or 'ThingWorx' in tag['opcItemPath'])):
+    #                 opc_path = tag['opcItemPath']
+    #                 new_file_name = opc_path.split('=')[-1].split('.')[0]
+    #                 log_messages.append(f"{os.path.basename(json_file)} Changed to {new_file_name}.json")
+    #                 found_device_name_flag = True
+    #                 break
+    #             elif 'tags' in tag:
+    #                 get_new_file_name(json_file, tag['tags'], json_structure)
+    #     else:
+    #         new_file_name = os.path.basename(json_file).split('.')[0]
 
-        ignition_json[new_file_name] = json_structure
+    #     # old_key = get_basename_without_extension(json_file)
+    #     ignition_json[new_file_name] = json_structure
+    #     return 
+
+    # for json_file in json_files:
+    #     read_file(json_file)
 
     for json_file in json_files:
-        read_file(json_file)
+        with open(json_file, 'r', encoding='utf-8') as f:
+            json_structure = json.load(f)
+        ignition_json[get_basename_without_extension(json_file)] = json_structure
 
-    if logger:
-        for message in log_messages:
-            logger.log_message(message, device, 'NAME_CHANGE')
+    # if logger:
+    #     for message in log_messages:
+    #         logger.log_message(message, device, 'NAME_CHANGE')
 
     return ignition_json
 
@@ -177,8 +194,8 @@ def write_json_files(json_data: dict, output_dir: os.path) -> None:
             print(f"Error writing file: {file_path}")
             print(e)
             
-
-    list(map(lambda item: write_file(f"{os.path.join(output_dir, item[1]['name'])}.json", item[1]), json_data.items()))
+    
+    write_file(f"{os.path.join(output_dir, next(iter(json_data)))}.json", next(iter(json_data.values())))
 
 def write_csv_files(address_csv:dict, dir:os.path) -> None:
     """
@@ -196,12 +213,12 @@ def write_csv_files(address_csv:dict, dir:os.path) -> None:
 
     os.makedirs(out_dir, exist_ok=True)
 
-    for key, df in address_csv.items():
-        try:
-            df.to_csv(os.path.join(out_dir, f'{key}.csv'), index=False)
-        except Exception as e:
-            print(f"Error writing file: {key}.csv")
-            print(e)
+    try:
+        key, value = next(iter(address_csv.items()))
+        value.to_csv(os.path.join(out_dir, f'{key}.csv'), index=False)
+    except Exception as e:
+        print(f"Error writing file: {next(iter(address_csv))}.csv")
+        print(e)
 
 
 def clean_files_dir() -> None:

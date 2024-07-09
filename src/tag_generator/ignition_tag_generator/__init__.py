@@ -96,7 +96,7 @@ def process_tag(
             )
         )
     else:
-        if tag['valueSource'] != 'expr':
+        if tag['valueSource'] != 'expr' or tag['valueSource'] != 'memory':
             if 'opcItemPath' in tag.keys():
                 opc_item_path = tag['opcItemPath']
                 if opc_item_path.startswith('nsu=ThingWorx') or opc_item_path.startswith('ns=2;'):
@@ -328,7 +328,7 @@ def get_generated_ignition_json_and_csv_files(
             )
             
             if tag_name_and_address_list:
-                address_csv_dict[ignition_json[key]['name']] = DataFrame(tag_name_and_address_list)
+                address_csv_dict[next(iter(kepware_df))] = DataFrame(tag_name_and_address_list)
         else:
             logger.log_missing_key_critical(key, device)
 
