@@ -15,8 +15,13 @@ def find_row_by_tag_name(df, tag_name):
     Returns:
     - pandas.Series or None: The first row that matches the tag name, or None if no match is found.
     """
-    row = df[df[r'Tag Name'] == tag_name]
-    return row.iloc[0] if not row.empty else None
+    # Check if the tag_name exists in the 'Tag Name' column
+    if tag_name in df['Tag Name'].values:
+        # Use .loc for direct access
+        return df.loc[df['Tag Name'] == tag_name].iloc[0]
+    else:
+        return None
+
 
 
 def extract_kepware_path(opc_item_path) -> str:
