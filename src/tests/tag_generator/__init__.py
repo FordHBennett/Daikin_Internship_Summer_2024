@@ -51,12 +51,3 @@ class Test_Mitsubishi_Tag_Generator(unittest.TestCase):
                 self.fail(f"Missing expected CSV for key: {key}")
 
         
-
-
-        
-        
-        
-
-
-if __name__ == '__main__':
-    unittest.main()
