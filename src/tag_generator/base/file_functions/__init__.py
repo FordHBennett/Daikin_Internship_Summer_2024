@@ -11,42 +11,46 @@ def get_basename_without_extension(file_path:os.path)  -> str:
     Returns:
         str: The base name of the file without the extension.
     """
+    try:
+        return os.path.splitext(os.path.basename(file_path))[0]
+    except Exception as e:
+        print(f"Error getting base name without extension: {file_path}")
+        raise e
 
-    return os.path.splitext(os.path.basename(file_path))[0]
 
-
-def get_all_files(dir: os.path, extension: str) -> list:
+def get_all_files(dir: os.path, extension: str) -> tuple:
     """
-    Get a list of all files with a specific extension in a directory and its subdirectories.
+    Get a tuple of all files with a specific extension in a directory and its subdirectories.
 
     Args:
         dir (os.path): The directory to search for files.
         extension (str): The file extension to filter by.
 
     Returns:
-        list: A list of file paths that match the given extension.
+        tuple: A tuple of file paths that match the given extension.
 
     Raises:
         FileNotFoundError: If no files are found with the given extension in the specified directory.
     """
 
-    paths: list = list(
+    paths: tuple = tuple(
         os.path.join(root, file)
         for root, _, files in os.walk(dir)
         for file in files if file.endswith(extension)
     )
 
     if not paths:
-        raise FileNotFoundError(f"No files found with extension {extension} in {dir}")
+        print(f"No files found with extension {extension} in {dir}")
+        raise FileNotFoundError(f'Check the input/{dir} directory for {extension} files')
     return paths
 
-def get_dict_from_json_files(json_files:list) -> dict:
+def get_dict_from_json_files(json_files:tuple) -> dict:
     """
-    Reads a list of JSON files and returns a dictionary where the keys are the basenames of the files
+    Reads a tuple of JSON files and returns a dictionary where the keys are the basenames of the files
     (without the file extension) and the values are the corresponding JSON structures.
 
     Args:
-        json_files (list): A list of file paths to JSON files.
+        json_files (tuple): A tuple of file paths to JSON files.
 
     Returns:
         dict: A dictionary where the keys are the basenames of the files and the values are the JSON structures.
@@ -55,18 +59,22 @@ def get_dict_from_json_files(json_files:list) -> dict:
     ignition_json = {}
 
     for json_file in json_files:
-        with open(json_file, 'r', encoding='utf-8') as f:
-            json_structure = json.load(f)
+        try:
+            with open(json_file, 'r', encoding='utf-8') as f:
+                json_structure = json.load(f)
+        except Exception as e:
+            print(f"Error reading JSON file: {json_file}")
+            raise e
         ignition_json[get_basename_without_extension(json_file)] = json_structure
 
     return ignition_json
 
-def get_dict_of_dfs_from_csv_files(csv_files:list, read_csv) -> dict:
+def get_dict_of_dfs_from_csv_files(csv_files:tuple, read_csv) -> dict:
     """
     Reads multiple CSV files and returns a dictionary of pandas DataFrames.
 
     Args:
-        csv_files (list): A list of file paths to the CSV files.
+        csv_files (tuple): A tuple of file paths to the CSV files.
         read_csv (function): A function to read a CSV file and return a pandas DataFrame.
 
     Returns:
@@ -135,10 +143,10 @@ def write_json_files(json_data: dict, output_dir: os.path) -> None:
                 json.dump(data, f, indent=4)
         except Exception as e:
             print(f"Error writing file: {file_path}")
-            print(e)
+            raise e
             
-    
-    write_file(f"{os.path.join(output_dir, next(iter(json_data)))}.json", next(iter(json_data.values())))
+    first_key, first_value = next(iter(json_data.items()))
+    write_file(f"{os.path.join(output_dir, first_key)}.json", first_value)
 
 def write_csv_files(address_csv:dict, dir:os.path) -> None:
     """
@@ -161,7 +169,7 @@ def write_csv_files(address_csv:dict, dir:os.path) -> None:
         value.to_csv(os.path.join(out_dir, f'{key}.csv'), index=False)
     except Exception as e:
         print(f"Error writing file: {next(iter(address_csv))}.csv")
-        print(e)
+        raise e
 
 
 def clean_files_dir() -> None:

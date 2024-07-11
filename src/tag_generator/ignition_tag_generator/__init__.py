@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import tag_generator.base.constants as constants
+from tag_generator.base.constants import ADDRESS_PATTERN, DATA_TYPE_MAPPINGS, TAG_BUILDER_TEMPLATE
 from collections import defaultdict
 import tag_generator.base.tag_functions as tag_functions
 
@@ -11,8 +11,7 @@ def process_tag(
         key, 
         df, 
         tag, 
-        tag_name_and_address_list, 
-        constants, 
+        tag_name_and_addresses, 
         logger,
         device) -> None:
     """
@@ -24,7 +23,7 @@ def process_tag(
         key (str): The key of the tag.
         df (pandas.DataFrame): The DataFrame containing the tag data.
         tag (dict): The tag dictionary.
-        tag_name_and_address_list (list): The list of tag names and addresses.
+        tag_name_and_addresses (list): The list of tag names and addresses.
         constants (module): The constants module.
         logger (Logger): The logger object.
 
@@ -39,29 +38,11 @@ def process_tag(
                 key, 
                 df, 
                 tag, 
-                tag_name_and_address_list, 
+                tag_name_and_addresses, 
                 sub_tag, 
-                constants, 
                 logger,
                 device) -> None:
-            """
-            Process a sub tag by updating the tag name path and calling the process_tag function recursively.
 
-            Args:
-                ingition_json (dict): The Ignition JSON object.
-                tag_builder (dict): The tag builder dictionary.
-                key (str): The key for the current sub tag.
-                df (pandas.DataFrame): The DataFrame containing the tag data.
-                tag (dict): The tag dictionary.
-                tag_name_and_address_list (list): The list of tag names and addresses.
-                sub_tag (dict): The sub tag dictionary.
-                constants (module): The constants module.
-                logger (Logger): The logger object.
-                path (module): The path module.
-
-            Returns:
-                None
-            """
             if tag_builder['tag_name_path']:
                 tag_builder['tag_name_path'] = f"{tag_builder['tag_name_path']}/{tag['name']}"
             else:
@@ -73,12 +54,11 @@ def process_tag(
                 key, 
                 df, 
                 sub_tag, 
-                tag_name_and_address_list, 
-                constants, 
+                tag_name_and_addresses, 
                 logger,
                 device)
             
-        list(
+        tuple(
             map(
                 lambda sub_tag: process_sub_tag(
                     ingition_json, 
@@ -86,9 +66,8 @@ def process_tag(
                     key, 
                     df, 
                     tag, 
-                    tag_name_and_address_list, 
+                    tag_name_and_addresses, 
                     sub_tag, 
-                    constants, 
                     logger,
                     device
                 ), 
@@ -109,16 +88,16 @@ def process_tag(
                         if tag_builder['row'] is not None:
                             tag_functions.update_tag_builder(tag_builder)
                             if device == 'mitsubishi':
-                                update_mitsubishi_tags(tag_builder, tag, tag_name_and_address_list, tag_functions, constants.ADDRESS_PATTERN, constants.DATA_TYPE_MAPPINGS)
+                                update_mitsubishi_tags(tag_builder, tag, tag_name_and_addresses)
                             elif device == 'cj':
                                 tag_builder['address'] = tag_builder['address'].replace(':', '')
-                                data_type, path_data_type = tag_functions.convert_data_type(tag_builder['data_type'], constants.DATA_TYPE_MAPPINGS)
+                                data_type, path_data_type = tag_functions.convert_data_type(tag_builder['data_type'], DATA_TYPE_MAPPINGS)
                                 tag_builder.update({
                                     r'data_type': data_type,
                                     r'path_data_type': path_data_type
                                 })
                                 create_new_tag(tag, tag_builder, device)
-                                update_tag_builder_wrt_tag_name_and_address_list(tag_builder, tag_name_and_address_list, tag)
+                                update_tag_builder_wrt_tag_name_and_addresses(tag_builder, tag_name_and_addresses, tag)
                         else:
                             logger.log_message(f"Could not find {kepware_path} in coresponding Kepware CSV", device, 'warning')
                     else:
@@ -128,7 +107,7 @@ def process_tag(
             else:
                 logger.handle_opc_path_not_found(tag, key, device)
 
-    tag_functions.reset_tag_builder(tag_builder, constants.TAG_BUILDER_TEMPLATE)
+    tag_functions.reset_tag_builder(tag_builder, TAG_BUILDER_TEMPLATE)
 
 def create_new_tag(current_tag, tag_builder, device) -> None:
     """
@@ -163,20 +142,20 @@ def create_new_tag(current_tag, tag_builder, device) -> None:
         })
 
 
-def update_tag_builder_wrt_tag_name_and_address_list(tag_builder, tag_name_and_address_list, current_tag) -> None:
+def update_tag_builder_wrt_tag_name_and_addresses(tag_builder, tag_name_and_addresses, current_tag) -> None:
     """
     Update the tag builder with respect to the tag name and address list.
 
     Args:
         tag_builder (dict): The tag builder dictionary.
-        tag_name_and_address_list (list): The list of tag names and addresses.
+        tag_name_and_addresses (list): The list of tag names and addresses.
         current_tag (dict): The current tag dictionary.
 
     Returns:
         None
     """
     if tag_builder['data_type'] and tag_builder['tag_name_path'] and tag_builder['area'] is not None:
-        tag_name_and_address_list.append({
+        tag_name_and_addresses.append({
             r'tag_name': f'{tag_builder['tag_name_path']}/{current_tag["name"]}',
             r'address': f"{tag_builder['area']}<{tag_builder['path_data_type']}{tag_builder['array_size']}>{tag_builder['offset']}"
         })
@@ -189,27 +168,21 @@ def update_tag_builder_wrt_tag_name_and_address_list(tag_builder, tag_name_and_a
             for i in range(1, len(name_parts) - 1):
                 name = f"{name}/{name_parts[i]}" 
 
-            tag_name_and_address_list.append({
+            tag_name_and_addresses.append({
                 'tag_name': f"{name}/{current_tag['name']}",
                 'address': f"{tag_builder['address']}"
             })
-        # tag_name_and_address_list.append({
+        # tag_name_and_addresses.append({
         #     r'tag_name': f'{current_tag["name"]}',
         #     r'address': f"{tag_builder['address']}"
         # })
     else:
-        tag_name_and_address_list.append({
+        tag_name_and_addresses.append({
             r'tag_name': f'{current_tag["name"]}',
             r'address': f"{tag_builder['area']}<{tag_builder['path_data_type']}{tag_builder['array_size']}>{tag_builder['offset']}"
         })
 
-def update_mitsubishi_tags(
-        tag_builder, 
-        current_tag, 
-        tag_name_and_address_list, 
-        tag_functions, 
-        ADDRESS_PATTERN,
-        DATA_TYPE_MAPPINGS) -> None:
+def update_mitsubishi_tags(tag_builder, current_tag, tag_name_and_addresses) -> None:
     """
     Updates the tags by converting the tag builder to Mitsubishi format,
     creating a new tag based on the current tag and tag builder,
@@ -218,7 +191,7 @@ def update_mitsubishi_tags(
     Args:
         tag_builder (TagBuilder): The tag builder object.
         current_tag (Tag): The current tag object.
-        tag_name_and_address_list (list): A list of tag names and addresses.
+        tag_name_and_addresses (list): A list of tag names and addresses.
         tag_functions (module): The tag functions module.
         ADDRESS_PATTERN (re.Pattern): A regular expression pattern used to match numerical addresses.
         DATA_TYPE_MAPPINGS (dict): A dictionary mapping data types to their corresponding OPC UA data types.
@@ -226,7 +199,7 @@ def update_mitsubishi_tags(
     Returns:
         None
     """
-    def convert_tag_builder_to_mitsubishi_format(tag_builder, tag_functions, ADDRESS_PATTERN, DATA_TYPE_MAPPINGS) -> None:
+    def convert_tag_builder_to_mitsubishi_format(tag_builder) -> None:
         """
         Converts a tag builder dictionary to the Mitsubishi format.
 
@@ -282,9 +255,9 @@ def update_mitsubishi_tags(
             })
 
 
-    convert_tag_builder_to_mitsubishi_format(tag_builder, tag_functions, ADDRESS_PATTERN, DATA_TYPE_MAPPINGS)
+    convert_tag_builder_to_mitsubishi_format(tag_builder)
     create_new_tag(current_tag, tag_builder, 'mitsubishi')
-    update_tag_builder_wrt_tag_name_and_address_list(tag_builder, tag_name_and_address_list, current_tag)
+    update_tag_builder_wrt_tag_name_and_addresses(tag_builder, tag_name_and_addresses, current_tag)
 
 def get_generated_ignition_json_and_csv_files(
         kepware_df, 
@@ -293,24 +266,25 @@ def get_generated_ignition_json_and_csv_files(
         device=None,
         logger=None) -> tuple:
     """
-    Generates Ignition JSON and CSV files based on the provided Kepware DataFrame and Ignition JSON.
+    Generate Ignition JSON and CSV files based on the provided Kepware DataFrame and Ignition JSON.
 
     Args:
         kepware_df (dict): A dictionary containing Kepware DataFrames.
-        ignition_json (dict): A dictionary containing Ignition JSON data.
-        pd(module): The pandas module.
-        logger (object): (optional) A logger object for logging messages.
+        ignition_json (dict): The Ignition JSON data.
+        DataFrame (class): The DataFrame class to be used.
+        device (str, optional): The device name. Defaults to None.
+        logger (object, optional): The logger object. Defaults to None.
 
     Returns:
-        tuple: A tuple containing the generated Ignition JSON and a dictionary of generated CSV files.
-    """
+        tuple: A tuple containing the generated Ignition JSON and a dictionary of CSV files.
 
+    """
     address_csv_dict = defaultdict(DataFrame)
-    tag_builder = constants.TAG_BUILDER_TEMPLATE.copy()
+    tag_builder = TAG_BUILDER_TEMPLATE.copy()
     for key, df in kepware_df.items():
-        tag_name_and_address_list = []
+        tag_name_and_addresses = []
         if key in ignition_json:
-            list(
+            tuple(
                 map(
                     lambda tag: process_tag(
                         ignition_json, 
@@ -318,8 +292,7 @@ def get_generated_ignition_json_and_csv_files(
                         key, 
                         df, 
                         tag, 
-                        tag_name_and_address_list, 
-                        constants, 
+                        tag_name_and_addresses, 
                         logger,
                         device
                     ), 
@@ -327,8 +300,8 @@ def get_generated_ignition_json_and_csv_files(
                 )
             )
             
-            if tag_name_and_address_list:
-                address_csv_dict[next(iter(kepware_df))] = DataFrame(tag_name_and_address_list)
+            if tag_name_and_addresses:
+                address_csv_dict[next(iter(kepware_df))] = DataFrame(tag_name_and_addresses)
         else:
             logger.log_missing_key_critical(key, device)
 

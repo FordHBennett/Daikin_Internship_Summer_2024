@@ -2,17 +2,35 @@ import unittest
 import os.path
 from tag_generator.base.file_functions import *
 from deepdiff import DeepDiff
-from unittest.mock import MagicMock
 
 class Test_File_Functions(unittest.TestCase):
+
     def test_get_basename_without_extension(self):
-        file_path = 'test_file.txt'
-        self.assertEqual(get_basename_without_extension(file_path), 'test_file')
+        # Test with a file path that has an extension
+        file_path = '/path/to/file.txt'
+        expected_result = 'file'
+        self.assertEqual(get_basename_without_extension(file_path), expected_result)
+
+        # Test with a file path that doesn't have an extension
+        file_path = '/path/to/file'
+        expected_result = 'file'
+        self.assertEqual(get_basename_without_extension(file_path), expected_result)
+
+        # Test with a file path that has multiple extensions
+        file_path = '/path/to/file.tar.gz'
+        expected_result = 'file.tar'
+        self.assertEqual(get_basename_without_extension(file_path), expected_result)
+
+        # Test with a file path that starts with a dot
+        file_path = '/path/to/.hidden_file'
+        expected_result = '.hidden_file'
+        self.assertEqual(get_basename_without_extension(file_path), expected_result)
+
 
     def test_get_all_files(self):
         dir = os.path.join('src','tests','files','input', 'mitsubishi')
         extension = '.json'
-        expected_output = [
+        expected_output = (
             os.path.join('src', 'tests', 'files', 'input', 'mitsubishi', 'json', 'FITBasePanConveyor.json'),
             os.path.join('src', 'tests', 'files', 'input', 'mitsubishi', 'json', 'Kaishi_Conv_tags.json'),
             os.path.join('src', 'tests', 'files', 'input', 'mitsubishi', 'json', 'Kansei_Conv_tags.json'),
@@ -20,7 +38,7 @@ class Test_File_Functions(unittest.TestCase):
             os.path.join('src', 'tests', 'files', 'input', 'mitsubishi', 'json', 'RFID_LT1_tags.json'),
             os.path.join('src', 'tests', 'files', 'input', 'mitsubishi', 'json', 'RFID_PD1_tags.json'),
             os.path.join('src', 'tests', 'files', 'input', 'mitsubishi', 'json', 'RFID_RC1_tags.json')
-        ]
+        )
         
         output = get_all_files(dir, extension)
 
@@ -29,8 +47,6 @@ class Test_File_Functions(unittest.TestCase):
             self.fail(f"Output does not match expected output: {diff}")
 
     def test_get_dict_from_json_files(self):
-        # Mock the logger object
-        logger_mock = MagicMock()
 
         # Define the input JSON files
         json_files = [
@@ -505,6 +521,7 @@ class Test_File_Functions(unittest.TestCase):
             self.fail(f"Output does not match expected output: {diff}")
     
 
-
+    if __name__ == '__main__':
+        unittest.main()
 
 

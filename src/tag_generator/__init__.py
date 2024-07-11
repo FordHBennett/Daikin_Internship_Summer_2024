@@ -5,20 +5,20 @@ import pandas as pd
 from tag_generator.base.logging_class import Logger
 logger = Logger()
 
-def generate_output(output_dir, csv_files, json_file, device) -> None:
+def generate_output(output_dir:str, csv_files:tuple, json_file:str, device:str) -> None:
     """
-    Process the JSON and CSV files to generate ignition JSON and CSV files.
+    Generate output files based on the provided inputs.
 
     Args:
         output_dir (str): The directory where the output files will be saved.
-        csv_files (list): A list of CSV file paths.
+        csv_files (tuple): A tuple of CSV file paths.
         json_file (str): The path to the JSON file.
+        device (str): The device name.
 
     Returns:
         None
     """
-
-    ignition_json:dict = file_functions.get_dict_from_json_files(tuple([json_file]))
+    ignition_json:dict = file_functions.get_dict_from_json_files((json_file,))
 
     for csv_file in csv_files:
         csv_basename = file_functions.get_basename_without_extension(csv_file)
@@ -33,7 +33,7 @@ def generate_output(output_dir, csv_files, json_file, device) -> None:
                         device_name = tag['opcItemPath'].split('.')[1]
 
                         csv_dict = file_functions.get_dict_of_dfs_from_csv_files((csv_file,), pd.read_csv)
-                        ignition_old_key = next(iter(ignition_json))
+                        ignition_old_key, = ignition_json.keys()
                         ignition_json[device_name] = ignition_json.pop(ignition_old_key)
 
                         ignition_json, address_csv = ignition_tag_generator.get_generated_ignition_json_and_csv_files(
@@ -54,7 +54,7 @@ def generate_output(output_dir, csv_files, json_file, device) -> None:
                         return
                     get_device_name(tag['tags'], csv_basename, csv_file, ignition_json, device, logger)
         
-        dummy_json = next(iter(ignition_json.values()))
+        dummy_json = tuple(ignition_json.values())[0]
         get_device_name(dummy_json['tags'], csv_basename, csv_file, ignition_json, device, logger)
         if found_device_name_flag:
             return

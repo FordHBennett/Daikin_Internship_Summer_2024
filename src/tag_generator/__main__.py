@@ -10,13 +10,13 @@ if __name__ == '__main__':
     manufacturer:tuple = ('mitsubishi', 'cj')
 
     for brand in manufacturer:
-        input_dir:path = path.join('files', 'input', brand)
+        input_dir = path.join('files', 'input', brand)
         output_dir:path = path.join('files', 'output', brand)
        
-        json_files:list = file_functions.get_all_files(input_dir, '.json')
-        csv_files:list = file_functions.get_all_files(input_dir, '.csv')
+        json_files:tuple = file_functions.get_all_files(input_dir, '.json')
+        csv_files:tuple = file_functions.get_all_files(input_dir, '.csv')
 
-        list(
+        tuple(
             map(
                 lambda json_file: 
                     generate_output(

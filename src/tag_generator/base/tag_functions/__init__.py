@@ -1,10 +1,19 @@
 #!/usr/bin/env python
 
+def reset_tag_builder(tag_builder:dict, TAG_BUILDER_TEMPLATE:dict) -> None:
+    """
+    Reset the tag builder dictionary with the provided template.
 
-def reset_tag_builder(tag_builder, TAG_BUILDER_TEMPLATE) -> None:
+    Args:
+        tag_builder (dict): The tag builder dictionary to be reset.
+        TAG_BUILDER_TEMPLATE (dict): The template dictionary to reset the tag builder.
+
+    Returns:
+        None
+    """
     tag_builder.update(TAG_BUILDER_TEMPLATE)
     
-def find_row_by_tag_name(df, tag_name):
+def find_row_by_tag_name(df, tag_name:str):
     """
     Finds the first row in a DataFrame that matches the given tag name.
 
@@ -15,16 +24,19 @@ def find_row_by_tag_name(df, tag_name):
     Returns:
     - pandas.Series or None: The first row that matches the tag name, or None if no match is found.
     """
-    # Check if the tag_name exists in the 'Tag Name' column
+
     if tag_name in df['Tag Name'].values:
-        # Use .loc for direct access
-        return df.loc[df['Tag Name'] == tag_name].iloc[0]
+        try:
+            return df.loc[df['Tag Name'] == tag_name].iloc[0]
+        except Exception as e:
+            print(f"Error finding row by tag name: {tag_name}")
+            raise e
     else:
         return None
 
 
 
-def extract_kepware_path(opc_item_path) -> str:
+def extract_kepware_path(opc_item_path:str) -> str:
     """
     Extracts the Kepware path from the given OPC item path.
 
@@ -38,12 +50,13 @@ def extract_kepware_path(opc_item_path) -> str:
         return opc_item_path
     return opc_item_path.split('.', 2)[-1]
 
-def extract_area_and_offset(address, ADDRESS_PATTERN) -> tuple:
+def extract_area_and_offset(address:str, ADDRESS_PATTERN) -> tuple:
     """
     Extracts the area and offset from the given address.
 
     Args:
         address (str): The address from which to extract the area and offset.
+        ADDRESS_PATTERN (pattern): The regular expression pattern used to match the address.
 
     Returns:
         tuple: A tuple containing the extracted area and offset.
@@ -58,16 +71,19 @@ def extract_area_and_offset(address, ADDRESS_PATTERN) -> tuple:
         first_number_index = match.start()
         area = address[:first_number_index]
         if 'X' in address:
-            offset = str(int(address[first_number_index:].lstrip('0') or '0', 16))
+            try:
+                offset = str(int(address[first_number_index:].lstrip('0') or '0', 16))
+            except ValueError:
+                offset = address[first_number_index:].lstrip('0') or '0'
         else:
             offset = address[first_number_index:].lstrip('0') or '0'
             if offset.find('.') == 0:
                 offset = '0' + offset
         return (area, offset)
     else:
-        exit(f"Could not find any numbers in address {address}")
+        raise(f"Could not find any numbers in address {address}")
 
-def get_offset_and_array_size(offset) -> tuple:
+def get_offset_and_array_size(offset:str) -> tuple:
     """
     Splits the given offset into offset and array size.
 
@@ -80,12 +96,13 @@ def get_offset_and_array_size(offset) -> tuple:
     array_size = ''
     if '.' in offset:
         array_size = offset.split('.')[1]
-        array_size = array_size.lstrip('0')
+        array_size = array_size.lstrip('0') or '0'
         offset = offset.split('.')[0]
+        offset = offset.lstrip('0')
 
     return (offset, array_size)
 
-def convert_data_type(data_type, DATA_TYPE_MAPPINGS) -> tuple:
+def convert_data_type(data_type:str, DATA_TYPE_MAPPINGS:dict) -> tuple:
     """
     Converts the given data type to its corresponding mapping in the DATA_TYPE_MAPPINGS dictionary.
 
@@ -97,14 +114,18 @@ def convert_data_type(data_type, DATA_TYPE_MAPPINGS) -> tuple:
         tuple: A tuple containing the converted data type and an empty string if no mapping is found.
 
     """
-    return DATA_TYPE_MAPPINGS.get(data_type, (data_type, ''))
+    try:
+        return DATA_TYPE_MAPPINGS.get(data_type, (data_type, ''))
+    except Exception as e:
+        print(f"{data_type} is not currently supported. Please add it to the DATA_TYPE_MAPPINGS dictionary.")
+        raise e 
 
-def create_new_connected_tag(current_tag) -> None:
+def create_new_connected_tag(current_tag: dict) -> None:
     """
     Creates a new connected tag based on the current tag.
 
     Args:
-        current_tag: The current tag to create a connected tag from.
+        current_tag (dict): The current tag to create a connected tag from.
 
     Returns:
         None
@@ -113,11 +134,11 @@ def create_new_connected_tag(current_tag) -> None:
         r"opcItemPath": f'ns=1;s=[{current_tag['opcItemPath'].split('=')[-1].split('.')[0]}][Diagnostics]/Connected',
         r"opcServer": r'Ignition OPC UA Server',
         r"dataType": r'String',
-        r'valueSource': r'opc',
+        r"valueSource": r'opc',
         # r'tagGroup': r'default' # remove once production
     })
 
-def update_tag_builder(tag_builder) -> None:
+def update_tag_builder(tag_builder:dict) -> None:
     """
     Updates the tag_builder dictionary with the values from the 'row' dictionary.
 
