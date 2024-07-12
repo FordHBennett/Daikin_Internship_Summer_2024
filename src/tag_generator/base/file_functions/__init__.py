@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from asyncio import constants
 import os
 import json
 def get_basename_without_extension(file_path:os.path)  -> str:
@@ -14,8 +15,9 @@ def get_basename_without_extension(file_path:os.path)  -> str:
     try:
         return os.path.splitext(os.path.basename(file_path))[0]
     except Exception as e:
-        print(f"Error getting base name without extension: {file_path}")
-        raise e
+        # print(f"Error getting base name without extension: {file_path}")
+        # raise e
+        raise f"Error getting base name without extension: {file_path} \n ERROR: {e}"
 
 
 def get_all_files(dir: os.path, extension: str) -> tuple:
@@ -32,15 +34,16 @@ def get_all_files(dir: os.path, extension: str) -> tuple:
     Raises:
         FileNotFoundError: If no files are found with the given extension in the specified directory.
     """
+    if not os.path.isdir(dir):
+        raise FileNotFoundError(f"The directory {dir} does not exist")
 
-    paths: tuple = tuple(
+    paths = tuple(
         os.path.join(root, file)
         for root, _, files in os.walk(dir)
         for file in files if file.endswith(extension)
     )
 
     if not paths:
-        print(f"No files found with extension {extension} in {dir}")
         raise FileNotFoundError(f'Check the input/{dir} directory for {extension} files')
     return paths
 
@@ -63,8 +66,7 @@ def get_dict_from_json_files(json_files:tuple) -> dict:
             with open(json_file, 'r', encoding='utf-8') as f:
                 json_structure = json.load(f)
         except Exception as e:
-            print(f"Error reading JSON file: {json_file}")
-            raise e
+            raise f"Error reading JSON file: {json_file} \n ERROR: {e}"
         ignition_json[get_basename_without_extension(json_file)] = json_structure
 
     return ignition_json
@@ -117,7 +119,7 @@ def get_dict_of_dfs_from_csv_files(csv_files:tuple, read_csv) -> dict:
         for df in csv_df.values():
             all_keys = get_all_keys(df)
             for key in all_keys:
-                new_key = constants.TAG_NAME_PATTERN.sub('', key)
+                new_key = constants.TAG_NAME_PATTERN.sub('',key)
                 df[new_key] = df.pop(key)
         
     return csv_df
@@ -142,8 +144,7 @@ def write_json_files(json_data: dict, output_dir: os.path) -> None:
             with open(file_path, 'w', encoding='utf-8') as f:
                 json.dump(data, f, indent=4)
         except Exception as e:
-            print(f"Error writing file: {file_path}")
-            raise e
+            raise (f"Error writing file: {file_path} \n ERROR: {e}")
             
     first_key, first_value = next(iter(json_data.items()))
     write_file(f"{os.path.join(output_dir, first_key)}.json", first_value)
@@ -168,9 +169,8 @@ def write_csv_files(address_csv:dict, dir:os.path) -> None:
         key, value = next(iter(address_csv.items()))
         value.to_csv(os.path.join(out_dir, f'{key}.csv'), index=False)
     except Exception as e:
-        print(f"Error writing file: {next(iter(address_csv))}.csv")
-        raise e
 
+        raise f"Error writing file: {next(iter(address_csv))}.csv \n ERROR: {e}"
 
 def clean_files_dir() -> None:
     """

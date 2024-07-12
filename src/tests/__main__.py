@@ -13,19 +13,19 @@ class CustomTextTestResult(unittest.TextTestResult):
         super().startTest(test)
 
     def addSuccess(self, test):
-        super().addSuccess(test)
-        self.stream.writeln(f"\033[92m\t{self.indent}SUCCESS: {test}\033[0m")
+        # super().addSuccess(test)
+        self.stream.writeln(f"\033[92m{self.indent}\tSUCCESS: {test._testMethodName}\033[0m")
         self.stream.writeln("\n")
 
     def addError(self, test, err):
-        super().addError(test, err)
-        self.stream.writeln(f"\033[91m\tERROR: {test}\033[0m")
+        # super().addError(test, err)
+        self.stream.writeln(f"\033[91m{self.indent}ERROR: {test}\033[0m")
         self.stream.writeln(f"\t{err}")
         self.stream.writeln("\n")
 
     def addFailure(self, test, err):
-        super().addFailure(test, err)
-        self.stream.writeln(f"\033[91m\tFAILURE: {test}\033[0m")
+        # super().addFailure(test, err)
+        self.stream.writeln(f"\033[91m{self.indent}FAILURE: {test}\033[0m")
         self.stream.writeln(f"\t{err}")
         self.stream.writeln("\n")
 
@@ -47,8 +47,9 @@ class CustomTextTestRunner(unittest.TextTestRunner):
     def _makeResult(self):
         return CustomTextTestResult(self.stream, self.descriptions, self.verbosity)
 
+
 if __name__ == "__main__":
     loader = unittest.TestLoader()
     suite = loader.discover('tests')
-    runner = CustomTextTestRunner(verbosity=1)
+    runner = CustomTextTestRunner()
     runner.run(suite)
