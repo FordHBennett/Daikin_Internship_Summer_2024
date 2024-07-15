@@ -1,5 +1,5 @@
 import os
-import unittest
+import unittest, unittest.mock
 from tag_generator.base.file_functions import get_dict_from_json_files
 from deepdiff import DeepDiff
 

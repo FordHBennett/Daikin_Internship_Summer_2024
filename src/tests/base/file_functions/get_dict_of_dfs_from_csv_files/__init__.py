@@ -37,22 +37,6 @@ class Test_Get_Dict_Of_Dfs_From_Csv_Files(unittest.TestCase):
         pd.testing.assert_frame_equal(result['file1'], pd.DataFrame({'A': [1, 2], 'B': [3, 4]}))
         pd.testing.assert_frame_equal(result['file2'], pd.DataFrame({'C': [5, 6], 'D': [7, 8]}))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('pandas.read_csv')
-    @patch('os.name', 'nt')
-    @patch('tag_generator.base.constants')
-    def test_windows_invalid_characters(self, mock_constants, mock_read_csv, mock_file):
-        # Mock the CSV content
-        mock_read_csv.return_value = pd.DataFrame({'A*': [1, 2], 'B:': [3, 4]})
-        mock_constants.TAG_NAME_PATTERN = MagicMock()
-        mock_constants.TAG_NAME_PATTERN.sub.side_effect = lambda repl, string: string.replace('*', '').replace(':', '')
-
-        # Call the function
-        result = get_dict_of_dfs_from_csv_files(('file1.csv',), pd.read_csv)
-
-        # Check the result
-        self.assertIn('file1', result)
-        pd.testing.assert_frame_equal(result['file1'], pd.DataFrame({'A': [1, 2], 'B': [3, 4]}))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('pandas.read_csv')

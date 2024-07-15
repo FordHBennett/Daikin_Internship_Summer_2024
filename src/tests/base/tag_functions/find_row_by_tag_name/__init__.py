@@ -18,3 +18,11 @@ class Test_Find_Row_By_Tag_Name(unittest.TestCase):
     def test_find_row_by_tag_name_non_existing_tag(self):
         df = pd.DataFrame({'Tag Name': ['tag1', 'tag2', 'tag3'], 'Value': [1, 2, 3]})
         assert find_row_by_tag_name(df, 'tag4') is None
+
+    def test_find_row_by_tag_name_empty_df(self):
+        df = pd.DataFrame(columns=['Tag Name', 'Value'])
+        assert find_row_by_tag_name(df, 'tag1') is None
+
+    def test_find_row_by_tag_name_empty_tag_name(self):
+        df = pd.DataFrame({'Tag Name': ['tag1', 'tag2', 'tag3'], 'Value': [1, 2, 3]})
+        assert find_row_by_tag_name(df, '') is None
