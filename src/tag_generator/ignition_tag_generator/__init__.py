@@ -172,7 +172,6 @@ def process_tag(
                 opc_item_path = tag['opcItemPath']
                 if opc_item_path.startswith('nsu=ThingWorx') or opc_item_path.startswith('ns=2;'):
                     kepware_path = tag_functions.extract_kepware_tag_name(opc_item_path)
-                    folder_name = tag_functions.extract_kepware_device_name(opc_item_path)
                     if not opc_item_path.endswith('_NoError') and not kepware_path.endswith('IsConnected'):
                         for csv_file in csv_files:
                             csv_basename = file_functions.get_basename_without_extension(csv_file)
