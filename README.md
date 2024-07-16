@@ -31,20 +31,20 @@
     source .venv/bin/activate
     python -m pip install --upgrade pip
     python -m pip install .
-    run-tag-generator
+    python -m tag_generator
     ```
 
     **Windows (PowerShell in Administrator Mode):**
     ```pwsh
-    powershell.exe .\tag_generator.exe
+    .\tag_generator.exe
     ```
     or
     ```pwsh
-    python.exe -m venv .venv\
+    python -m venv .venv
     .venv\Scripts\activate
-    python.exe -m pip install --upgrade pip
-    python.exe -m pip install .
-    run-tag-generator.exe
+    python -m pip install --upgrade pip
+    python -m pip install .
+    python -m tag_generator
     ```
 
     **Windows (Command Prompt):**
@@ -79,17 +79,16 @@
     source .venv/bin/activate
     python -m pip install --upgrade pip
     python -m pip install -e .
-    run-tag-generator
+    python -m tag_generator
     ```
 
     **Windows (PowerShell):**
     ```pwsh
-    python.exe -m venv .venv\
+    python -m venv .venv\
     .venv\Scripts\activate
-    python.exe -m pip install --upgrade pip
-    python.exe -m pip install -e .
-
-    run-tag-generator.exe
+    python -m pip install --upgrade pip
+    python -m pip install -e .
+    python -m tag_generator
     ```
 
 ## Testing
@@ -101,12 +100,13 @@
     ```
     To run profiler:
     ```sh
-        python -m cProfile -m src.mitsubishi_tag_generator.main > tmp/tmp.prof
+        python -m cProfile -o files/profiles/mitsubishi.prof -m tag_generator
+        mprof run --backend psutil python -m tag_generator
     ```
 - **Windows(PowerShell):**
     To run all tests:
     ```pwsh
-        python.exe -m unittest src.tests -v
+        python -m unittest src.tests -v
     ```
 
 
@@ -118,15 +118,3 @@
     python -m pip uninstall run-tag-generator
     source deactivate or deactivate
     ```
-
-    **Windows(PowerShell):**
-    ```pwsh
-    python.exe -m pip uninstall run-tag-generator
-    deactivate
-    ```
-
-
-Profiling: 
-python -m cProfile -o files/profiles/mitsubishi.prof -m tag_generator 
- 
-mprof run --backend psutil python -m tag_generator
