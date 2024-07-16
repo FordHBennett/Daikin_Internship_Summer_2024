@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+import re
+
+
 def reset_tag_builder(tag_builder:dict, TAG_BUILDER_TEMPLATE:dict) -> None:
     """
     Reset the tag builder dictionary with the provided template.
@@ -25,9 +28,17 @@ def find_row_by_tag_name(df, tag_name:str):
     - pandas.Series or None: The first row that matches the tag name, or None if no match is found.
     """
 
+    # tag_names = df['Tag Name'].values
+    # for name in tag_names:
+    #     if tag_name in name:
+    #         return df[df['Tag Name'] == name].iloc[0]
+    # return None
+
     if tag_name in df['Tag Name'].values:
         try:
             return df.loc[df['Tag Name'] == tag_name].iloc[0]
+            # check in the entire string tag name is in part of the string in the dataframe
+            # return df[df['Tag Name'].str.contains(tag_name, case=False, na=False)].iloc[0]
         except Exception as e:
             print(f"Error finding row by tag name: {tag_name}")
             raise e
@@ -36,7 +47,7 @@ def find_row_by_tag_name(df, tag_name:str):
 
 
 
-def extract_kepware_path(opc_item_path:str) -> str:
+def extract_kepware_tag_name(opc_item_path:str) -> str:
     """
     Extracts the Kepware path from the given OPC item path.
 
@@ -49,6 +60,11 @@ def extract_kepware_path(opc_item_path:str) -> str:
     if '.' not in opc_item_path:
         return opc_item_path
     return opc_item_path.split('.', 2)[-1]
+
+def extract_kepware_device_name(opc_item_path:str) -> str:
+    if '.' not in opc_item_path:
+        return opc_item_path
+    return opc_item_path.split('.')[1]
 
 def extract_area_and_offset(address:str, ADDRESS_PATTERN) -> tuple:
     """
@@ -68,18 +84,22 @@ def extract_area_and_offset(address:str, ADDRESS_PATTERN) -> tuple:
 
     match = ADDRESS_PATTERN.search(address)
     if match:
-        first_number_index = match.start()
-        area = address[:first_number_index]
-        if 'X' in address:
-            try:
-                offset = str(int(address[first_number_index:].lstrip('0') or '0', 16))
-            except ValueError:
-                offset = address[first_number_index:].lstrip('0') or '0'
+        if ':' in address:
+            area, offset = address.split(':')
+            return (area, offset)
         else:
-            offset = address[first_number_index:].lstrip('0') or '0'
-            if offset.find('.') == 0:
-                offset = '0' + offset
-        return (area, offset)
+            first_number_index = match.start()
+            area = address[:first_number_index]
+            if 'X' in address:
+                try:
+                    offset = str(int(address[first_number_index:].lstrip('0') or '0', 16))
+                except ValueError:
+                    offset = address[first_number_index:].lstrip('0') or '0'
+            else:
+                offset = address[first_number_index:].lstrip('0') or '0'
+                if offset.find('.') == 0:
+                    offset = '0' + offset
+            return (area, offset)
     else:
         raise(f"Could not find any numbers in address {address}")
 
