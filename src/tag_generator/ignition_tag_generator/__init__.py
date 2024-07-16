@@ -1,9 +1,36 @@
 #!/usr/bin/env python
 
-from tag_generator.base.constants import ADDRESS_PATTERN, DATA_TYPE_MAPPINGS, TAG_BUILDER_TEMPLATE
+from tag_generator.base.constants import ADDRESS_PATTERN, DATA_TYPE_MAPPINGS, TAG_BUILDER_TEMPLATE, CJ_DEVICE_NAME_MAPPINGS
 from collections import defaultdict
 import tag_generator.base.tag_functions as tag_functions
 
+def process_sub_tag(
+                ingition_json, 
+                tag_builder,
+                key, 
+                df, 
+                tag, 
+                tag_name_and_addresses, 
+                sub_tag, 
+                logger,
+                device) -> None:
+
+            if tag_builder['tag_name_path']:
+                tag_builder['tag_name_path'] = f"{tag_builder['tag_name_path']}/{tag['name']}"
+            else:
+                tag_builder['tag_name_path'] = tag['name']
+                    
+            process_tag(
+                ingition_json, 
+                tag_builder, 
+                key, 
+                df, 
+                sub_tag, 
+                tag_name_and_addresses, 
+                logger,
+                device
+            )
+            
 
 def process_tag(
         ingition_json, 
@@ -32,32 +59,7 @@ def process_tag(
     """
 
     if 'tags' in tag:
-        def process_sub_tag(
-                ingition_json, 
-                tag_builder,
-                key, 
-                df, 
-                tag, 
-                tag_name_and_addresses, 
-                sub_tag, 
-                logger,
-                device) -> None:
 
-            if tag_builder['tag_name_path']:
-                tag_builder['tag_name_path'] = f"{tag_builder['tag_name_path']}/{tag['name']}"
-            else:
-                tag_builder['tag_name_path'] = tag['name']
-                    
-            process_tag(
-                ingition_json, 
-                tag_builder, 
-                key, 
-                df, 
-                sub_tag, 
-                tag_name_and_addresses, 
-                logger,
-                device)
-            
         tuple(
             map(
                 lambda sub_tag: process_sub_tag(
@@ -88,20 +90,52 @@ def process_tag(
                         if tag_builder['row'] is not None:
                             tag_functions.update_tag_builder(tag_builder)
                             if device == 'mitsubishi':
-                                update_mitsubishi_tags(tag_builder, tag, tag_name_and_addresses)
+                                    convert_tag_builder_to_mitsubishi_format(tag_builder)
+                                    create_new_mitsubishi_tag(tag, tag_builder)
+                                    update_tag_builder_wrt_tag_name_and_addresses(tag_builder, tag_name_and_addresses, tag)
                             elif device == 'cj':
-                                tag_builder['address'] = tag_builder['address'].replace(':', '')
+                                # tag_builder['address'] = tag_builder['address'].replace(':', '')
                                 data_type, path_data_type = tag_functions.convert_data_type(tag_builder['data_type'], DATA_TYPE_MAPPINGS)
+                                if tag_builder['data_type'] == 'Word':
+                                    tag_builder['area'] = 'W'
+                                    offset = tag_builder['address'].split(':')[-1]
+                                    offset = offset.lstrip('0') or '0'
+                                    tag_builder['offset'] = offset
+                                elif tag_builder['data_type'] == 'String':
+                                    length = tag_builder['address'].split('.')[-1]
+                                    if 'H' in length:
+                                        length = length[:-1]
+
+                                    path_data_type = path_data_type + length
+                                    area, offset = tag_builder['address'].split(':')
+                                    offset = offset.split('.')[0]
+                                    offset = offset.lstrip('0') or '0'
+                                    tag_builder['offset'] = offset
+                                    tag_builder['area'] = area.rstrip('0')
+                                elif ':' in tag_builder['address']:
+                                    area, offset = tag_builder['address'].split(':')
+                                    tag_builder['area'] = area.rstrip('0')
+                                    offset = tag_builder['address'].split(':')[-1].lstrip('0') or '0'
+                                    tag_builder['offset'] = offset
+                                else:
+                                    tag_builder['area'] = tag_builder['address'][0]
+                                    offset = tag_builder['address'][1:]
+                                    offset = offset.lstrip('0') or '0'
+                                    tag_builder['offset'] = offset
+
+
+
                                 tag_builder.update({
                                     r'data_type': data_type,
                                     r'path_data_type': path_data_type
                                 })
-                                create_new_tag(tag, tag_builder, device)
+                                create_new_cj_tag(tag, tag_builder)
                                 update_tag_builder_wrt_tag_name_and_addresses(tag_builder, tag_name_and_addresses, tag)
                         else:
                             logger.log_message(f"Could not find {kepware_path} in coresponding Kepware CSV", device, 'warning')
                     else:
-                        tag_functions.create_new_connected_tag(tag)
+                        if device == 'mitsubishi':
+                            tag_functions.create_new_connected_tag(tag)
                 else:
                     logger.handle_opc_path_not_found(tag, key, device)
             else:
@@ -109,7 +143,7 @@ def process_tag(
 
     tag_functions.reset_tag_builder(tag_builder, TAG_BUILDER_TEMPLATE)
 
-def create_new_tag(current_tag, tag_builder, device) -> None:
+def create_new_mitsubishi_tag(current_tag, tag_builder) -> None:
     """
     Edits the current tag dictionary to create a new tag based on the tag builder dictionary.
 
@@ -120,26 +154,32 @@ def create_new_tag(current_tag, tag_builder, device) -> None:
     Returns:
         None
     """
-    device_name = (current_tag['opcItemPath'].split('=')[-1]).split('.')[0]
 
-    if device == 'mitsubishi':
-        current_tag.update({
-            r"name": current_tag['name'],
-            r"opcItemPath": f"ns=1;s=[{device_name}]{tag_builder['area']}<{tag_builder['path_data_type']}{tag_builder['array_size']}>{tag_builder['offset']}",
-            r"opcServer": r'Ignition OPC UA Server',
-            # r"dataType": tag_builder['data_type'],
-            r'valueSource': r'opc'
-            # r'tagGroup': r'default' # remove once production-ready
-        })
-    elif device == 'cj':
-        current_tag.update({
-            r"name": current_tag['name'],
-            r"opcItemPath": f"ns=1;s=[{device_name}]{tag_builder['address']}",
-            r"opcServer": r'Ignition OPC UA Server',
-            # r"dataType": tag_builder['data_type'],
-            r'valueSource': r'opc',
-            # r'tagGroup': r'default' # remove once production-ready
-        })
+
+    # Get the device name from the opcItemPath
+    device_name = (current_tag['opcItemPath'].split('=')[-1]).split('.')[0]
+    
+    current_tag.update({
+        r"name": current_tag['name'],
+        r"opcItemPath": f"ns=1;s=[{device_name}]{tag_builder['area']}<{tag_builder['path_data_type']}{tag_builder['array_size']}>{tag_builder['offset']}",
+        r"opcServer": r'Ignition OPC UA Server',
+        # r"dataType": tag_builder['data_type'],
+        r'valueSource': r'opc'
+        # r'tagGroup': r'default' # remove once production-ready
+    })
+
+def create_new_cj_tag(current_tag, tag_builder) -> None:
+        if tag_builder['tag_name_path']:
+            device_name = tag_builder['tag_name_path'].split('/')[-1]
+            device_name = CJ_DEVICE_NAME_MAPPINGS.get(device_name)
+            current_tag.update({
+                r"name": current_tag['name'],
+                r"opcItemPath": f"ns=1;s=[{device_name}]{tag_builder['area']}<{tag_builder['path_data_type']}>{tag_builder['offset']}",
+                r"opcServer": r'Ignition OPC UA Server',
+                # r"dataType": tag_builder['data_type'],
+                r'valueSource': r'opc',
+                # r'tagGroup': r'default' # remove once production-ready
+            })
 
 
 def update_tag_builder_wrt_tag_name_and_addresses(tag_builder, tag_name_and_addresses, current_tag) -> None:
@@ -182,16 +222,33 @@ def update_tag_builder_wrt_tag_name_and_addresses(tag_builder, tag_name_and_addr
             r'address': f"{tag_builder['area']}<{tag_builder['path_data_type']}{tag_builder['array_size']}>{tag_builder['offset']}"
         })
 
-def update_mitsubishi_tags(tag_builder, current_tag, tag_name_and_addresses) -> None:
+
+def update_area_and_path_data_type(area, path_data_type='') -> tuple:
     """
-    Updates the tags by converting the tag builder to Mitsubishi format,
-    creating a new tag based on the current tag and tag builder,
-    and updating the tag builder with respect to the tag name and address list.
+    Updates the area and path data type based on the given area.
 
     Args:
-        tag_builder (TagBuilder): The tag builder object.
-        current_tag (Tag): The current tag object.
-        tag_name_and_addresses (list): A list of tag names and addresses.
+        area (str): The area string.
+        path_data_type (str, optional): The path data type. Defaults to ''.
+
+    Returns:
+        tuple: A tuple containing the updated area and path data type.
+    """
+    if 'SH' in area:
+        path_data_type = r'String'
+        area = area.replace('SH', '')
+    if 'Z' in area:
+        area = area.replace('Z', '')
+    if 'M' in area:
+        path_data_type = r'Bool'
+    return (area, path_data_type)
+
+def convert_tag_builder_to_mitsubishi_format(tag_builder) -> None:
+    """
+    Converts a tag builder dictionary to the Mitsubishi format.
+
+    Args:
+        tag_builder (dict): The tag builder dictionary containing the tag information.
         tag_functions (module): The tag functions module.
         ADDRESS_PATTERN (re.Pattern): A regular expression pattern used to match numerical addresses.
         DATA_TYPE_MAPPINGS (dict): A dictionary mapping data types to their corresponding OPC UA data types.
@@ -199,65 +256,32 @@ def update_mitsubishi_tags(tag_builder, current_tag, tag_name_and_addresses) -> 
     Returns:
         None
     """
-    def convert_tag_builder_to_mitsubishi_format(tag_builder) -> None:
-        """
-        Converts a tag builder dictionary to the Mitsubishi format.
 
-        Args:
-            tag_builder (dict): The tag builder dictionary containing the tag information.
-            tag_functions (module): The tag functions module.
-            ADDRESS_PATTERN (re.Pattern): A regular expression pattern used to match numerical addresses.
-            DATA_TYPE_MAPPINGS (dict): A dictionary mapping data types to their corresponding OPC UA data types.
+    
+    data_type, path_data_type = tag_functions.convert_data_type(tag_builder['data_type'], DATA_TYPE_MAPPINGS)
+    area, offset = tag_functions.extract_area_and_offset(tag_builder['address'], ADDRESS_PATTERN)
+    area, path_data_type = update_area_and_path_data_type(area, path_data_type)
 
-        Returns:
-            None
-        """
-        def update_area_and_path_data_type(area, path_data_type='') -> tuple:
-            """
-            Updates the area and path data type based on the given area.
-
-            Args:
-                area (str): The area string.
-                path_data_type (str, optional): The path data type. Defaults to ''.
-
-            Returns:
-                tuple: A tuple containing the updated area and path data type.
-            """
-            if 'SH' in area:
-                path_data_type = r'String'
-                area = area.replace('SH', '')
-            if 'Z' in area:
-                area = area.replace('Z', '')
-            if 'M' in area:
-                path_data_type = r'Bool'
-            return (area, path_data_type)
-        
-        data_type, path_data_type = tag_functions.convert_data_type(tag_builder['data_type'], DATA_TYPE_MAPPINGS)
-        area, offset = tag_functions.extract_area_and_offset(tag_builder['address'], ADDRESS_PATTERN)
-        area, path_data_type = update_area_and_path_data_type(area, path_data_type)
-
-        if 'String' == path_data_type:
-            offset, array_size = tag_functions.get_offset_and_array_size(offset)
-            tag_builder.update({
-                r'data_type': data_type,
-                r'path_data_type': path_data_type,
-                r'area': area,
-                r'offset': offset,
-                r'array_size': array_size,
-            })
-        else:
-            tag_builder.update({
-                r'data_type': data_type,
-                r'path_data_type': path_data_type,
-                r'area': area,
-                r'offset': offset,
-                r'array_size': ''
-            })
+    if 'String' == path_data_type:
+        offset, array_size = tag_functions.get_offset_and_array_size(offset)
+        tag_builder.update({
+            r'data_type': data_type,
+            r'path_data_type': path_data_type,
+            r'area': area,
+            r'offset': offset,
+            r'array_size': array_size,
+        })
+    else:
+        tag_builder.update({
+            r'data_type': data_type,
+            r'path_data_type': path_data_type,
+            r'area': area,
+            r'offset': offset,
+            r'array_size': ''
+        })
 
 
-    convert_tag_builder_to_mitsubishi_format(tag_builder)
-    create_new_tag(current_tag, tag_builder, 'mitsubishi')
-    update_tag_builder_wrt_tag_name_and_addresses(tag_builder, tag_name_and_addresses, current_tag)
+
 
 def get_generated_ignition_json_and_csv_files(
         kepware_df, 
