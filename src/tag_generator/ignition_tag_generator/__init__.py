@@ -114,14 +114,16 @@ def process_tag(
                                     tag_builder['area'] = area.rstrip('0')
                                 elif ':' in tag_builder['address']:
                                     area, offset = tag_builder['address'].split(':')
-                                    tag_builder['area'] = area.rstrip('0')
+                                    tag_builder['area'] = area
                                     offset = tag_builder['address'].split(':')[-1].lstrip('0') or '0'
                                     tag_builder['offset'] = offset
                                 else:
-                                    tag_builder['area'] = tag_builder['address'][0]
-                                    offset = tag_builder['address'][1:]
-                                    offset = offset.lstrip('0') or '0'
-                                    tag_builder['offset'] = offset
+                                    # tag_builder['area'] = tag_builder['address'][0]
+                                    # offset = tag_builder['address'][1:]
+                                    # offset = offset.lstrip('0') or '0'
+                                    # tag_builder['offset'] = offset
+                                    area, offset = tag_functions.extract_area_and_offset(tag_builder['address'], ADDRESS_PATTERN)
+                                    # area, path_data_type = update_area_and_path_data_type(area, path_data_type)
 
 
 
@@ -170,8 +172,8 @@ def create_new_mitsubishi_tag(current_tag, tag_builder) -> None:
 
 def create_new_cj_tag(current_tag, tag_builder) -> None:
         if tag_builder['tag_name_path']:
-            device_name = tag_builder['tag_name_path'].split('/')[-1]
-            device_name = CJ_DEVICE_NAME_MAPPINGS.get(device_name)
+            device_name = tag_builder['tag_name_path'].split('/')[-1] 
+            device_name = CJ_DEVICE_NAME_MAPPINGS.get(device_name) or 'AAC01_MPLC'
             current_tag.update({
                 r"name": current_tag['name'],
                 r"opcItemPath": f"ns=1;s=[{device_name}]{tag_builder['area']}<{tag_builder['path_data_type']}>{tag_builder['offset']}",
