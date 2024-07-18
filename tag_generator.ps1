@@ -24,7 +24,6 @@ if ($pythonPath -ne $null) {
     Write-Host "Python executable not found in common directories." -ForegroundColor Red
 }
 
-
 try {
     & $pythonPath "-m" "venv" ".venv"
 } catch {
@@ -32,7 +31,13 @@ try {
     Write-Host "Ensure that Python is installed and added to the PATH environment variable." -ForegroundColor Red
     exit 1
 }
-.venv\Scripts\activate
+try{
+    .venv\Scripts\activate
+} catch {
+    Write-Host "An error occurred: $($_)" -ForegroundColor Red
+    exit 1
+
+}
 python.exe -m pip install --upgrade pip
 
 try {
