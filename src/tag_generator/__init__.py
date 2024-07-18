@@ -58,3 +58,32 @@ def generate_output(output_dir:str, csv_files:tuple, json_file:str, device:str) 
         get_device_name(dummy_json['tags'], csv_basename, csv_file, ignition_json, device, logger)
         if found_device_name_flag:
             return
+
+
+def generate_output_using_all_csv_files(output_dir:str, csv_files:tuple, json_file:str, device:str) -> None:
+    """
+    Generate output files based on the provided inputs.
+
+    Args:
+        output_dir (str): The directory where the output files will be saved.
+        csv_files (tuple): A tuple of CSV file paths.
+        json_file (str): The path to the JSON file.
+        device (str): The device name.
+
+    Returns:
+        None
+    """
+    ignition_json:dict = file_functions.get_dict_from_json_files((json_file,))
+
+    ignition_json, address_csv = ignition_tag_generator.generate_files(
+        csv_files,
+        ignition_json,
+        device=device,
+        logger=logger
+    )
+
+    file_functions.write_json_files(ignition_json, output_dir)
+    file_functions.write_csv_files(address_csv, output_dir)
+
+
+    # file_functions.write_csv_files(address_csv, output_dir)
