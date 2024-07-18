@@ -47,7 +47,7 @@ TAG_BUILDER_TEMPLATE = {
     r'device_name': None
 }
 
-CJ_DEVICE_NAME_MAPPINGS:dict = {
+DEVICE_NAME_MAPPINGS:dict = {
     '1ST_CHARGE_1': 'AAC01_1stCharge01',
     '1ST_CHARGE_2': 'AAC01_1stCharge02',
     '1ST_CHARGE_3': '1ST_CHARGE_3',
@@ -74,8 +74,8 @@ CJ_DEVICE_NAME_MAPPINGS:dict = {
     'EVAC_11': 'AAC01_EVAC11',
     'EVAC_12': 'AAC01_EVAC12',
     'HIPOT' : 'AAC01_HIPOT',
-    'KAISHI_CONV' : 'MA_KaishiConveyor',
-    'KANSEI_CONV' : 'MA_KanseiConveyor',
+    'KAISHI_CONV' : 'Kaishi_Conv',
+    'KANSEI_CONV' : 'Kansei_Conv',
     'MPLC' : 'AAC01_MPLC',
     'MPLCV' : 'AAC01_MPLC',
     'N2_1' : 'AAC01_N2_1',
@@ -91,9 +91,6 @@ CJ_DEVICE_NAME_MAPPINGS:dict = {
     'RUNTEST_1' : 'RUNTEST_1',
     'RUNTEST_2' : 'RUNTEST_2',
     'RUNTEST_3' : 'RUNTEST_3',
-}
-
-MITSUBISHI_DEVICE_NAME_MAPPINGS:dict = {
     'MA_RE1' : 'RFID_LT1',
     'MA_HiPot' : 'RFID_HIPOT',
     'MA_KaishiConveyor' : 'Kaishi_Conv',
@@ -102,3 +99,4 @@ MITSUBISHI_DEVICE_NAME_MAPPINGS:dict = {
     'MA_LC1' : 'RFID_LT1',
     'MA_RE1' : 'RFID_RC1'
 }
+

@@ -2,7 +2,7 @@
 
 import array
 from re import M
-from tag_generator.base.constants import ADDRESS_PATTERN, DATA_TYPE_MAPPINGS, TAG_BUILDER_TEMPLATE, CJ_DEVICE_NAME_MAPPINGS, MITSUBISHI_DEVICE_NAME_MAPPINGS
+from tag_generator.base.constants import ADDRESS_PATTERN, DATA_TYPE_MAPPINGS, TAG_BUILDER_TEMPLATE, DEVICE_NAME_MAPPINGS
 from collections import defaultdict
 import tag_generator.base.tag_functions as tag_functions
 import tag_generator.base.file_functions as file_functions
@@ -153,7 +153,7 @@ def process_tag(
                             if csv_basename in tag['opcItemPath']:
                                 df = pd.read_csv(csv_file)
                                 tag_builder['row'] = tag_functions.find_row_by_tag_name(df, tag_builder['kepware_tag_name'])
-                                tag_builder['device_name'] = MITSUBISHI_DEVICE_NAME_MAPPINGS.get(csv_basename) or csv_basename
+                                tag_builder['device_name'] = DEVICE_NAME_MAPPINGS.get(csv_basename) or csv_basename
                                 break
                         try:
                             if not tag_builder['row']:
@@ -226,7 +226,7 @@ def create_new_mitsubishi_tag(current_tag, tag_builder) -> None:
 def create_new_cj_tag(current_tag, tag_builder) -> None:
         if tag_builder['tag_name_path']:
             device_name = tag_builder['tag_name_path'].split('/')[-1] 
-            device_name = CJ_DEVICE_NAME_MAPPINGS.get(device_name)
+            device_name = DEVICE_NAME_MAPPINGS.get(device_name)
             if device_name:
                 tag_builder['device_name'] = device_name
             else:
