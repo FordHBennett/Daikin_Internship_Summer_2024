@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-from asyncio import constants
 import os
 import json
 def get_basename_without_extension(file_path:os.path)  -> str:

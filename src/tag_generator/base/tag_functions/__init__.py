@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 
-import re
-
-
 def reset_tag_builder(tag_builder:dict, TAG_BUILDER_TEMPLATE:dict) -> None:
     """
     Reset the tag builder dictionary with the provided template.
