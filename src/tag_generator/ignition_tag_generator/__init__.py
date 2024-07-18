@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
-from tag_generator.base.constants import ADDRESS_PATTERN, DATA_TYPE_MAPPINGS, TAG_BUILDER_TEMPLATE, CJ_DEVICE_NAME_MAPPINGS
+import array
+from re import M
+from tag_generator.base.constants import ADDRESS_PATTERN, DATA_TYPE_MAPPINGS, TAG_BUILDER_TEMPLATE, CJ_DEVICE_NAME_MAPPINGS, MITSUBISHI_DEVICE_NAME_MAPPINGS
 from collections import defaultdict
 import tag_generator.base.tag_functions as tag_functions
 import tag_generator.base.file_functions as file_functions
@@ -110,33 +112,8 @@ import pandas as pd
 
 #     tag_functions.reset_tag_builder(tag_builder, TAG_BUILDER_TEMPLATE)
 
-def process_sub_tag(
-                ingition_json, 
-                tag_builder,
-                key, 
-                csv_files, 
-                tag, 
-                tag_name_and_addresses, 
-                sub_tag, 
-                logger,
-                device) -> None:
 
-            if tag_builder['tag_name_path']:
-                tag_builder['tag_name_path'] = f"{tag_builder['tag_name_path']}/{tag['name']}"
-            else:
-                tag_builder['tag_name_path'] = tag['name']
-                    
-            process_tag(
-                ingition_json, 
-                tag_builder, 
-                key, 
-                csv_files, 
-                sub_tag, 
-                tag_name_and_addresses, 
-                logger,
-                device
-            )
-            
+                
 
 def process_tag(
         ingition_json, 
@@ -147,44 +124,54 @@ def process_tag(
         tag_name_and_addresses, 
         logger,
         device) -> None:
-
+    
     if 'tags' in tag:
-
-        tuple(
-            map(
-                lambda sub_tag: process_sub_tag(
-                    ingition_json, 
-                    tag_builder, 
-                    key, 
-                    csv_files, 
-                    tag, 
-                    tag_name_and_addresses, 
-                    sub_tag, 
-                    logger,
-                    device
-                ), 
-                tag['tags']
+        for sub_tag in tag['tags']:
+            if tag_builder['tag_name_path']:
+                tag_builder['tag_name_path'] = f"{tag_builder['tag_name_path']}/{tag['name']}"
+            else:
+                tag_builder['tag_name_path'] = tag['name']
+            process_tag(
+                ingition_json, 
+                tag_builder, 
+                key, 
+                csv_files, 
+                sub_tag, 
+                tag_name_and_addresses, 
+                logger,
+                device
             )
-        )
     else:
         if tag['valueSource'] != 'expr' or tag['valueSource'] != 'memory':
             if 'opcItemPath' in tag.keys():
                 opc_item_path = tag['opcItemPath']
                 if opc_item_path.startswith('nsu=ThingWorx') or opc_item_path.startswith('ns=2;'):
-                    kepware_path = tag_functions.extract_kepware_tag_name(opc_item_path)
-                    if not opc_item_path.endswith('_NoError') and not kepware_path.endswith('IsConnected'):
+                    tag_builder['kepware_tag_name'] = tag_functions.extract_kepware_tag_name(opc_item_path)
+                    if not opc_item_path.endswith('_NoError') and not tag_builder['kepware_tag_name'].endswith('IsConnected'):
                         for csv_file in csv_files:
                             csv_basename = file_functions.get_basename_without_extension(csv_file)
                             if csv_basename in tag['opcItemPath']:
                                 df = pd.read_csv(csv_file)
-                                tag_builder['row'] = tag_functions.find_row_by_tag_name(df, kepware_path)
+                                tag_builder['row'] = tag_functions.find_row_by_tag_name(df, tag_builder['kepware_tag_name'])
+                                tag_builder['device_name'] = MITSUBISHI_DEVICE_NAME_MAPPINGS.get(csv_basename) or csv_basename
                                 break
-                            df = pd.read_csv(csv_file)
-                            tag_names = df['Tag Name'].values
-                            for name in tag_names:
-                                if kepware_path in name:
-                                    tag_builder['row'] = df[df['Tag Name'] == name].iloc[0]
-                                    break
+                        try:
+                            if not tag_builder['row']:
+                                for csv_file in csv_files:
+                                    df = pd.read_csv(csv_file)
+                                    tag_names = df['Tag Name'].values
+                                    for name in tag_names:
+                                        if tag_builder['kepware_tag_name'] in name:
+                                            tag_builder['row'] = df[df['Tag Name'] == name].iloc[0]
+                                            split_name = tag['opcItemPath'].split('=')
+                                            split_name = split_name[-1].split('.')
+                                            if len(split_name) > 1:
+                                                tag_builder['device_name'] = split_name[1] 
+                                            else:
+                                                tag_builder['device_name'] = split_name[0]
+                                            break
+                        except:
+                            pass
 
                         if tag_builder['row'] is not None:
                             tag_functions.update_tag_builder(tag_builder)
@@ -196,16 +183,20 @@ def process_tag(
                                 create_new_cj_tag(tag, tag_builder) 
                             update_tag_builder_wrt_tag_name_and_addresses(tag_builder, tag_name_and_addresses, tag)
                         else:
-                            logger.log_message(f"Could not find {kepware_path} in coresponding Kepware CSV", device, 'warning')
+                            logger.log_message(f"Could not find {tag_builder['kepware_tag_name']} in coresponding Kepware CSV", device, 'warning')
                     else:
-                        if device == 'mitsubishi':
-                            tag_functions.create_new_connected_tag(tag)
+                        tag_functions.create_new_connected_tag(tag)
                 else:
                     logger.handle_opc_path_not_found(tag, key, device)
             else:
                 logger.handle_opc_path_not_found(tag, key, device)
 
+    dummy_tag_name_path = None
+    if tag_builder['tag_name_path'] and '/' in tag_builder['tag_name_path']:
+        dummy_tag_name_path = tag_builder['tag_name_path'][:tag_builder['tag_name_path'].rfind('/')]
+
     tag_functions.reset_tag_builder(tag_builder, TAG_BUILDER_TEMPLATE)
+    tag_builder['tag_name_path'] = dummy_tag_name_path
 
 def create_new_mitsubishi_tag(current_tag, tag_builder) -> None:
     """
@@ -235,7 +226,11 @@ def create_new_mitsubishi_tag(current_tag, tag_builder) -> None:
 def create_new_cj_tag(current_tag, tag_builder) -> None:
         if tag_builder['tag_name_path']:
             device_name = tag_builder['tag_name_path'].split('/')[-1] 
-            device_name = CJ_DEVICE_NAME_MAPPINGS.get(device_name) or 'AAC01_MPLC'
+            device_name = CJ_DEVICE_NAME_MAPPINGS.get(device_name)
+            if device_name:
+                tag_builder['device_name'] = device_name
+            else:
+                tag_builder['device_name'] = 'AAC01_MPLC'
             current_tag.update({
                 r"name": current_tag['name'],
                 r"opcItemPath": f"ns=1;s=[{device_name}]{tag_builder['area']}<{tag_builder['path_data_type']}>{tag_builder['offset']}",
@@ -252,39 +247,45 @@ def update_tag_builder_wrt_tag_name_and_addresses(tag_builder, tag_name_and_addr
 
     Args:
         tag_builder (dict): The tag builder dictionary.
-        tag_name_and_addresses (list): The list of tag names and addresses.
+
         current_tag (dict): The current tag dictionary.
 
     Returns:
         None
     """
-    if tag_builder['data_type'] and tag_builder['tag_name_path'] and tag_builder['area'] is not None:
-        tag_name_and_addresses.append({
-            r'tag_name': f'{tag_builder['tag_name_path']}/{current_tag["name"]}',
-            r'address': f"{tag_builder['area']}<{tag_builder['path_data_type']}{tag_builder['array_size']}>{tag_builder['offset']}"
-        })
-    elif tag_builder['area'] is None:
-        if tag_builder['kepware_tag_name'].find('.') != -1:
-            name_parts = tag_builder['kepware_tag_name'].split('.')
-            name = name_parts[0]
 
-            # Iterate up to the second-to-last element
-            for i in range(1, len(name_parts) - 1):
-                name = f"{name}/{name_parts[i]}" 
-
-            tag_name_and_addresses.append({
-                'tag_name': f"{name}/{current_tag['name']}",
-                'address': f"{tag_builder['address']}"
-            })
-        # tag_name_and_addresses.append({
-        #     r'tag_name': f'{current_tag["name"]}',
-        #     r'address': f"{tag_builder['address']}"
-        # })
+    tag_name = ''
+    if tag_builder['tag_name_path']:
+        tag_name = f"{tag_builder['tag_name_path']}/{current_tag['name']}"
     else:
-        tag_name_and_addresses.append({
-            r'tag_name': f'{current_tag["name"]}',
-            r'address': f"{tag_builder['area']}<{tag_builder['path_data_type']}{tag_builder['array_size']}>{tag_builder['offset']}"
-        })
+        tag_name = current_tag['name']
+
+    if tag_builder['area'] is not None:
+        if tag_builder['device_name'] not in tag_name_and_addresses:
+            tag_name_and_addresses[tag_builder['device_name']] = []
+        if tag_builder['array_size']:
+            tag_name_and_addresses[tag_builder['device_name']].append({
+                'tag_name': tag_name,
+                'address': f"{tag_builder['area']}<{tag_builder['path_data_type']}{tag_builder['array_size']}>{tag_builder['offset']}"
+            })
+        else:
+            tag_name_and_addresses[tag_builder['device_name']].append({
+                'tag_name': tag_name,
+                'address': f"{tag_builder['area']}<{tag_builder['path_data_type']}>{tag_builder['offset']}"
+            })
+    else:
+            if tag_builder['device_name'] not in tag_name_and_addresses:
+                tag_name_and_addresses[tag_builder['device_name']] = []
+            if tag_builder['array_size']:
+                tag_name_and_addresses[tag_builder['device_name']].append({
+                    'tag_name': tag_name,
+                    'address': f"{tag_builder['address']}"
+                })
+            else:
+                tag_name_and_addresses[tag_builder['device_name']].append({
+                    'tag_name': tag_name,
+                    'address': f"{tag_builder['address']}"
+                })
 
 
 def update_area_and_path_data_type(area, path_data_type='') -> tuple:
@@ -434,8 +435,9 @@ def generate_files(
     
     address_csv_dict = defaultdict(pd.DataFrame)
     tag_builder = TAG_BUILDER_TEMPLATE.copy()
+    tag_name_and_addresses = {}
     for key in ignition_json.keys():
-        tag_name_and_addresses = []
+
         for tag in ignition_json[key]['tags']:
             process_tag(
                 ignition_json, 
@@ -447,6 +449,9 @@ def generate_files(
                 logger,
                 device
             )
+
+    for key in tag_name_and_addresses.keys():
+        address_csv_dict[key] = pd.DataFrame(tag_name_and_addresses[key])
 
     return (ignition_json, address_csv_dict)
 

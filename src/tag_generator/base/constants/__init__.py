@@ -44,7 +44,7 @@ TAG_BUILDER_TEMPLATE = {
     r"array_size": None,
     r"row": None,
     r"kepware_tag_name": None,
-    r"readOnly": None
+    r'device_name': None
 }
 
 CJ_DEVICE_NAME_MAPPINGS:dict = {
@@ -91,4 +91,14 @@ CJ_DEVICE_NAME_MAPPINGS:dict = {
     'RUNTEST_1' : 'RUNTEST_1',
     'RUNTEST_2' : 'RUNTEST_2',
     'RUNTEST_3' : 'RUNTEST_3',
+}
+
+MITSUBISHI_DEVICE_NAME_MAPPINGS:dict = {
+    'MA_RE1' : 'RFID_LT1',
+    'MA_HiPot' : 'RFID_HIPOT',
+    'MA_KaishiConveyor' : 'Kaishi_Conv',
+    'MA_KanseiConveyor' : 'Kansei_Conv',
+    'MA_PD1' : 'RFID_PD1',
+    'MA_LC1' : 'RFID_LT1',
+    'MA_RE1' : 'RFID_RC1'
 }

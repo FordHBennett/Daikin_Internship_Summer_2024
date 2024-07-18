@@ -83,6 +83,7 @@ def generate_output_using_all_csv_files(output_dir:str, csv_files:tuple, json_fi
     )
 
     file_functions.write_json_files(ignition_json, output_dir)
+    file_functions.write_csv_files(address_csv, output_dir)
 
 
     # file_functions.write_csv_files(address_csv, output_dir)

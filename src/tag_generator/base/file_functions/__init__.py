@@ -166,8 +166,8 @@ def write_csv_files(address_csv:dict, dir:os.path) -> None:
     os.makedirs(out_dir, exist_ok=True)
 
     try:
-        key, value = next(iter(address_csv.items()))
-        value.to_csv(os.path.join(out_dir, f'{key}.csv'), index=False)
+        for key, value in address_csv.items():
+            value.to_csv(os.path.join(out_dir, f'{key}.csv'), index=False)
     except Exception as e:
 
         raise f"Error writing file: {next(iter(address_csv))}.csv \n ERROR: {e}"

@@ -8,13 +8,13 @@ if __name__ == '__main__':
     file_functions.clean_files_dir()
 
     manufacturer:tuple = ('mitsubishi', 'cj')
-
+    csv_files:tuple = file_functions.get_all_files(path.join('files', 'input'), '.csv')
     for brand in manufacturer:
         input_dir = path.join('files', 'input', brand)
         output_dir:path = path.join('files', 'output', brand)
        
         json_files:tuple = file_functions.get_all_files(input_dir, '.json')
-        csv_files:tuple = file_functions.get_all_files(input_dir, '.csv')
+        
 
         # tuple(
         #     map(
