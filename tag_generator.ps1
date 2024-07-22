@@ -31,6 +31,9 @@ try {
     Write-Host "Ensure that Python is installed and added to the PATH environment variable." -ForegroundColor Red
     exit 1
 }
+
+Write-Host "Virtual environment created successfully."
+
 try{
     .venv\Scripts\activate
 } catch {
@@ -38,10 +41,14 @@ try{
     exit 1
 
 }
-python.exe -m pip install --upgrade pip
+Write-Host "Virtual environment activated."
+
+$env_python_path = ".venv\Scripts\python.exe"
+
+& $env_python_path "-m" "pip" "install" "--upgrade" "pip"
 
 try {
-    python.exe -m pip install .
+    & $env_python_path "-m" "pip" "install" "."
 } catch {
     Write-Host "An error occurred: $($_)" -ForegroundColor Red
     exit 1
@@ -49,7 +56,7 @@ try {
 
 
 try {
-    python.exe -m tag_generator -00 --enable-optimizations --with-lto=full --without-doc-strings 2>&1 | % { Write-Host $_ -NoNewline }
+    & $env_python_path "-m" "tag_generator" "-00" "--enable-optimizations" "--with-lto=full" "--without-doc-strings" 2>&1 | % { Write-Host $_ -NoNewline }
     Write-Host "`nIgnition tags generated successfully."
     Write-Host "Check the files/output folder for the generated tags."
 } catch {
