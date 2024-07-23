@@ -13,35 +13,42 @@ $pythonPath = $null
 foreach ($path in $possiblePaths) {
     #recursive search for python.exe in the directory
     $pythonPath = Get-ChildItem -Path $path -Recurse -Filter "python.exe" -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName
-    if ($pythonPath -ne $null) {
+    if ($null -ne $pythonPath) {
         break
     }
 }
 
-if ($pythonPath -ne $null) {
+if ($null -ne $pythonPath) {
     Write-Host "Python found at: $pythonPath"
 } else {
-    Write-Host "Python executable not found in common directories." -ForegroundColor Red
+    Write-Host "Make sure you have python installed." -ForegroundColor Red
 }
 
 try {
-    & $pythonPath "-m" "venv" ".venv"
+    & $pythonPath "-m" "venv" ".venv" 2>&1 | ForEach-Object { Write-Host $_ }
 } catch {
     Write-Host "An error occurred: $($_)" -ForegroundColor Red
     Write-Host "Ensure that Python is installed and added to the PATH environment variable." -ForegroundColor Red
     exit 1
 }
+
+Write-Host "Virtual environment created successfully."
+
 try{
-    .venv\Scripts\activate
+    .venv\Scripts\activate 2>&1 | ForEach-Object { Write-Host $_ }
 } catch {
     Write-Host "An error occurred: $($_)" -ForegroundColor Red
     exit 1
 
 }
-python.exe -m pip install --upgrade pip
+Write-Host "Virtual environment activated."
+
+$env_python_path = ".venv\Scripts\python.exe"
+
+& $env_python_path "-m" "pip" "install" "--upgrade" "pip" 2>&1 | Out-Null
 
 try {
-    python.exe -m pip install .
+     & $env_python_path "-m" "pip" "install" "." 2>&1 | ForEach-Object { Write-Host $_ }
 } catch {
     Write-Host "An error occurred: $($_)" -ForegroundColor Red
     exit 1
@@ -49,9 +56,10 @@ try {
 
 
 try {
-    python.exe -m tag_generator -00 --enable-optimizations --with-lto=full --without-doc-strings 2>&1 | % { Write-Host $_ -NoNewline }
-    Write-Host "`nIgnition tags generated successfully."
-    Write-Host "Check the files/output folder for the generated tags."
+    & $env_python_path "-m" "tag_generator" "-00" "--enable-optimizations" "--with-lto=full" "--without-doc-strings" 2>&1 | ForEach-Object { Write-Host $_ }
+    Write-Host "`nIgnition tags generated successfully." -ForegroundColor Green
+    $local_path = Get-Location
+    Write-Host "Check the $local_path/files/output directory for the generated tags." -ForegroundColor Green
 } catch {
     Write-Host "An error occurred: $($_)" -ForegroundColor Red
 }
