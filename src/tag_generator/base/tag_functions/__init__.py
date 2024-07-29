@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-def reset_tag_builder(tag_builder:dict, TAG_BUILDER_TEMPLATE:dict) -> None:
+def reset_tag_builder(tag_builder: dict, TAG_BUILDER_TEMPLATE: dict) -> None:
     """
     Reset the tag builder dictionary with the provided template.
 
@@ -24,18 +24,9 @@ def find_row_by_tag_name(df, tag_name:str):
     Returns:
     - pandas.Series or None: The first row that matches the tag name, or None if no match is found.
     """
-
-    # tag_names = df['Tag Name'].values
-    # for name in tag_names:
-    #     if tag_name in name:
-    #         return df[df['Tag Name'] == name].iloc[0]
-    # return None
-
     if tag_name in df['Tag Name'].values:
         try:
             return df.loc[df['Tag Name'] == tag_name].iloc[0]
-            # check in the entire string tag name is in part of the string in the dataframe
-            # return df[df['Tag Name'].str.contains(tag_name, case=False, na=False)].iloc[0]
         except Exception as e:
             print(f"Error finding row by tag name: {tag_name}")
             raise e
@@ -58,7 +49,16 @@ def extract_kepware_tag_name(opc_item_path:str) -> str:
         return opc_item_path
     return opc_item_path.split('.', 2)[-1]
 
-def extract_kepware_device_name(opc_item_path:str) -> str:
+def extract_kepware_device_name(opc_item_path: str) -> str:
+    """
+    Extracts the device name from the OPC item path.
+
+    Args:
+        opc_item_path (str): The OPC item path.
+
+    Returns:
+        str: The extracted device name.
+    """
     if '.' not in opc_item_path:
         return opc_item_path
     return opc_item_path.split('.')[1]

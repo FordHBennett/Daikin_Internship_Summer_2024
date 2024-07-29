@@ -1,7 +1,10 @@
 #!/usr/bin/env python
+
+# Required Libraries
 import os
 import json
-def get_basename_without_extension(file_path:os.path)  -> str:
+
+def get_basename_without_extension(file_path: os.path) -> str:
     """
     Returns the base name of a file path without the file extension.
 
@@ -10,13 +13,14 @@ def get_basename_without_extension(file_path:os.path)  -> str:
 
     Returns:
         str: The base name of the file without the extension.
+
+    Raises:
+        Exception: If there is an error getting the base name without extension.
     """
     try:
         return os.path.splitext(os.path.basename(file_path))[0]
     except Exception as e:
-        # print(f"Error getting base name without extension: {file_path}")
-        # raise e
-        raise f"Error getting base name without extension: {file_path} \n ERROR: {e}"
+        raise Exception(f"Error getting base name without extension: {file_path} \n ERROR: {e}")
 
 
 def get_all_files(dir: os.path, extension: str) -> tuple:
@@ -148,7 +152,7 @@ def write_json_files(json_data: dict, output_dir: os.path) -> None:
     first_key, first_value = next(iter(json_data.items()))
     write_file(f"{os.path.join(output_dir, first_key)}.json", first_value)
 
-def write_csv_files(address_csv:dict, dir:os.path) -> None:
+def write_csv_files(address_csv: dict, dir: os.path) -> None:
     """
     Write DataFrame objects to CSV files in the subdirectory csv in the specified directory.
 
@@ -158,8 +162,10 @@ def write_csv_files(address_csv:dict, dir:os.path) -> None:
 
     Returns:
         None
-    """
 
+    Raises:
+        Exception: If there is an error writing the file.
+    """
     out_dir = f'{dir}/csv'
 
     os.makedirs(out_dir, exist_ok=True)
@@ -168,8 +174,7 @@ def write_csv_files(address_csv:dict, dir:os.path) -> None:
         for key, value in address_csv.items():
             value.to_csv(os.path.join(out_dir, f'{key}.csv'), index=False)
     except Exception as e:
-
-        raise f"Error writing file: {next(iter(address_csv))}.csv \n ERROR: {e}"
+        raise Exception(f"Error writing file: {next(iter(address_csv))}.csv \n ERROR: {e}")
 
 def clean_files_dir() -> None:
     """

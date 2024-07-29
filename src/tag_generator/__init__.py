@@ -60,7 +60,7 @@ def generate_output(output_dir:str, csv_files:tuple, json_file:str, device:str) 
             return
 
 
-def generate_output_using_all_csv_files(output_dir:str, csv_files:tuple, json_file:str, device:str) -> None:
+def generate_output_using_all_csv_files(output_dir:str, csv_files:tuple, json_file:str, manufacturer:str) -> None:
     """
     Generate output files based on the provided inputs.
 
@@ -68,7 +68,7 @@ def generate_output_using_all_csv_files(output_dir:str, csv_files:tuple, json_fi
         output_dir (str): The directory where the output files will be saved.
         csv_files (tuple): A tuple of CSV file paths.
         json_file (str): The path to the JSON file.
-        device (str): The device name.
+        manufacturer (str): The manufacturer name.
 
     Returns:
         None
@@ -78,7 +78,7 @@ def generate_output_using_all_csv_files(output_dir:str, csv_files:tuple, json_fi
     ignition_json, address_csv = ignition_tag_generator.generate_files(
         csv_files,
         ignition_json,
-        device=device,
+        manufacturer=manufacturer,
         logger=logger
     )
 

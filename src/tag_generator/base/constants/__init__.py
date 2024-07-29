@@ -1,20 +1,12 @@
 #!/usr/bin/env python
-"""
-This module contains constants used in the tag generator.
-
-- `ADDRESS_PATTERN`: Regular expression pattern to match numeric addresses.
-- `TAG_NAME_PATTERN`: Regular expression pattern to match invalid characters in tag names.
-- `DATA_TYPE_MAPPINGS`: Mapping of data types to their corresponding OPC UA data types.
-- `READ_WRITE_MAPPINGS`: Mapping of read-only and read-write properties.
-- `REQUIRED_KEYS`: List of keys required in the tag builder template.
-- `TAG_BUILDER_TEMPLATE`: Template for building tags with placeholder values.
-"""
-
+# Importing Required Libraries
 import re
 
+# Regex Patterns to be used in the code for invalid characters removal
 ADDRESS_PATTERN:re.Pattern = re.compile(r'\d+')
 TAG_NAME_PATTERN:re.Pattern = re.compile(r'[^a-zA-Z0-9-_ .]')
 
+# Kepware data types -> ignition data types
 DATA_TYPE_MAPPINGS:dict = {
     r'Short': ('Int2', 'Int16'),
     r'Int2': ('Int2', 'Int16'),
@@ -26,13 +18,7 @@ DATA_TYPE_MAPPINGS:dict = {
     r'String': ('String', 'String'),
 }
 
-# READ_WRITE_MAPPINGS:dict = {
-#     r'RO' :  True,
-#     r'R/W' : False
-# }
-
-# REQUIRED_KEYS:tuple = (r'tagGroup', r'dataType', r'tagType', r'historyProvider', r'historicalDeadband', r'historicalDeadbandStyle')
-
+# Tag builder dictionary that is used when creating the tag builder object
 TAG_BUILDER_TEMPLATE = {
     r"path_data_type": None,
     r"data_type": None,
@@ -47,6 +33,7 @@ TAG_BUILDER_TEMPLATE = {
     r'device_name': None
 }
 
+# Kepware device name -> Ignition device name mappings
 DEVICE_NAME_MAPPINGS:dict = {
 #---------------- Mitsubishi ----------------
     'MA_RE1' : 'RFID_LT1',

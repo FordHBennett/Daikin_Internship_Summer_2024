@@ -6,110 +6,6 @@ import tag_generator.base.tag_functions as tag_functions
 import tag_generator.base.file_functions as file_functions
 import pandas as pd
 
-# def process_sub_tag(
-#                 ingition_json, 
-#                 tag_builder,
-#                 key, 
-#                 df, 
-#                 tag, 
-#                 tag_name_and_addresses, 
-#                 sub_tag, 
-#                 logger,
-#                 device) -> None:
-
-#             if tag_builder['tag_name_path']:
-#                 tag_builder['tag_name_path'] = f"{tag_builder['tag_name_path']}/{tag['name']}"
-#             else:
-#                 tag_builder['tag_name_path'] = tag['name']
-                    
-#             process_tag(
-#                 ingition_json, 
-#                 tag_builder, 
-#                 key, 
-#                 df, 
-#                 sub_tag, 
-#                 tag_name_and_addresses, 
-#                 logger,
-#                 device
-#             )
-            
-
-# def process_tag(
-#         ingition_json, 
-#         tag_builder, 
-#         key, 
-#         df, 
-#         tag, 
-#         tag_name_and_addresses, 
-#         logger,
-#         device) -> None:
-#     """
-#     Process a tag based on the given parameters.
-
-#     Args:
-#         ingition_json (dict): The Ignition JSON data.
-#         tag_builder (dict): The tag builder dictionary.
-#         key (str): The key of the tag.
-#         df (pandas.DataFrame): The DataFrame containing the tag data.
-#         tag (dict): The tag dictionary.
-#         tag_name_and_addresses (list): The list of tag names and addresses.
-#         constants (module): The constants module.
-#         logger (Logger): The logger object.
-
-#     Returns:
-#         None
-#     """
-
-#     if 'tags' in tag:
-
-#         tuple(
-#             map(
-#                 lambda sub_tag: process_sub_tag(
-#                     ingition_json, 
-#                     tag_builder, 
-#                     key, 
-#                     df, 
-#                     tag, 
-#                     tag_name_and_addresses, 
-#                     sub_tag, 
-#                     logger,
-#                     device
-#                 ), 
-#                 tag['tags']
-#             )
-#         )
-#     else:
-#         if tag['valueSource'] != 'expr' or tag['valueSource'] != 'memory':
-#             if 'opcItemPath' in tag.keys():
-#                 opc_item_path = tag['opcItemPath']
-#                 if opc_item_path.startswith('nsu=ThingWorx') or opc_item_path.startswith('ns=2;'):
-#                     kepware_path = tag_functions.extract_kepware_tag_name(opc_item_path)
-#                     if not opc_item_path.endswith('_NoError') and not kepware_path.endswith('IsConnected'):
-#                         tag_builder['row'] = tag_functions.find_row_by_tag_name(df, kepware_path)
-#                         if tag_builder['row'] is None:
-#                             kepware_path = opc_item_path.split('.', 1)[-1]
-#                             tag_builder['row'] = tag_functions.find_row_by_tag_name(df, kepware_path)
-#                         if tag_builder['row'] is not None:
-#                             tag_functions.update_tag_builder(tag_builder)
-#                             if device == 'mitsubishi':
-#                                     convert_tag_builder_to_mitsubishi_format(tag_builder)
-#                                     create_new_mitsubishi_tag(tag, tag_builder)
-#                             elif device == 'cj':
-#                                 convert_tag_builder_to_cj_format(tag_builder)
-#                                 create_new_cj_tag(tag, tag_builder)
-#                             update_tag_builder_wrt_tag_name_and_addresses(tag_builder, tag_name_and_addresses, tag)
-#                         else:
-#                             logger.log_message(f"Could not find {kepware_path} in coresponding Kepware CSV", device, 'warning')
-#                     else:
-#                         if device == 'mitsubishi':
-#                             tag_functions.create_new_connected_tag(tag)
-#                 else:
-#                     logger.handle_opc_path_not_found(tag, key, device)
-#             else:
-#                 logger.handle_opc_path_not_found(tag, key, device)
-
-#     tag_functions.reset_tag_builder(tag_builder, TAG_BUILDER_TEMPLATE)
-
 def process_tag(
         ingition_json, 
         tag_builder, 
@@ -118,14 +14,22 @@ def process_tag(
         tag, 
         tag_name_and_addresses, 
         logger,
-        device) -> None:
+        manufacturer) -> None:
     
+    # Check if the tag has sub-tags
     if 'tags' in tag:
+
+        # Iterate over all the sub-tags
         for sub_tag in tag['tags']:
+
+            # If the tag has a tag name path, update it with the sub-tag name to keep track of the tag hierarchy
             if tag_builder['tag_name_path']:
                 tag_builder['tag_name_path'] = f"{tag_builder['tag_name_path']}/{tag['name']}"
+            # Otherwise, set the tag name path to the sub-tag name
             else:
                 tag_builder['tag_name_path'] = tag['name']
+            
+            # Process the sub-tag
             process_tag(
                 ingition_json, 
                 tag_builder, 
@@ -134,57 +38,119 @@ def process_tag(
                 sub_tag, 
                 tag_name_and_addresses, 
                 logger,
-                device
+                manufacturer
             )
+    # If the tag does not have sub-tags
     else:
+        # Check if the tag is not a memory or expression tag
         if tag['valueSource'] != 'expr' or tag['valueSource'] != 'memory':
+
+            # Check if the tag has an opcItemPath
             if 'opcItemPath' in tag.keys():
                 opc_item_path = tag['opcItemPath']
+
+                # Check if the opcItemPath starts with 'nsu=ThingWorx' or 'ns=2;'
                 if opc_item_path.startswith('nsu=ThingWorx') or opc_item_path.startswith('ns=2;'):
+
+                    # Extract the Kepware tag name from the opcItemPath and update the tag builder
                     tag_builder['kepware_tag_name'] = tag_functions.extract_kepware_tag_name(opc_item_path)
+
+                    # Check if the Kepware tag name is not None and does not end with '_NoError' or 'IsConnected'
                     if not opc_item_path.endswith('_NoError') and not tag_builder['kepware_tag_name'].endswith('IsConnected'):
 
+                        # Iterate over all the CSV files
                         for csv_file in csv_files:
                             csv_basename = file_functions.get_basename_without_extension(csv_file)
+
+                            # Check if the Kepware tag name is in the CSV file name and the CSV file name does not contain 'MPLC'
                             if csv_basename in tag['opcItemPath']and 'MPLC' not in csv_basename:
+
+                                # Read the CSV file and find the row by the Kepware tag name
                                 df = pd.read_csv(csv_file)
+
+
+                                # if '.' not in tag_builder['kepware_tag_name']:
+                                #     tag_builder['row'] = tag_functions.find_row_by_tag_name(df, tag_builder['kepware_tag_name'])
+                                # else:
                                 tag_builder['row'] = tag_functions.find_row_by_tag_name(df, tag_builder['kepware_tag_name'])
+                                while(tag_builder['row'] is None or tag_builder['kepware_tag_name'].find('.') != -1):
+                                    tag_builder['row'] = tag_functions.find_row_by_tag_name(df, tag_builder['kepware_tag_name'])
+                                    tag_builder['kepware_tag_name'] = tag_builder['kepware_tag_name'][tag_builder['kepware_tag_name'].find('.') + 1:]
+                                        
+
+                                # Update the tag builder with the device name from the CSV file name 
+                                # If the device name is not found in the mappings, use the first part of the Kepware tag name
                                 tag_builder['device_name'] = DEVICE_NAME_MAPPINGS.get(csv_basename) or csv_basename
-                                break
+                                
+                                # Break the loop because kepware row is found
+                                if tag_builder['row']  is not None:
+                                    break
                         try:
-                            if not tag_builder['row']:
+                            # If the tag builder row is still None, iterate over all the CSV files again
+                            if tag_builder['row'] is not None:
                                 for csv_file in csv_files:
+
+                                    # Read the CSV file
                                     df = pd.read_csv(csv_file)
                                     tag_names = df['Tag Name'].values
+
+                                    # Iterate over all the tag names in the CSV file
                                     for name in tag_names:
+
+                                        # Check if the Kepware tag name is in the tag name
                                         if tag_builder['kepware_tag_name'] in name:
+
+                                            # Find the row by the tag name and update the tag builder
                                             tag_builder['row'] = df[df['Tag Name'] == name].iloc[0]
+
+                                            # Update the tag builder with the device name from the CSV file name
                                             split_name = tag['opcItemPath'].split('=')
                                             kepware_path = split_name[-1]
-
                                             kepware_path = '.'.join(kepware_path.split('.')[:3])
                                             tag_builder['device_name'] = DEVICE_NAME_MAPPINGS.get(kepware_path) or kepware_path.split('.')[1] or kepware_path.split('.')[0]
+
+                                            # Break the loop because kepware row is found
                                             break
                         except:
                             pass
-
+                        
+                        # Check if the tag builder row was found
                         if tag_builder['row'] is not None:
+
+                            # Update the tag builder with the tag information
                             tag_functions.update_tag_builder(tag_builder)
-                            if device == 'mitsubishi':
+
+                            # Check the manufacturer of the device
+                            if manufacturer == 'mitsubishi':
+
+                                # Update the tag builder with the Mitsubishi format
                                 convert_tag_builder_to_mitsubishi_format(tag_builder)
+
+                                # Create a new Mitsubishi tag
                                 create_new_mitsubishi_tag(tag, tag_builder)
-                            elif device == 'cj':
+                            elif manufacturer == 'cj':
+
+                                # Update the tag builder with the CJ format
                                 convert_tag_builder_to_cj_format(tag_builder)
+
+                                # Create a new CJ tag
                                 create_new_cj_tag(tag, tag_builder) 
+                            
+                            # Update the tag builder with respect to the tag name and addresses
                             update_tag_builder_wrt_tag_name_and_addresses(tag_builder, tag_name_and_addresses, tag)
+
+                        # If the tag builder row was not found, log a message
                         else:
-                            logger.log_message(f"Could not find {tag_builder['kepware_tag_name']} in coresponding Kepware CSV", device, 'warning')
+                            logger.log_message(f"Could not find {tag_builder['kepware_tag_name']} in coresponding Kepware CSV", manufacturer, 'warning')
+                    
+                    # If the Kepware tag name ends with '_NoError' or 'IsConnected' create a new connected tag
                     else:
                         tag_functions.create_new_connected_tag(tag)
+                # If the opcItemPath does not start with 'nsu=ThingWorx' or 'ns=2;' log a message
                 else:
-                    logger.handle_opc_path_not_found(tag, key, device)
+                    logger.handle_opc_path_not_found(tag, key, manufacturer)
             else:
-                logger.handle_opc_path_not_found(tag, key, device)
+                logger.handle_opc_path_not_found(tag, key, manufacturer)
 
     dummy_tag_name_path = None
     if tag_builder['tag_name_path'] and '/' in tag_builder['tag_name_path']:
@@ -425,15 +391,36 @@ def get_generated_ignition_json_and_csv_files(
 def generate_files(
         csv_files:tuple,
         ignition_json:str,
-        device:str,
+        manufacturer:str,
         logger) -> tuple:
-    
+    """
+    Generate address CSV files and update the Ignition JSON file with tag information.
+
+    Args:
+        csv_files (tuple): A tuple of CSV files.
+        ignition_json (str): The path to the Ignition JSON file.
+        manufacturer (str): The manufacturer name.
+        logger: The logger object for logging messages.
+
+    Returns:
+        tuple: A tuple containing the updated Ignition JSON and a dictionary of address CSV files.
+    """
+
+    # Create a dictionary of DataFrames from the CSV files
     address_csv_dict = defaultdict(pd.DataFrame)
+
+    # Create a copy of the tag builder template
     tag_builder = TAG_BUILDER_TEMPLATE.copy()
+
+    # Create a dictionary to store the tag names and addresses
     tag_name_and_addresses = {}
+
+    # Iterate over all the tags in the Ignition JSON
     for key in ignition_json.keys():
 
+        # Iterate over all the tags in the Ignition JSON
         for tag in ignition_json[key]['tags']:
+            # Process the tag
             process_tag(
                 ignition_json, 
                 tag_builder, 
@@ -442,7 +429,7 @@ def generate_files(
                 tag, 
                 tag_name_and_addresses, 
                 logger,
-                device
+                manufacturer
             )
 
     for key in tag_name_and_addresses.keys():

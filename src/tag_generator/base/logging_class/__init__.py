@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+# Required Libraries
 import logging
 import os.path 
 
@@ -8,7 +9,21 @@ NAME_CHANGE = 35
 logging.addLevelName(NAME_CHANGE, "NAME_CHANGE")
 
 class CustomFormatter(logging.Formatter):
-    """Logging Formatter to add colors and count warning / errors"""
+    """
+    Logging Formatter to add colors and count warning / errors.
+
+    Attributes:
+        grey (str): ANSI escape sequence for grey color.
+        yellow (str): ANSI escape sequence for yellow color.
+        red (str): ANSI escape sequence for red color.
+        bold_red (str): ANSI escape sequence for bold red color.
+        green (str): ANSI escape sequence for green color.
+        blue (str): ANSI escape sequence for blue color.
+        purple (str): ANSI escape sequence for purple color.
+        reset (str): ANSI escape sequence to reset color.
+        format (str): Log format string.
+        FORMATS (dict): Dictionary mapping log levels to formatted log strings.
+    """
 
     grey = "\x1b[38;21m"
     yellow = "\x1b[33;21m"
@@ -30,18 +45,18 @@ class CustomFormatter(logging.Formatter):
     }
 
     def format(self, record):
-            """
-            Formats the log record using the specified log format.
+        """
+        Formats the log record using the specified log format.
 
-            Args:
-                record (logging.LogRecord): The log record to be formatted.
+        Args:
+            record (logging.LogRecord): The log record to be formatted.
 
-            Returns:
-                str: The formatted log record.
-            """
-            log_fmt = self.FORMATS.get(record.levelno)
-            formatter = logging.Formatter(log_fmt, datefmt='%Y-%m-%d %H:%M:%S')
-            return formatter.format(record)
+        Returns:
+            str: The formatted log record.
+        """
+        log_fmt = self.FORMATS.get(record.levelno)
+        formatter = logging.Formatter(log_fmt, datefmt='%Y-%m-%d %H:%M:%S')
+        return formatter.format(record)
 
 class Logger:
     def __init__(self, log_file='', level='INFO', format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S'):
@@ -61,21 +76,20 @@ class Logger:
         if log_file:
             self.set_file_handler(log_file, format, datefmt)
 
-
     def set_format(self):
-            """
-            Sets the format for the logging output.
+        """
+        Sets the format for the logging output.
 
-            This method creates a console handler and sets a custom formatter for the logging output.
+        This method creates a console handler and sets a custom formatter for the logging output.
 
-            Parameters:
-                None
+        Parameters:
+            None
 
-            Returns:
-                None
-            """
-            console_handler = logging.StreamHandler()
-            console_handler.setFormatter(CustomFormatter())
+        Returns:
+            None
+        """
+        console_handler = logging.StreamHandler()
+        console_handler.setFormatter(CustomFormatter())
 
     def set_file_handler(self, log_file, format, datefmt):
         """
@@ -89,8 +103,8 @@ class Logger:
         Returns:
             None
         """
-
-        if not os.path.exists(os.path.dirname(log_file)): os.makedirs(os.path.dirname(log_file))
+        if not os.path.exists(os.path.dirname(log_file)):
+            os.makedirs(os.path.dirname(log_file))
 
         file_handler = logging.FileHandler(log_file)
         file_formatter = logging.Formatter(format, datefmt)
@@ -136,14 +150,12 @@ class Logger:
         # Log the message
         info_dict['level'](message)
 
-    
     def clear(self):
         """
         Clears the contents of the log file.
 
         If the log file exists, it will be opened and truncated to remove all its contents.
         """
-
         if os.path.exists(self.log_file):
             open(self.log_file, 'w').close()
 
@@ -166,27 +178,58 @@ class Logger:
         self.set_file_handler(log_file, '%(asctime)s - %(levelname)s - %(message)s', '%Y-%m-%d %H:%M:%S')
 
     def set_level(self, level):
+        """
+        Set the logging level for the logger and all its handlers.
+
+        Args:
+            level (str): The desired logging level. It should be one of the following:
+                         'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'.
+
+        Returns:
+            None
+        """
+        self.logger.setLevel(level.upper())
+        map(lambda handler: handler.setLevel(level.upper()), self.logger.handlers)
+
+    def log_missing_key_critical(self, key, device) -> None:
             """
-            Set the logging level for the logger and all its handlers.
+            Logs a critical message indicating that a specific key was not found in the ignition JSON.
 
             Args:
-                level (str): The desired logging level. It should be one of the following:
-                             'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'.
+                key (str): The key that was not found.
+                device (str): The device associated with the missing key.
 
             Returns:
                 None
             """
-            self.logger.setLevel(level.upper())
-            map(lambda handler: handler.setLevel(level.upper()), self.logger.handlers)
-
-    def log_missing_key_critical(self, key, device) -> None:
-        self.log_message(f"Could not find {key}.json in ignition JSON so skipping it", device, 'CRITICAL')
-
+            self.log_message(f"Could not find {key}.json in ignition JSON so skipping it", device, 'CRITICAL')
 
     def handle_tag_not_found(self, tag_builder, key, device) -> None:
+        """
+        Handles the case when a tag is not found in the CSV file.
+
+        Args:
+            tag_builder (dict): The tag builder dictionary.
+            key (str): The key of the CSV file.
+            device (str): The device name.
+
+        Returns:
+            None
+        """
         self.log_message(f"Could not find tag {tag_builder['kepware_tag_name']} in CSV file {key}.csv so just leaving it as is", device, 'INFO')
 
     def handle_opc_path_not_found(self, tag, device_name, device) -> None:
+        """
+        Handles the case when the opcItemPath or dataType is not found in the given tag.
+
+        Args:
+            tag (dict): The tag dictionary.
+            device_name (str): The name of the device.
+            device (str): The device information.
+
+        Returns:
+            None
+        """
         self.log_message(f"Could not find opcItemPath or dataType in tag {tag['name']} in the file {device_name}.json so just leaving it as is", device, 'INFO')
 
         
