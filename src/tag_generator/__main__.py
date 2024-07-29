@@ -1,6 +1,6 @@
 import tag_generator.base.file_functions as file_functions
 import os.path as path
-from tag_generator import generate_output, generate_output_using_all_csv_files
+from tag_generator import generate_output_using_all_csv_files
 
 if __name__ == '__main__':
 
@@ -15,19 +15,6 @@ if __name__ == '__main__':
        
         json_files:tuple = file_functions.get_all_files(input_dir, '.json')
         
-
-        # tuple(
-        #     map(
-        #         lambda json_file: 
-        #             generate_output(
-        #                 output_dir, 
-        #                 csv_files, 
-        #                 json_file, 
-        #                 brand
-        #             ), 
-        #         json_files
-        #     )
-        # )
         for json_file in json_files:
             generate_output_using_all_csv_files(output_dir, csv_files, json_file, brand)
 

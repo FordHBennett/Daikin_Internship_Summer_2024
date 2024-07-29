@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+ 
 from tag_generator.base.constants import ADDRESS_PATTERN, DATA_TYPE_MAPPINGS, TAG_BUILDER_TEMPLATE, DEVICE_NAME_MAPPINGS
 from collections import defaultdict
 import tag_generator.base.tag_functions as tag_functions
@@ -110,9 +110,6 @@ import pandas as pd
 
 #     tag_functions.reset_tag_builder(tag_builder, TAG_BUILDER_TEMPLATE)
 
-
-                
-
 def process_tag(
         ingition_json, 
         tag_builder, 
@@ -146,9 +143,10 @@ def process_tag(
                 if opc_item_path.startswith('nsu=ThingWorx') or opc_item_path.startswith('ns=2;'):
                     tag_builder['kepware_tag_name'] = tag_functions.extract_kepware_tag_name(opc_item_path)
                     if not opc_item_path.endswith('_NoError') and not tag_builder['kepware_tag_name'].endswith('IsConnected'):
+
                         for csv_file in csv_files:
                             csv_basename = file_functions.get_basename_without_extension(csv_file)
-                            if csv_basename in tag['opcItemPath']:
+                            if csv_basename in tag['opcItemPath']and 'MPLC' not in csv_basename:
                                 df = pd.read_csv(csv_file)
                                 tag_builder['row'] = tag_functions.find_row_by_tag_name(df, tag_builder['kepware_tag_name'])
                                 tag_builder['device_name'] = DEVICE_NAME_MAPPINGS.get(csv_basename) or csv_basename
@@ -162,11 +160,10 @@ def process_tag(
                                         if tag_builder['kepware_tag_name'] in name:
                                             tag_builder['row'] = df[df['Tag Name'] == name].iloc[0]
                                             split_name = tag['opcItemPath'].split('=')
-                                            split_name = split_name[-1].split('.')
-                                            if len(split_name) > 1:
-                                                tag_builder['device_name'] = split_name[1] 
-                                            else:
-                                                tag_builder['device_name'] = split_name[0]
+                                            kepware_path = split_name[-1]
+
+                                            kepware_path = '.'.join(kepware_path.split('.')[:3])
+                                            tag_builder['device_name'] = DEVICE_NAME_MAPPINGS.get(kepware_path) or kepware_path.split('.')[1] or kepware_path.split('.')[0]
                                             break
                         except:
                             pass
@@ -222,21 +219,21 @@ def create_new_mitsubishi_tag(current_tag, tag_builder) -> None:
     })
 
 def create_new_cj_tag(current_tag, tag_builder) -> None:
-        if tag_builder['tag_name_path']:
-            device_name = tag_builder['tag_name_path'].split('/')[-1] 
-            device_name = DEVICE_NAME_MAPPINGS.get(device_name)
-            if device_name:
-                tag_builder['device_name'] = device_name
-            else:
-                tag_builder['device_name'] = 'AAC01_MPLC'
-            current_tag.update({
-                r"name": current_tag['name'],
-                r"opcItemPath": f"ns=1;s=[{device_name}]{tag_builder['area']}<{tag_builder['path_data_type']}>{tag_builder['offset']}",
-                r"opcServer": r'Ignition OPC-UA Server',
-                # r"dataType": tag_builder['data_type'],
-                r'valueSource': r'opc',
-                # r'tagGroup': r'default' # remove once production-ready
-            })
+        # if tag_builder['tag_name_path']:
+            # device_name = tag_builder['tag_name_path'].split('/')[-1] 
+            # device_name = DEVICE_NAME_MAPPINGS.get(device_name)
+            # if device_name:
+            #     tag_builder['device_name'] = device_name
+            # else:
+            #     tag_builder['device_name'] = 'AAC01_MPLC'
+        current_tag.update({
+            r"name": current_tag['name'],
+            r"opcItemPath": f"ns=1;s=[{tag_builder['device_name']}]{tag_builder['area']}<{tag_builder['path_data_type']}>{tag_builder['offset']}",
+            r"opcServer": r'Ignition OPC-UA Server',
+            # r"dataType": tag_builder['data_type'],
+            r'valueSource': r'opc',
+            # r'tagGroup': r'default' # remove once production-ready
+        })
 
 
 def update_tag_builder_wrt_tag_name_and_addresses(tag_builder, tag_name_and_addresses, current_tag) -> None:
