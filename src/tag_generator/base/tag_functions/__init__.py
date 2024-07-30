@@ -170,3 +170,25 @@ def update_tag_builder(tag_builder:dict) -> None:
         r'address': tag_builder['row']['Address'],
         r'data_type': tag_builder['row']['Data Type']
     })
+
+def check_if_system_tag(opc_item_path:str) -> bool:
+    """
+    Check if the given OPC item path corresponds to a system tag.
+
+    Args:
+        opc_item_path (str): The OPC item path to check.
+
+    Returns:
+        bool: True if the OPC item path corresponds to a system tag, False otherwise.
+    """
+    invalid_kepware_tags = ['_NoError', '_Error', 'IsConnected', '_Enabled', '_SystemStatus']
+    for tag in invalid_kepware_tags:
+        if opc_item_path.endswith(tag):
+            return True
+    
+    invalid_strings = ['._System.', 'DPMPHS4VM']
+    for string in invalid_strings:
+        if string in opc_item_path:
+            return True
+    
+    return False

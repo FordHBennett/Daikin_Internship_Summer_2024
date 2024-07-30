@@ -1,5 +1,5 @@
 #!/usr/bin/env python
- 
+
 from tag_generator.base.constants import ADDRESS_PATTERN, DATA_TYPE_MAPPINGS, TAG_BUILDER_TEMPLATE, DEVICE_NAME_MAPPINGS
 from collections import defaultdict
 import tag_generator.base.tag_functions as tag_functions
@@ -50,13 +50,12 @@ def process_tag(
                 opc_item_path = tag['opcItemPath']
 
                 # Check if the opcItemPath starts with 'nsu=ThingWorx' or 'ns=2;'
-                if opc_item_path.startswith('nsu=ThingWorx') or opc_item_path.startswith('ns=2;'):
+                if( opc_item_path.startswith('nsu=ThingWorx') or opc_item_path.startswith('ns=2;')):
 
                     # Extract the Kepware tag name from the opcItemPath and update the tag builder
                     tag_builder['kepware_tag_name'] = tag_functions.extract_kepware_tag_name(opc_item_path)
-
-                    # Check if the Kepware tag name is not None and does not end with '_NoError' or 'IsConnected'
-                    if not opc_item_path.endswith('_NoError') and not tag_builder['kepware_tag_name'].endswith('IsConnected'):
+                    if not tag_functions.check_if_system_tag(opc_item_path):
+                        found_flag = False
 
                         # Iterate over all the CSV files
                         for csv_file in csv_files:
@@ -72,9 +71,10 @@ def process_tag(
                                 # Find the row by the tag name and update the tag builder
                                 # If the row is not found or there is a '.' in the Kepware tag name, then find the row from all the characters after the first '.'
                                 tag_builder['row'] = tag_functions.find_row_by_tag_name(df, tag_builder['kepware_tag_name'])
-                                while(tag_builder['row'] is None or tag_builder['kepware_tag_name'].find('.') != -1):
-                                    tag_builder['row'] = tag_functions.find_row_by_tag_name(df, tag_builder['kepware_tag_name'])
-                                    tag_builder['kepware_tag_name'] = tag_builder['kepware_tag_name'][tag_builder['kepware_tag_name'].find('.') + 1:]
+                                dummy_kepware_tag_name = tag_builder['kepware_tag_name']
+                                while(tag_builder['row'] is None or dummy_kepware_tag_name.find('.') != -1):
+                                    tag_builder['row'] = tag_functions.find_row_by_tag_name(df, dummy_kepware_tag_name)
+                                    dummy_kepware_tag_name = dummy_kepware_tag_name[dummy_kepware_tag_name.find('.') + 1:]
                                         
 
                                 # Update the tag builder with the device name from the CSV file name 
@@ -83,38 +83,53 @@ def process_tag(
                                 
                                 # Break the loop because kepware row is found
                                 if tag_builder['row']  is not None:
+                                    found_flag = True
                                     break
-                        try:
-                            # If the tag builder row is still None, iterate over all the CSV files again
-                            if tag_builder['row'] is not None:
-                                for csv_file in csv_files:
 
-                                    # Read the CSV file
-                                    df = pd.read_csv(csv_file)
-                                    tag_names = df['Tag Name'].values
+                        # If the Kepware tag name is not found in the CSV files
+                        if not found_flag:
+                            # Update the tag builder with the device name from the CSV file name
+                            split_name = tag['opcItemPath'].split('=')
+                            kepware_path = split_name[-1]
+                            kepware_path = '.'.join(kepware_path.split('.')[:3])
+                            tag_builder['device_name'] = DEVICE_NAME_MAPPINGS.get(kepware_path) 
+                            if tag_builder['device_name'] is None:
+                                pass
+                            for csv_file in csv_files:
 
-                                    # Iterate over all the tag names in the CSV file
+                                # Read the CSV file
+                                df = pd.read_csv(csv_file)
+                                tag_names = df['Tag Name'].values
+
+                                if tag_builder['device_name'].casefold() in csv_file.casefold():
+                                    dummy_kepware_tag_name = tag_builder['kepware_tag_name']
+                                    while(tag_builder['row'] is None and dummy_kepware_tag_name.find('.') != -1):
+                                        for name in tag_names:
+                                            # Check if the Kepware tag name is in the tag name
+                                            if dummy_kepware_tag_name == name:
+                                                # Find the row by the tag name and update the tag builder
+                                                tag_builder['row'] = tag_functions.find_row_by_tag_name(df, name)
+                                                found_flag = True
+                                                break
+                                        dummy_kepware_tag_name = dummy_kepware_tag_name[dummy_kepware_tag_name.find('.') + 1:]
+                                else:
                                     for name in tag_names:
 
                                         # Check if the Kepware tag name is in the tag name
-                                        if tag_builder['kepware_tag_name'] in name:
+                                        if tag_builder['kepware_tag_name'] == name:
 
                                             # Find the row by the tag name and update the tag builder
-                                            tag_builder['row'] = df[df['Tag Name'] == name].iloc[0]
-
-                                            # Update the tag builder with the device name from the CSV file name
-                                            split_name = tag['opcItemPath'].split('=')
-                                            kepware_path = split_name[-1]
-                                            kepware_path = '.'.join(kepware_path.split('.')[:3])
-                                            tag_builder['device_name'] = DEVICE_NAME_MAPPINGS.get(kepware_path) or kepware_path.split('.')[1] or kepware_path.split('.')[0]
+                                            tag_builder['row'] = tag_functions.find_row_by_tag_name(df, name)
 
                                             # Break the loop because kepware row is found
+                                            found_flag = True
                                             break
-                        except:
-                            pass
                         
+                        # if not found_flag:
+                        #     # logger.handle_tag_not_found(tag_builder, key, manufacturer)
+                        #     pass
                         # Check if the tag builder row was found
-                        if tag_builder['row'] is not None:
+                        if tag_builder['row'] is not None or found_flag:
 
                             # Update the tag builder with the tag information
                             tag_functions.update_tag_builder(tag_builder)
