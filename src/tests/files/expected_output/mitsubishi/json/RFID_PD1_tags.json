@@ -4,7 +4,7 @@
     "tags": [
         {
             "valueSource": "opc",
-            "opcItemPath": "ns=1;s=[MA_PD1]R<Int16>211.02",
+            "opcItemPath": "ns=1;s=[MA_PD1]R<Int16>224.02",
             "dataType": "Int4",
             "historyProvider": "IGN_DB_FIT",
             "historicalDeadband": 0.5,
