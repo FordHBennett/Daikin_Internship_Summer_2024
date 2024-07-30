@@ -8,8 +8,7 @@ if __name__ == '__main__':
     file_functions.clean_files_dir()
 
     # List of manufacturers
-    # manufacturers:tuple = ('mitsubishi', 'cj')
-    manufacturers:tuple = ('cj',)
+    manufacturers:tuple = ('mitsubishi', 'cj')
 
     # Get all the csv file paths in the input directory
     csv_files:tuple = file_functions.get_all_files(path.join('files', 'input'), '.csv')
