@@ -18,7 +18,9 @@ setup(
     packages=find_packages(where='src'),
     install_requires=[
         'pandas>=1.0.0',
-        'numpy>=1.18.0'
+        'numpy>=1.18.0',
+        'deepdiff>=5.0.2',
+
     ],
     python_requires='>=3.6',  # Specify the Python versions you support
     classifiers=[

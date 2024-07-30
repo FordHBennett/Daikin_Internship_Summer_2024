@@ -1,9 +1,9 @@
 import unittest 
 import os
-from tag_generator import generate_output, generate_output_using_all_csv_files
+from tag_generator import  generate_output_using_all_csv_files
 import tag_generator.base.file_functions as file_functions
 from tag_generator.base.tag_functions import *
-import pandas as pd
+
 from deepdiff import DeepDiff
 
 
