@@ -87,15 +87,21 @@ def get_dict_of_dfs_from_csv_files(csv_files:tuple, read_csv) -> dict:
               and the values are the corresponding pandas DataFrames.
 
     """
-    csv_df = dict(
-        map(
-            lambda csv_file: (
-                get_basename_without_extension(csv_file), 
-                read_csv(csv_file)
-            ), 
-            csv_files
-        )
-    )
+    # csv_df = dict(
+    #     map(
+    #         lambda csv_file: (
+    #             get_basename_without_extension(csv_file), 
+    #             read_csv(csv_file)
+    #         ), 
+    #         csv_files
+    #     )
+    # )
+    csv_df = {}
+    for csv_file in csv_files:
+        try:
+            csv_df[get_basename_without_extension(csv_file)] = read_csv(csv_file)
+        except Exception as e:
+            raise f"Error reading CSV file: {csv_file} \n ERROR: {e}"
 
     # Remove invalid characters from tag names if running on Windows
     if os.name == 'nt':
